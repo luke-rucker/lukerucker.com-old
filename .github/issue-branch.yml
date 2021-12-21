@@ -1,5 +1,6 @@
 mode: chatops
-branchName: '${issue.number}-${issue.title}'
+branchName: '${issue.number}-${issue.title,}'
+gitSafeReplacementChar: '-'
 branches:
   - label: enhancement
     prefix: feature/
