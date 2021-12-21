@@ -1,0 +1,6 @@
+node_modules
+build
+.cache
+.eslintrc.js
+remix.config.js
+tailwind.config.js

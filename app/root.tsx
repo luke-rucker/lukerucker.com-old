@@ -11,13 +11,11 @@ import type { MetaFunction } from 'remix'
 
 import styles from './tailwind.css'
 
-export const links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: styles }]
-}
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }]
 
-export const meta: MetaFunction = () => {
-  return { title: 'New Remix App' }
-}
+export const meta: MetaFunction = () => ({
+  title: 'Luke Rucker',
+})
 
 export default function App() {
   return (
