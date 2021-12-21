@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {
   Links,
   LinksFunction,
@@ -8,6 +9,7 @@ import {
   ScrollRestoration,
 } from 'remix'
 import type { MetaFunction } from 'remix'
+import { Footer, Navbar } from '~/components'
 
 import styles from './tailwind.css'
 
@@ -26,8 +28,10 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="h-100 mx-auto max-w-prose px-5 md:px-0">
+        <Navbar />
         <Outlet />
+        <Footer />
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === 'development' && <LiveReload />}
