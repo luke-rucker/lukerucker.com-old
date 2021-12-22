@@ -1,8 +1,13 @@
 import * as React from 'react'
+import { MetaFunction } from 'remix'
 
-export default function Index() {
+export const meta: MetaFunction = () => ({
+  title: 'About | Luke Rucker',
+})
+
+export default function About() {
   return (
-    <div className="prose lg:prose-xl">
+    <article className="prose lg:prose-xl">
       <h2>About Me</h2>
 
       <h3>Beginnings</h3>
@@ -10,6 +15,6 @@ export default function Index() {
 
       <h3>Now</h3>
       <p>Blah blah blah</p>
-    </div>
+    </article>
   )
 }
