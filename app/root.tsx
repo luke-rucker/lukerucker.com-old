@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {
   Links,
-  LinksFunction,
   LiveReload,
   Meta,
   Outlet,
@@ -9,7 +8,7 @@ import {
   ScrollRestoration,
   useMatches,
 } from 'remix'
-import type { MetaFunction } from 'remix'
+import type { LinksFunction, MetaFunction } from 'remix'
 import { Footer, Navbar } from '~/components'
 
 import styles from './tailwind.css'
@@ -33,9 +32,11 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="h-100 mx-auto max-w-prose px-5 md:px-0">
+      <body className="mx-auto max-w-prose px-5 md:px-0">
         <Navbar />
-        <Outlet />
+        <main className="py-4">
+          <Outlet />
+        </main>
         <Footer />
         <ScrollRestoration />
         {includeScripts ? <Scripts /> : null}

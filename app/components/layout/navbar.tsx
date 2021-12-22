@@ -8,8 +8,8 @@ type NavItem = {
 
 const navItems: Array<NavItem> = [
   {
-    name: 'Home',
-    to: '/',
+    name: 'Posts',
+    to: '/posts',
   },
   {
     name: 'About',
@@ -19,15 +19,19 @@ const navItems: Array<NavItem> = [
 
 export function Navbar() {
   return (
-    <nav className="flex justify-between">
-      <Link to="/" prefetch="intent">
+    <nav className="py-2 flex items-center justify-between">
+      <Link to="/" prefetch="intent" className="text-2xl font-medium">
         <h1>Luke Rucker</h1>
       </Link>
 
-      <ul className="flex justify-between">
+      <ul className="flex justify-between space-x-4">
         {navItems.map(navItem => (
           <li key={navItem.to}>
-            <Link to={navItem.to} prefetch="intent">
+            <Link
+              to={navItem.to}
+              prefetch="intent"
+              className="text-lg font-medium"
+            >
               {navItem.name}
             </Link>
           </li>
