@@ -4,19 +4,31 @@
 
 ## Development
 
-You will be utlizing Wrangler for local development to emulate the Cloudflare runtime. This is already wired up in your package.json as the `dev` script:
+You will be running two processes during development:
+
+- The Miniflare server (miniflare is a local environment for Cloudflare Workers)
+- The Remix development server
 
 ```sh
-# start the remix dev server and wrangler
+# in one tab, start the remix dev server
 $ npm run dev
+
+# in another, start the miniflare server
+$ npm start
 ```
 
-Open up [http://127.0.0.1:8788](http://127.0.0.1:8788) and you should be ready to go!
+Open up [http://127.0.0.1:8787](http://127.0.0.1:8787) and you should be ready to go!
+
+If you'd rather run everything in a single tab, you can look at [concurrently](https://npm.im/concurrently) or similar tools to run both processes in one tab.
 
 ## Deployment
 
-Cloudflare Pages are currently only deployable through their Git provider integrations.
+Use [wrangler](https://developers.cloudflare.com/workers/cli-wrangler) to build and deploy your application to Cloudflare Workers. If you don't have it yet, follow [the installation guide](https://developers.cloudflare.com/workers/cli-wrangler/install-update) to get it setup. Be sure to [authenticate the CLI](https://developers.cloudflare.com/workers/cli-wrangler/authentication) as well.
 
-If you don't already have an account, then [create a Cloudflare account here](https://dash.cloudflare.com/sign-up/pages) and after verifying your email address with Cloudflare, go to your dashboard and follow the [Cloudflare Pages deployment guide](https://developers.cloudflare.com/pages/framework-guides/deploy-anything).
+If you don't already have an account, then [create a cloudflare account here](https://dash.cloudflare.com/sign-up) and after verifying your email address with Cloudflare, go to your dashboard and set up your free custom Cloudflare Workers subdomain.
 
-Configure the "Build command" should be set to `npm run build`, and the "Build output directory" should be set to `public`.
+Once that's done, you should be able to deploy your app:
+
+```sh
+npm run deploy
+```
