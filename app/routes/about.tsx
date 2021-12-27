@@ -7,7 +7,18 @@ export const meta: MetaFunction = () => ({
 
 export default function About() {
   return (
-    <article className="prose lg:prose-xl">
+    <article className="prose">
+      <img
+        src="/me.jpg"
+        alt="Me in front of a pretty lake and some mountains"
+      />
+
+      <h2>Howdy, I&apos;m Luke :)</h2>
+      <p>
+        I&apos;m a 19 year old software engineer currently based in Houston,
+        Texas.
+      </p>
+
       <h2>About Me</h2>
 
       <h3>Beginnings</h3>

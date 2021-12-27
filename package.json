@@ -5,12 +5,11 @@
   "license": "MIT",
   "scripts": {
     "build": "npm run build:css && cross-env NODE_ENV=production remix build",
-    "build:css": "tailwindcss -o ./app/tailwind.css",
+    "build:css": "tailwindcss -i ./styles/app.css -o ./app/tailwind.css --minify",
     "dev": "cross-env NODE_ENV=development run-p dev:*",
-    "dev:css": "tailwindcss -o ./app/tailwind.css --watch",
+    "dev:css": "tailwindcss -i ./styles/app.css -o ./app/tailwind.css --watch",
     "dev:remix": "remix watch",
     "dev:wrangler": "wrangler pages dev ./public --watch ./build",
-    "start": "npm run dev:wrangler",
     "postinstall": "remix setup cloudflare-pages",
     "format": "prettier --write \"**/*.{js,jsx,json,md,ts,tsx}\"",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
@@ -48,7 +47,7 @@
     "pretty-quick": "^3.1.2",
     "tailwindcss": "^3.0.7",
     "typescript": "^4.1.2",
-    "wrangler": "alpha"
+    "wrangler": "beta"
   },
   "engines": {
     "node": ">=14"

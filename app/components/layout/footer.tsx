@@ -1,8 +1,13 @@
+import clsx from 'clsx'
 import * as React from 'react'
 
-export function Footer() {
+type FooterProps = {
+  className?: string
+}
+
+export function Footer({ className }: FooterProps) {
   return (
-    <footer className="py-2">
+    <footer className={clsx('text-gray-500', className)}>
       <p>&copy; {new Date().getFullYear()} Luke Rucker</p>
     </footer>
   )

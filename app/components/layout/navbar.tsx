@@ -1,5 +1,6 @@
+import clsx from 'clsx'
 import * as React from 'react'
-import { Link } from 'remix'
+import { Link, NavLink } from 'remix'
 
 type NavItem = {
   name: string
@@ -8,32 +9,41 @@ type NavItem = {
 
 const navItems: Array<NavItem> = [
   {
-    name: 'Posts',
-    to: '/posts',
+    name: 'about',
+    to: '/about',
   },
   {
-    name: 'About',
-    to: '/about',
+    name: 'blog',
+    to: '/blog',
   },
 ]
 
-export function Navbar() {
+type NavbarProps = {
+  className?: string
+}
+
+export function Navbar({ className }: NavbarProps) {
   return (
-    <nav className="py-2 flex items-center justify-between">
-      <Link to="/" prefetch="intent" className="text-2xl font-medium">
-        <h1>Luke Rucker</h1>
+    <nav className={clsx('flex items-center justify-between', className)}>
+      <Link to="/" prefetch="intent" className="text-lg font-medium">
+        <h1>luke rucker</h1>
       </Link>
 
       <ul className="flex justify-between space-x-4">
         {navItems.map(navItem => (
           <li key={navItem.to}>
-            <Link
+            <NavLink
               to={navItem.to}
               prefetch="intent"
-              className="text-lg font-medium"
+              className={({ isActive }) =>
+                clsx(
+                  'text-lg font-medium text-gray-500 hover:underline hover:text-gray-700',
+                  isActive && 'underline text-gray-800'
+                )
+              }
             >
               {navItem.name}
-            </Link>
+            </NavLink>
           </li>
         ))}
       </ul>
