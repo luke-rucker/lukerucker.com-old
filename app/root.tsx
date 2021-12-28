@@ -1,3 +1,4 @@
+import { SSRProvider } from '@react-aria/ssr'
 import * as React from 'react'
 import {
   Links,
@@ -40,8 +41,10 @@ export default function App() {
         <Links />
       </head>
       <body className="bg-gray-50 font-mono">
-        {/* If match is admin route, delegate layout to admin index */}
-        {isAdminRoute ? <Outlet /> : <PublicLayout />}
+        <SSRProvider>
+          {/* If match is admin route, delegate layout to admin index */}
+          {isAdminRoute ? <Outlet /> : <PublicLayout />}
+        </SSRProvider>
         <ScrollRestoration />
         {shouldIncludeScripts ? <Scripts /> : null}
         {process.env.NODE_ENV === 'development' ? <LiveReload /> : null}
