@@ -37,8 +37,8 @@ export function Breadcrumbs({ replacements }: BreadcrumbsProps) {
           const label = crumbIsString ? replacedCrumb : formatPath(path)
 
           return (
-            <>
-              <li key={path}>
+            <React.Fragment key={path}>
+              <li>
                 {isLast ? (
                   <span
                     className="font-medium text-gray-500"
@@ -57,11 +57,11 @@ export function Breadcrumbs({ replacements }: BreadcrumbsProps) {
               </li>
 
               {!isLast ? (
-                <li role="separator" key={`${path}-separator`}>
+                <li role="separator">
                   <ChevronRightIcon className="w-5 h-5 text-gray-500" />
                 </li>
               ) : null}
-            </>
+            </React.Fragment>
           )
         })}
       </ol>
