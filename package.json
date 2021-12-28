@@ -6,7 +6,7 @@
   "main": "dist/worker.js",
   "scripts": {
     "build": "npm run build:css && npm run build:worker && remix build",
-    "build:css": "tailwindcss -i ./styles/app.css -o ./app/tailwind.css --minify",
+    "build:css": "tailwindcss -i ./styles/public.css -o ./app/public.css --minify",
     "build:worker": "esbuild --define:process.env.NODE_ENV='\"production\"' --minify --bundle --sourcemap --outdir=dist ./worker",
     "build:dev:worker": "esbuild --define:process.env.NODE_ENV='\"development\"' --bundle --sourcemap --outdir=dist ./worker",
     "deploy": "npm run build && wrangler publish",
@@ -20,6 +20,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.5",
     "@react-aria/ssr": "^3.1.0",
     "@react-aria/utils": "^3.11.0",
     "@remix-run/cloudflare-workers": "^1.1.1",

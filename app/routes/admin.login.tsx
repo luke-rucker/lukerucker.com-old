@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { ActionFunction, Form, useActionData } from 'remix'
+import { ActionFunction, Form, Link, useActionData } from 'remix'
 import { badRequest, bodyParser, unauthorized } from 'remix-utils'
-import { Input } from '~/components'
+import { Alert, Input } from '~/components'
 import {
   FieldErrors,
   mapSchemaErrorsToFields,
@@ -46,24 +46,33 @@ export default function Login() {
   const actionData = useActionData<ActionData>()
 
   return (
-    <div>
+    <div className="h-screen flex flex-col items-center justify-center">
       <h1>lukerucker.com Admin</h1>
-      <h2>Login</h2>
+      <h2 className="text-3xl mb-5 font-semibold">Login</h2>
+      <div className="w-full max-w-sm shadow-2xl p-4">
+        <Form method="post">
+          {actionData?.error ? (
+            <Alert variant="error" message={actionData?.error} />
+          ) : null}
 
-      <Form method="post">
-        {actionData?.error ? <p>{actionData.error}</p> : null}
+          <Input
+            name="password"
+            type="password"
+            placeholder="Password"
+            label="Password"
+            defaultValue={actionData?.values.password}
+            error={actionData?.errors?.password}
+          />
 
-        <Input
-          name="password"
-          type="password"
-          placeholder="Password"
-          label="Password"
-          defaultValue={actionData?.values.password}
-          error={actionData?.errors?.password}
-        />
+          <button type="submit" className="btn btn-primary">
+            Login
+          </button>
+        </Form>
+      </div>
 
-        <button type="submit">Login</button>
-      </Form>
+      <Link to="/" className="mt-4 text-sm">
+        To Public Site
+      </Link>
     </div>
   )
 }

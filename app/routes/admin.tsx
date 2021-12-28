@@ -4,9 +4,9 @@ import { Outlet } from 'remix'
 
 export default function Admin() {
   return (
-    <div>
+    <SSRProvider>
       Admin
       <Outlet />
-    </div>
+    </SSRProvider>
   )
 }

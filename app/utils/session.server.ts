@@ -13,7 +13,7 @@ const config = {
 }
 
 export const loginSchema = z.object({
-  password: z.string().nonempty({ message: 'A password is required' }),
+  password: z.string().nonempty({ message: 'A password is required.' }),
 })
 
 export type LoginSchema = z.infer<typeof loginSchema>

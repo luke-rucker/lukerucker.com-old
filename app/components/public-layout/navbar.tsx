@@ -38,7 +38,7 @@ export function Navbar({ className }: NavbarProps) {
               className={({ isActive }) =>
                 clsx(
                   'text-lg font-medium text-gray-500 hover:underline hover:text-gray-700',
-                  isActive && 'underline text-gray-800'
+                  isActive && 'underline'
                 )
               }
             >
