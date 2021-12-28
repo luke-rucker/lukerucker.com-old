@@ -13,6 +13,7 @@ export function Button({
   variant = 'primary',
   children,
   className,
+  type = 'button',
   ...props
 }: ButtonProps) {
   return (
@@ -27,6 +28,7 @@ export function Button({
         },
         className
       )}
+      type={type}
       {...props}
     >
       {children}

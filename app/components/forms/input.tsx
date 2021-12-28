@@ -13,7 +13,14 @@ type InputProps = {
   'aria-invalid' | 'aria-describedBy'
 >
 
-export function Input({ id, className, error, label, ...props }: InputProps) {
+export function Input({
+  id,
+  className,
+  error,
+  label,
+  readOnly,
+  ...props
+}: InputProps) {
   const inputId = useId(id)
   const errorId = useId()
 
@@ -27,10 +34,12 @@ export function Input({ id, className, error, label, ...props }: InputProps) {
         className={clsx(
           'border-2 py-2 px-3 focus:outline-none focus:border-gray-400',
           error && 'border-red-600',
+          readOnly && 'cursor-not-allowed',
           className
         )}
         aria-invalid={Boolean(error)}
         {...(error ? { 'aria-describedby': errorId } : null)}
+        readOnly={readOnly}
         {...props}
       />
       {error ? (

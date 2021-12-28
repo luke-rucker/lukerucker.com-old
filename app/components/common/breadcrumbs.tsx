@@ -1,5 +1,4 @@
 import { ChevronRightIcon } from '@heroicons/react/solid'
-import clsx from 'clsx'
 import * as React from 'react'
 import { useMatches } from 'remix'
 import { capitalize, fromKebabCase } from '~/utils/format'
@@ -14,7 +13,7 @@ export function Breadcrumbs({ replacements }: BreadcrumbsProps) {
   const lastMatch = matches.at(-1)
 
   if (!lastMatch) {
-    return <></>
+    return
   }
 
   const paths = lastMatch.pathname.slice(1).split('/').filter(Boolean)

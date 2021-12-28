@@ -46,7 +46,7 @@ export const action: ActionFunction = async ({ request }) => {
     })
   }
 
-  return await createUserSession()
+  return createUserSession()
 }
 
 export default function Login() {
@@ -55,6 +55,7 @@ export default function Login() {
   return (
     <div className="h-screen flex flex-col items-center justify-center">
       <h1 className="text-3xl mb-5 font-semibold">Login</h1>
+
       <div className="w-full max-w-sm shadow-2xl p-4">
         <Form method="post">
           {actionData?.error ? (
