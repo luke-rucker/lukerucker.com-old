@@ -1,22 +1,25 @@
 import * as React from 'react'
-import { ActionFunction, Form, Link, useActionData } from 'remix'
-import { badRequest, bodyParser, unauthorized } from 'remix-utils'
-import { Alert, Input } from '~/components'
 import {
-  FieldErrors,
-  mapSchemaErrorsToFields,
-} from '~/utils/form-validation.server'
+  ActionFunction,
+  Form,
+  Link,
+  LoaderFunction,
+  useActionData,
+} from 'remix'
+import { badRequest, bodyParser, unauthorized } from 'remix-utils'
+import { Alert, Button, Input } from '~/components'
+import { ActionData, mapSchemaErrorsToFields } from '~/utils/forms.server'
 import {
   createUserSession,
   login,
   loginSchema,
   LoginSchema,
+  redirectIfLoggedIn,
 } from '~/utils/session.server'
 
-type ActionData = {
-  values: LoginSchema
-  errors?: FieldErrors<LoginSchema>
-  error?: string
+export const loader: LoaderFunction = async ({ request }) => {
+  await redirectIfLoggedIn(request)
+  return null
 }
 
 export const action: ActionFunction = async ({ request }) => {
@@ -35,7 +38,7 @@ export const action: ActionFunction = async ({ request }) => {
   if (!loggedIn) {
     return unauthorized({
       values: body,
-      error: 'Incorrect password.',
+      error: 'Nice try :)',
     })
   }
 
@@ -43,16 +46,19 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 export default function Login() {
-  const actionData = useActionData<ActionData>()
+  const actionData = useActionData<ActionData<LoginSchema>>()
 
   return (
     <div className="h-screen flex flex-col items-center justify-center">
-      <h1>lukerucker.com Admin</h1>
-      <h2 className="text-3xl mb-5 font-semibold">Login</h2>
+      <h1 className="text-3xl mb-5 font-semibold">Login</h1>
       <div className="w-full max-w-sm shadow-2xl p-4">
         <Form method="post">
           {actionData?.error ? (
-            <Alert variant="error" message={actionData?.error} />
+            <Alert
+              variant="error"
+              message={actionData?.error}
+              className="mb-2"
+            />
           ) : null}
 
           <Input
@@ -64,13 +70,13 @@ export default function Login() {
             error={actionData?.errors?.password}
           />
 
-          <button type="submit" className="btn btn-primary">
+          <Button type="submit" className="mt-2 w-full">
             Login
-          </button>
+          </Button>
         </Form>
       </div>
 
-      <Link to="/" className="mt-4 text-sm">
+      <Link to="/" className="mt-4 text-sm link">
         To Public Site
       </Link>
     </div>

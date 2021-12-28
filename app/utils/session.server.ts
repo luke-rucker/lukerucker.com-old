@@ -8,7 +8,7 @@ const config = {
     secret: ensureExistenceOfEnvVar('SESSION_SECRET', SESSION_SECRET),
     key: 'isLoggedIn',
   },
-  loginPath: '/admin/login',
+  loginPath: '/login',
   adminPath: '/admin',
 }
 
@@ -26,7 +26,8 @@ export async function login({ password }: LoginSchema) {
 const storage = createCookieSessionStorage({
   cookie: {
     name: 'keysToTheKingdom',
-    secure: true,
+    // TODO: make this secure in prod
+    secure: false,
     secrets: [config.session.secret],
     sameSite: 'strict',
     path: '/',
@@ -39,18 +40,30 @@ export async function getSession(request: Request) {
   return storage.getSession(request.headers.get('Cookie'))
 }
 
-export async function requireLoggedIn(request: Request) {
+export async function checkIfIsLoggedIn(request: Request) {
   const session = await getSession(request)
-  const isLoggedIn = session.get(config.session.key)
+  return session.get(config.session.key)
+}
+
+export async function requireLoggedIn(request: Request) {
+  const isLoggedIn = await checkIfIsLoggedIn(request)
 
   if (!isLoggedIn) {
     throw redirect(config.loginPath)
   }
 }
 
+export async function redirectIfLoggedIn(request: Request) {
+  const isLoggedIn = await checkIfIsLoggedIn(request)
+
+  if (isLoggedIn) {
+    throw redirect(config.adminPath)
+  }
+}
+
 export async function createUserSession() {
   const session = await storage.getSession()
-  session.set('loggedIn', true)
+  session.set(config.session.key, true)
 
   return redirect(config.adminPath, {
     headers: {

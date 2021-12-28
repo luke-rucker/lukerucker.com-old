@@ -1,3 +1,4 @@
+import { SSRProvider } from '@react-aria/ssr'
 import * as React from 'react'
 import {
   Links,
@@ -28,7 +29,11 @@ export const meta: MetaFunction = () => ({
 export default function App() {
   const matches = useMatches()
 
-  const isAdminRoute = matches.some(match => match.pathname.includes('/admin'))
+  const isAdminRoute = matches.some(
+    match =>
+      match.pathname.includes('/admin') || match.pathname.includes('/login')
+  )
+
   const shouldIncludeScripts = matches.some(match => match.handle?.hydrate)
 
   return (
@@ -45,7 +50,13 @@ export default function App() {
         {process.env.NODE_ENV === 'development' ? <LiveReload /> : null}
 
         {/* If match is admin route, delegate layout to admin index */}
-        {isAdminRoute ? <Outlet /> : <PublicLayout />}
+        {isAdminRoute ? (
+          <SSRProvider>
+            <Outlet />
+          </SSRProvider>
+        ) : (
+          <PublicLayout />
+        )}
       </body>
     </html>
   )

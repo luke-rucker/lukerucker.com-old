@@ -5,7 +5,13 @@ import * as React from 'react'
 type InputProps = {
   error?: string
   label: string
-} & Omit<React.HTMLProps<HTMLInputElement>, 'aria-invalid' | 'aria-describedBy'>
+} & Omit<
+  React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  >,
+  'aria-invalid' | 'aria-describedBy'
+>
 
 export function Input({ id, className, error, label, ...props }: InputProps) {
   const inputId = useId(id)

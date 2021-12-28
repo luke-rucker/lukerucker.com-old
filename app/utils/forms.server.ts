@@ -18,3 +18,9 @@ export function mapSchemaErrorsToFields<Schema>(
 
   return errors
 }
+
+export type ActionData<Schema> = {
+  values: Schema
+  errors?: FieldErrors<Schema>
+  error?: string
+}

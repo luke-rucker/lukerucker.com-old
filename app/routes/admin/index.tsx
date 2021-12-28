@@ -5,7 +5,7 @@ export default function Admin() {
   return (
     <div>
       nested
-      <Link to="/admin/logout">Logout</Link>
+      <Link to="/logout">Logout</Link>
       <Outlet />
     </div>
   )

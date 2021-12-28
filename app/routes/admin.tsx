@@ -1,12 +1,17 @@
-import { SSRProvider } from '@react-aria/ssr'
 import * as React from 'react'
-import { Outlet } from 'remix'
+import { LoaderFunction, Outlet } from 'remix'
+import { requireLoggedIn } from '~/utils/session.server'
+
+export const loader: LoaderFunction = async ({ request }) => {
+  await requireLoggedIn(request)
+  return null
+}
 
 export default function Admin() {
   return (
-    <SSRProvider>
+    <div>
       Admin
       <Outlet />
-    </SSRProvider>
+    </div>
   )
 }
