@@ -4,6 +4,7 @@ import {
   Form,
   Link,
   LoaderFunction,
+  MetaFunction,
   useActionData,
 } from 'remix'
 import { badRequest, bodyParser, unauthorized } from 'remix-utils'
@@ -16,6 +17,10 @@ import {
   LoginSchema,
   redirectIfLoggedIn,
 } from '~/utils/session.server'
+
+export const meta: MetaFunction = () => ({
+  title: 'Login | Luke Rucker',
+})
 
 export const loader: LoaderFunction = async ({ request }) => {
   await redirectIfLoggedIn(request)
