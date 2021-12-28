@@ -12,13 +12,9 @@ import {
 import type { LinksFunction, MetaFunction } from 'remix'
 import { PublicLayout } from '~/components'
 
-import appStyles from '~/styles/app.css'
-import fontStyles from '~/styles/fonts.css'
+import styles from '~/styles/app.css'
 
-export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: appStyles },
-  { rel: 'stylesheet', href: fontStyles },
-]
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }]
 
 export const meta: MetaFunction = () => ({
   title: 'Luke Rucker',
