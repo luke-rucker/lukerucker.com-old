@@ -7,26 +7,21 @@ type NavItem = {
   to: string
 }
 
-const navItems: Array<NavItem> = [
-  {
-    name: 'about',
-    to: '/about',
-  },
-  {
-    name: 'blog',
-    to: '/blog',
-  },
-]
-
 type NavbarProps = {
   className?: string
+  primaryNavItem: NavItem
+  navItems: Array<NavItem>
 }
 
-export function Navbar({ className }: NavbarProps) {
+export function Navbar({ className, primaryNavItem, navItems }: NavbarProps) {
   return (
     <nav className={clsx('flex items-center justify-between', className)}>
-      <Link to="/" prefetch="intent" className="text-lg font-medium">
-        <h1>luke rucker</h1>
+      <Link
+        to={primaryNavItem.to}
+        prefetch="intent"
+        className="text-lg font-medium"
+      >
+        <h1>{primaryNavItem.name}</h1>
       </Link>
 
       <ul className="flex justify-between space-x-4">

@@ -2,13 +2,12 @@ import * as React from 'react'
 import {
   ActionFunction,
   Form,
-  Link,
   LoaderFunction,
   MetaFunction,
   useActionData,
 } from 'remix'
 import { badRequest, bodyParser, unauthorized } from 'remix-utils'
-import { Alert, Button, Input } from '~/components'
+import { Alert, Button, Input, Link } from '~/components'
 import { ActionData, mapSchemaErrorsToFields } from '~/utils/forms.server'
 import {
   createUserSession,
@@ -81,7 +80,7 @@ export default function Login() {
         </Form>
       </div>
 
-      <Link to="/" className="mt-4 text-sm link">
+      <Link to="/" className="mt-4 text-sm">
         To Public Site
       </Link>
     </div>
