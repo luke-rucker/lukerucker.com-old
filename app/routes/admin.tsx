@@ -1,11 +1,8 @@
+import { HomeIcon } from '@heroicons/react/solid'
 import * as React from 'react'
-import { LoaderFunction, MetaFunction, Outlet } from 'remix'
-import { Navbar } from '~/components'
+import { LoaderFunction, Outlet } from 'remix'
+import { Breadcrumbs, Navbar } from '~/components'
 import { requireLoggedIn } from '~/utils/session.server'
-
-export const meta: MetaFunction = () => ({
-  title: 'Admin | Luke Rucker',
-})
 
 export const loader: LoaderFunction = async ({ request }) => {
   await requireLoggedIn(request)
@@ -35,7 +32,11 @@ export default function Admin() {
         />
       </header>
 
-      <main className="container mx-auto px-5 md:px-0">
+      <main className="container mx-auto px-5 md:px-0 pt-8 md:pt-16 pb-4">
+        <Breadcrumbs
+          replacements={{ admin: <HomeIcon className="h-5 w-5" /> }}
+        />
+
         <Outlet />
       </main>
 
