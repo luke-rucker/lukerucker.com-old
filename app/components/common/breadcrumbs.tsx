@@ -35,7 +35,6 @@ export function Breadcrumbs({ replacements }: BreadcrumbsProps) {
             : replacedCrumb
 
           const label = crumbIsString ? replacedCrumb : formatPath(path)
-          console.log(path)
 
           return (
             <>
@@ -57,11 +56,11 @@ export function Breadcrumbs({ replacements }: BreadcrumbsProps) {
                 )}
               </li>
 
-              {!isLast && (
+              {!isLast ? (
                 <li role="separator" key={`${path}-separator`}>
                   <ChevronRightIcon className="w-5 h-5 text-gray-500" />
                 </li>
-              )}
+              ) : null}
             </>
           )
         })}

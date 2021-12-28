@@ -12,14 +12,12 @@ import {
 import type { LinksFunction, MetaFunction } from 'remix'
 import { PublicLayout } from '~/components'
 
-import styles from './tailwind.css'
+import appStyles from '~/styles/app.css'
+import fontStyles from '~/styles/fonts.css'
 
 export const links: LinksFunction = () => [
-  {
-    rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&display=swap',
-  },
-  { rel: 'stylesheet', href: styles },
+  { rel: 'stylesheet', href: appStyles },
+  { rel: 'stylesheet', href: fontStyles },
 ]
 
 export const meta: MetaFunction = () => ({
@@ -49,7 +47,7 @@ export default function App() {
         {shouldIncludeScripts ? <Scripts /> : null}
         {process.env.NODE_ENV === 'development' ? <LiveReload /> : null}
 
-        {/* If match is admin route, delegate layout to admin index */}
+        {/* If match is admin route, delegate layout to routes/admin.tsx */}
         {isAdminRoute ? (
           <SSRProvider>
             <Outlet />
