@@ -60,6 +60,8 @@ export const action: ActionFunction = async ({ request }) => {
     })
   }
 
+  console.log(newPost)
+
   await savePost(newPost)
 
   return redirect('/admin/posts')
@@ -81,7 +83,9 @@ export default function NewPost() {
 
       <Form method="post" className="mt-4 space-y-4">
         {actionData?.error ? (
-          <Alert variant="error" message={actionData?.error} className="mb-4" />
+          <Alert variant="error" className="mb-4">
+            {actionData?.error}
+          </Alert>
         ) : null}
 
         <Input
@@ -121,11 +125,11 @@ export default function NewPost() {
         />
 
         <Textarea
-          name="content"
+          name="markdown"
           label="Content"
           rows={20}
-          defaultValue={actionData?.values.content}
-          error={actionData?.errors?.content}
+          defaultValue={actionData?.values.markdown}
+          error={actionData?.errors?.markdown}
         />
 
         <Button type="submit" className="mt-2 w-full">

@@ -1,7 +1,13 @@
 import * as React from 'react'
 import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
 import { badRequest, notFound } from 'remix-utils'
-import { Breadcrumb, BreadcrumbParams, HeaderSection, Link } from '~/components'
+import {
+  Article,
+  Breadcrumb,
+  BreadcrumbParams,
+  HeaderSection,
+  Link,
+} from '~/components'
 import { getPostBySlug, Post } from '~/db/posts.server'
 
 export const handle = {
@@ -47,6 +53,8 @@ export default function ViewPost() {
 
       <p>{post.slug}</p>
       <p>{post.description}</p>
+
+      <Article html={post.html} />
     </>
   )
 }

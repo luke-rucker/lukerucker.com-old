@@ -29,7 +29,7 @@ export function Alert({
   return (
     <div
       className={clsx('flex px-3 py-2', className, {
-        'bg-gray-200': variant === 'default',
+        'bg-white shadow-xl': variant === 'default',
         'bg-green-200 text-green-600': variant === 'success',
         'bg-red-200 text-red-600': variant === 'error',
       })}

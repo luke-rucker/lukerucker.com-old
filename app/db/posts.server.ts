@@ -1,3 +1,4 @@
+import { marked } from 'marked'
 import { z } from 'zod'
 
 export const postSchema = z.object({
@@ -5,12 +6,13 @@ export const postSchema = z.object({
   slug: z.string().nonempty({ message: 'A slug is required.' }),
   description: z.string().nonempty({ message: 'A description is required.' }),
   draft: z.preprocess(val => val === 'on', z.boolean()),
-  content: z.string().nonempty({ message: 'Content is required.' }),
+  markdown: z.string().nonempty({ message: 'You have to write something!' }),
 })
 
 export type PostSchema = z.infer<typeof postSchema>
 
 export type Post = PostSchema & {
+  html: string
   publishedAt?: Date
   editedAt: Date
 }
@@ -35,6 +37,7 @@ export async function getPosts(): Promise<Array<Post>> {
 export async function savePost(post: PostSchema) {
   const postToSave: Post = {
     ...post,
+    html: marked(post.markdown),
     editedAt: new Date(),
     publishedAt: !post.draft ? new Date() : undefined,
   }

@@ -2,6 +2,7 @@ export * from './forms'
 export * from './public-layout'
 
 export * from './alert'
+export * from './article'
 export * from './badge'
 export * from './breadcrumb'
 export * from './breadcrumbs'
