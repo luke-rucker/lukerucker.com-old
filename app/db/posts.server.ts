@@ -32,7 +32,7 @@ export async function getPosts(): Promise<Array<Post>> {
   return posts as Array<Post>
 }
 
-export async function putPost(post: PostSchema) {
+export async function savePost(post: PostSchema) {
   const postToSave: Post = {
     ...post,
     editedAt: new Date(),

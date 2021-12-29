@@ -3,6 +3,7 @@ export * from './public-layout'
 
 export * from './alert'
 export * from './badge'
+export * from './breadcrumb'
 export * from './breadcrumbs'
 export * from './header-section'
 export * from './link'

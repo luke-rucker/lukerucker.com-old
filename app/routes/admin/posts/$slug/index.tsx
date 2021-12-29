@@ -1,8 +1,16 @@
 import * as React from 'react'
 import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
 import { badRequest, notFound } from 'remix-utils'
-import { HeaderSection, Link } from '~/components'
+import { Breadcrumb, BreadcrumbParams, HeaderSection, Link } from '~/components'
 import { getPostBySlug, Post } from '~/db/posts.server'
+
+export const handle = {
+  breadcrumb: ({ loaderData: post, path, isLast }: BreadcrumbParams<Post>) => (
+    <Breadcrumb to={path} displayAsLink={!isLast}>
+      {post.title}
+    </Breadcrumb>
+  ),
+}
 
 export const meta: MetaFunction = () => ({
   title: 'Posts | Luke Rucker',

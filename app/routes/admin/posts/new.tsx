@@ -10,6 +10,8 @@ import { badRequest, bodyParser } from 'remix-utils'
 import kebabCase from 'just-kebab-case'
 import {
   Alert,
+  Breadcrumb,
+  BreadcrumbParams,
   Button,
   Checkbox,
   HeaderSection,
@@ -21,10 +23,17 @@ import {
   getPostBySlug,
   PostSchema,
   postSchema,
-  putPost,
+  savePost,
 } from '~/db/posts.server'
 
-export const handle = { hydrate: true }
+export const handle = {
+  hydrate: true,
+  breadcrumb: ({ path, isLast }: BreadcrumbParams) => (
+    <Breadcrumb to={path} displayAsLink={!isLast}>
+      New
+    </Breadcrumb>
+  ),
+}
 
 export const meta: MetaFunction = () => ({
   title: 'New Post | Luke Rucker',
@@ -51,7 +60,7 @@ export const action: ActionFunction = async ({ request }) => {
     })
   }
 
-  await putPost(newPost)
+  await savePost(newPost)
 
   return redirect('/admin/posts')
 }

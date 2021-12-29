@@ -1,31 +1,48 @@
-import { ChevronRightIcon } from '@heroicons/react/solid'
+import ChevronRightIcon from '@heroicons/react/solid/ChevronRightIcon'
 import * as React from 'react'
 import { useMatches } from 'remix'
-import { capitalize, fromKebabCase } from '~/utils/format'
-import { Link } from './link'
+
+export type BreadcrumbParams<LoaderData = never> = {
+  loaderData: LoaderData
+  path: string
+  isLast: boolean
+}
 
 type BreadcrumbsProps = {
   className?: string
-  replacements?: Record<string, React.ReactNode>
 }
 
-export function Breadcrumbs({ className, replacements }: BreadcrumbsProps) {
+export function Breadcrumbs({ className }: BreadcrumbsProps) {
   const matches = useMatches()
-  const lastMatch = matches.at(-1)
+  const matchesWithBreadcrumbs = matches.filter(
+    match => match.handle && match.handle.breadcrumb
+  )
 
-  if (!lastMatch) {
-    throw new Error('No matches found for use with breadcrumbs.')
-  }
-
-  const paths = lastMatch.pathname.slice(1).split('/').filter(Boolean)
-
-  const formatPath = (path: string) =>
-    path.includes('-') ? capitalize(fromKebabCase(path)) : capitalize(path)
+  console.log(matches)
 
   return (
     <nav className={className}>
       <ol className="h-10 flex items-center space-x-1">
-        {paths.map((path, index) => {
+        {matchesWithBreadcrumbs.map((match, index) => {
+          const isLast = index === matchesWithBreadcrumbs.length - 1
+
+          return (
+            <React.Fragment key={match.pathname}>
+              {match.handle.breadcrumb({
+                path: match.pathname,
+                loaderData: match.data,
+                isLast,
+              })}
+
+              {!isLast ? (
+                <li role="separator">
+                  <ChevronRightIcon className="w-5 h-5 text-gray-500" />
+                </li>
+              ) : null}
+            </React.Fragment>
+          )
+        })}
+        {/* {paths.map((path, index) => {
           const isLast = index === paths.length - 1
 
           const replacedCrumb = (replacements && replacements[path]) || path
@@ -63,7 +80,7 @@ export function Breadcrumbs({ className, replacements }: BreadcrumbsProps) {
               ) : null}
             </React.Fragment>
           )
-        })}
+        })} */}
       </ol>
     </nav>
   )
