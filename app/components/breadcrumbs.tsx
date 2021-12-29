@@ -1,4 +1,5 @@
 import ChevronRightIcon from '@heroicons/react/solid/ChevronRightIcon'
+import clsx from 'clsx'
 import * as React from 'react'
 import { useMatches } from 'remix'
 
@@ -19,7 +20,7 @@ export function Breadcrumbs({ className }: BreadcrumbsProps) {
   )
 
   return (
-    <nav className={className}>
+    <nav className={clsx(className)}>
       <ol className="h-10 flex items-center space-x-1">
         {matchesWithBreadcrumbs.map((match, index) => {
           const isLast = index === matchesWithBreadcrumbs.length - 1
