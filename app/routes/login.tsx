@@ -59,11 +59,9 @@ export default function Login() {
       <div className="w-full max-w-sm bg-white shadow-2xl p-4">
         <Form method="post">
           {actionData?.error ? (
-            <Alert
-              variant="error"
-              message={actionData?.error}
-              className="mb-2"
-            />
+            <Alert variant="error" className="mb-2">
+              {actionData?.error}
+            </Alert>
           ) : null}
 
           <Input

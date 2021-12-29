@@ -10,12 +10,11 @@ type AlertVariant = 'default' | 'success' | 'error'
 
 type AlertProps = {
   variant?: AlertVariant
-  message: string
 } & Omit<React.HTMLAttributes<HTMLDivElement>, 'role'>
 
 export function Alert({
   variant = 'default',
-  message,
+  children,
   className,
   ...props
 }: AlertProps) {
@@ -38,7 +37,7 @@ export function Alert({
       {...props}
     >
       {icons[variant]}
-      <span>{message}</span>
+      {children}
     </div>
   )
 }
