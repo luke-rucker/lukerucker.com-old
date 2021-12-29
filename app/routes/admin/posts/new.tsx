@@ -11,6 +11,7 @@ import kebabCase from 'just-kebab-case'
 import { z } from 'zod'
 import { Alert, Button, Input } from '~/components'
 import { ActionData, mapSchemaErrorsToFields } from '~/utils/forms.server'
+import { Checkbox } from '~/components/forms/checkbox'
 
 export const handle = { hydrate: true }
 
@@ -21,13 +22,13 @@ export const meta: MetaFunction = () => ({
 const postSchema = z.object({
   title: z.string().nonempty({ message: 'A title is required.' }),
   slug: z.string().nonempty({ message: 'A slug is required.' }),
+  draft: z.preprocess(val => val === 'on', z.boolean()),
 })
 
 type PostSchema = z.infer<typeof postSchema>
 
 export const action: ActionFunction = async ({ request }) => {
   const body = await bodyParser.toJSON(request)
-  console.log(body)
   const validatedBody = await postSchema.safeParseAsync(body)
 
   if (!validatedBody.success) {
@@ -76,6 +77,13 @@ export default function NewPost() {
           readOnly
           value={slug}
           error={actionData?.errors?.slug}
+        />
+
+        <Checkbox
+          name="draft"
+          label="Draft"
+          defaultChecked={actionData?.values.draft}
+          error={actionData?.errors?.draft}
         />
 
         <Button type="submit" className="mt-2 w-full">

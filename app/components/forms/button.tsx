@@ -13,9 +13,9 @@ export function Button({
   variant = 'primary',
   children,
   className,
-  type = 'button',
   ...props
 }: ButtonProps) {
+  /* eslint-disable react/button-has-type */
   return (
     <button
       className={clsx(
@@ -28,7 +28,6 @@ export function Button({
         },
         className
       )}
-      type={type}
       {...props}
     >
       {children}
