@@ -8,7 +8,6 @@ import {
 } from 'remix'
 import { badRequest, bodyParser } from 'remix-utils'
 import kebabCase from 'just-kebab-case'
-import { z } from 'zod'
 import {
   Alert,
   Button,
@@ -18,22 +17,18 @@ import {
   Textarea,
 } from '~/components'
 import { ActionData, mapSchemaErrorsToFields } from '~/utils/forms.server'
+import {
+  getPostBySlug,
+  PostSchema,
+  postSchema,
+  putPost,
+} from '~/db/posts.server'
 
 export const handle = { hydrate: true }
 
 export const meta: MetaFunction = () => ({
   title: 'New Post | Luke Rucker',
 })
-
-const postSchema = z.object({
-  title: z.string().nonempty({ message: 'A title is required.' }),
-  slug: z.string().nonempty({ message: 'A slug is required.' }),
-  description: z.string().nonempty({ message: 'A description is required.' }),
-  draft: z.preprocess(val => val === 'on', z.boolean()),
-  content: z.string().nonempty({ message: 'Content is required.' }),
-})
-
-type PostSchema = z.infer<typeof postSchema>
 
 export const action: ActionFunction = async ({ request }) => {
   const body = await bodyParser.toJSON(request)
@@ -45,6 +40,18 @@ export const action: ActionFunction = async ({ request }) => {
       errors: mapSchemaErrorsToFields<PostSchema>(validatedBody.error),
     })
   }
+
+  const newPost = validatedBody.data
+  const postWithSameSlug = await getPostBySlug(newPost.slug)
+
+  if (postWithSameSlug) {
+    return badRequest({
+      values: body,
+      error: `A post with the same slug already exists.`,
+    })
+  }
+
+  await putPost(newPost)
 
   return redirect('/admin/posts')
 }
@@ -61,7 +68,7 @@ export default function NewPost() {
 
       <Form method="post" className="mt-4 space-y-4">
         {actionData?.error ? (
-          <Alert variant="error" message={actionData?.error} className="mb-2" />
+          <Alert variant="error" message={actionData?.error} className="mb-4" />
         ) : null}
 
         <Input
