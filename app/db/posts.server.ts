@@ -1,5 +1,5 @@
-import { marked } from 'marked'
 import { z } from 'zod'
+import { convertToHtml } from '~/utils/markdown'
 
 export const postSchema = z.object({
   title: z.string().nonempty({ message: 'A title is required.' }),
@@ -37,7 +37,7 @@ export async function getPosts(): Promise<Array<Post>> {
 export async function savePost(post: PostSchema) {
   const postToSave: Post = {
     ...post,
-    html: marked(post.markdown),
+    html: convertToHtml(post.markdown),
     editedAt: new Date(),
     publishedAt: !post.draft ? new Date() : undefined,
   }
