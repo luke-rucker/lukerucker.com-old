@@ -5,15 +5,16 @@ import { capitalize, fromKebabCase } from '~/utils/format'
 import { Link } from './link'
 
 type BreadcrumbsProps = {
+  className?: string
   replacements?: Record<string, React.ReactNode>
 }
 
-export function Breadcrumbs({ replacements }: BreadcrumbsProps) {
+export function Breadcrumbs({ className, replacements }: BreadcrumbsProps) {
   const matches = useMatches()
   const lastMatch = matches.at(-1)
 
   if (!lastMatch) {
-    return
+    throw new Error('No matches found for use with breadcrumbs.')
   }
 
   const paths = lastMatch.pathname.slice(1).split('/').filter(Boolean)
@@ -22,7 +23,7 @@ export function Breadcrumbs({ replacements }: BreadcrumbsProps) {
     path.includes('-') ? capitalize(fromKebabCase(path)) : capitalize(path)
 
   return (
-    <nav>
+    <nav className={className}>
       <ol className="h-10 flex items-center space-x-1">
         {paths.map((path, index) => {
           const isLast = index === paths.length - 1

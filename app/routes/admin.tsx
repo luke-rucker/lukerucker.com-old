@@ -1,7 +1,6 @@
-import { HomeIcon } from '@heroicons/react/solid'
 import * as React from 'react'
 import { LoaderFunction, Outlet } from 'remix'
-import { Breadcrumbs, Navbar } from '~/components'
+import { Navbar } from '~/components'
 import { requireLoggedIn } from '~/utils/session.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -14,9 +13,9 @@ export default function Admin() {
     <>
       <header className="bg-gray-200">
         <Navbar
-          className="py-4 md:py-8 container mx-auto px-5 md:px-0"
+          className="container mx-auto px-4 py-4 md:py-8 "
           primaryNavItem={{
-            name: 'luke rucker admin',
+            name: 'admin',
             to: '/admin',
           }}
           navItems={[
@@ -32,15 +31,11 @@ export default function Admin() {
         />
       </header>
 
-      <main className="container mx-auto px-5 md:px-0 pt-8 md:pt-16 pb-4">
-        <Breadcrumbs
-          replacements={{ admin: <HomeIcon className="h-5 w-5" /> }}
-        />
-
+      <main className="container mx-auto px-4 py-4 md:py-8">
         <Outlet />
       </main>
 
-      <footer className="py-4 md:py-8 container mx-auto px-5 md:px-0 text-gray-500">
+      <footer className="container mx-auto px-4 py-4 md:py-8 text-gray-500">
         <p>&copy; {new Date().getFullYear()} Luke Rucker</p>
       </footer>
     </>
