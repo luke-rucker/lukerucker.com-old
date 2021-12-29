@@ -71,6 +71,10 @@ export default function NewPost() {
   const [title, setTitle] = React.useState(actionData?.values.title || '')
   const [slug, setSlug] = React.useState(kebabCase(title) || '')
 
+  React.useEffect(() => {
+    setSlug(kebabCase(title))
+  }, [title])
+
   return (
     <>
       <HeaderSection text="New Post" />
@@ -86,10 +90,7 @@ export default function NewPost() {
           placeholder="Title"
           label="Title"
           value={title}
-          onChange={e => {
-            setTitle(e.target.value)
-            setSlug(kebabCase(e.target.value))
-          }}
+          onChange={e => setTitle(e.target.value)}
           error={actionData?.errors?.title}
         />
 
@@ -98,7 +99,7 @@ export default function NewPost() {
           type="text"
           placeholder="Slug"
           label="Slug"
-          readOnly
+          onChange={e => setSlug(e.target.value)}
           value={slug}
           error={actionData?.errors?.slug}
         />
