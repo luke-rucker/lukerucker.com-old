@@ -26,18 +26,18 @@ export default function Posts() {
 
       <ul className="space-y-4">
         {posts.map(post => (
-          <li key={post.slug} className="bg-gray-100 shadow-xl p-4">
-            <div className="flex items-center">
-              <h3 className="text-xl font-semibold mb-1">{post.title}</h3>
+          <li key={post.slug} className="bg-white shadow-xl p-4">
+            <div className="flex items-center mb-2">
+              <h3 className="text-xl font-semibold">{post.title}</h3>
               <Badge className="ml-3">
                 {post.draft ? 'Draft' : 'Published'}
               </Badge>
             </div>
 
-            <p className="text-gray-500">{post.description}</p>
+            <p className="text-gray-500 mb-1">{post.description}</p>
 
             <div className="flex justify-between">
-              <p>
+              <p className="text-sm">
                 Edited {formatRelative(new Date(post.editedAt), new Date())}
               </p>
               <Link to={post.slug} aria-label={`View ${post.title}`}>

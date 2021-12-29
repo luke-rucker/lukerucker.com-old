@@ -56,7 +56,7 @@ export default function Login() {
     <div className="h-screen flex flex-col items-center justify-center">
       <h1 className="text-3xl mb-5 font-semibold">Login</h1>
 
-      <div className="w-full max-w-sm shadow-2xl p-4">
+      <div className="w-full max-w-sm bg-white shadow-2xl p-4">
         <Form method="post">
           {actionData?.error ? (
             <Alert
