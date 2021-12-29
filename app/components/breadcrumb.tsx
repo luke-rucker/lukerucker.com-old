@@ -15,11 +15,11 @@ export function Breadcrumb({
   label,
 }: BreadcrumbProps) {
   return displayAsLink ? (
-    <Link to={to} aria-label={label}>
+    <Link to={to} aria-label={label} className="truncate">
       {children}
     </Link>
   ) : (
-    <span className="font-medium text-gray-500" aria-label={label}>
+    <span className="truncate font-medium text-gray-500" aria-label={label}>
       {children}
     </span>
   )

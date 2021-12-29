@@ -21,7 +21,7 @@ export function Breadcrumbs({ className }: BreadcrumbsProps) {
 
   return (
     <nav className={clsx(className)}>
-      <ol className="h-10 flex items-center space-x-1">
+      <ol className="h-10 flex flex-wrap items-center space-x-1">
         {matchesWithBreadcrumbs.map((match, index) => {
           const isLast = index === matchesWithBreadcrumbs.length - 1
 
