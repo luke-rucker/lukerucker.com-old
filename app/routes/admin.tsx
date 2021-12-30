@@ -1,15 +1,12 @@
 import HomeIcon from '@heroicons/react/solid/HomeIcon'
 import { LoaderFunction, Outlet } from 'remix'
-import {
-  Breadcrumb,
-  BreadcrumbParams,
-  Breadcrumbs,
-} from '~/components/breadcrumbs'
+import { Breadcrumb, Breadcrumbs } from '~/components/breadcrumbs'
 import { Navbar } from '~/components/navbar'
+import { Handle } from '~/utils/handle.server'
 import { requireLoggedIn } from '~/utils/session.server'
 
-export const handle = {
-  breadcrumb: ({ path, isLast }: BreadcrumbParams) => (
+export const handle: Handle = {
+  breadcrumb: ({ path, isLast }) => (
     <Breadcrumb to={path} displayAsLink={!isLast} label="Dashboard">
       <HomeIcon className="h-5 w-5" />
     </Breadcrumb>

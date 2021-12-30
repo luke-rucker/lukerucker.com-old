@@ -2,16 +2,19 @@ import { SSRProvider } from '@react-aria/ssr'
 import {
   Links,
   LiveReload,
+  LoaderFunction,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useMatches,
 } from 'remix'
 import type { LinksFunction, MetaFunction } from 'remix'
 import { PublicLayout } from './components/public-layout'
 
 import styles from '~/styles/app.css'
+import { checkIfIsLoggedIn } from './utils/session.server'
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }]
 
@@ -20,7 +23,11 @@ export const meta: MetaFunction = () => ({
   description: 'My slice of the internet.',
 })
 
+export const loader: LoaderFunction = ({ request }) =>
+  checkIfIsLoggedIn(request)
+
 export default function App() {
+  const isLoggedIn = useLoaderData<boolean>()
   const matches = useMatches()
 
   const isAdminRoute = matches.some(
@@ -51,7 +58,7 @@ export default function App() {
             <Outlet />
           </SSRProvider>
         ) : (
-          <PublicLayout />
+          <PublicLayout isLoggedIn={isLoggedIn} />
         )}
       </body>
     </html>

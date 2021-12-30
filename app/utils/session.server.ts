@@ -40,13 +40,14 @@ export async function getSession(request: Request) {
   return storage.getSession(request.headers.get('Cookie'))
 }
 
-export async function checkIfIsLoggedIn(request: Request) {
+export async function checkIfIsLoggedIn(request: Request): Promise<boolean> {
   const session = await getSession(request)
-  return session.get(config.session.key)
+  return Boolean(session.get(config.session.key))
 }
 
 export async function requireLoggedIn(request: Request) {
   const isLoggedIn = await checkIfIsLoggedIn(request)
+  console.log(isLoggedIn)
 
   if (!isLoggedIn) {
     throw redirect(config.loginPath)

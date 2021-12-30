@@ -2,19 +2,24 @@ import * as React from 'react'
 import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
 import { badRequest, notFound } from 'remix-utils'
 import { Article } from '~/components/article'
-import {
-  Breadcrumb,
-  BreadcrumbParams,
-  Breadcrumbs,
-} from '~/components/breadcrumbs'
+import { Breadcrumb, Breadcrumbs } from '~/components/breadcrumbs'
 import { DateDisplay } from '~/components/date-display'
+import { Link } from '~/components/link'
 import { getPostBySlug, Post } from '~/db/posts.server'
+import {
+  AdminToolbarParams,
+  BreadcrumbParams,
+  Handle,
+} from '~/utils/handle.server'
 
-export const handle = {
+export const handle: Handle = {
   breadcrumb: ({ loaderData: post, path, isLast }: BreadcrumbParams<Post>) => (
     <Breadcrumb to={path} displayAsLink={!isLast}>
       {post.title}
     </Breadcrumb>
+  ),
+  adminToolbar: ({ loaderData: post }: AdminToolbarParams<Post>) => (
+    <Link to={`/admin/posts/${post.slug}/edit`}>edit post</Link>
   ),
 }
 

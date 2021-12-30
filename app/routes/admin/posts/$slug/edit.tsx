@@ -18,17 +18,18 @@ import {
   savePost,
 } from '~/db/posts.server'
 import { ActionData, mapSchemaErrorsToFields } from '~/utils/forms.server'
-import { Breadcrumb, BreadcrumbParams } from '~/components/breadcrumbs'
+import { Breadcrumb } from '~/components/breadcrumbs'
 import { HeaderSection } from '~/components/header-section'
 import { Alert } from '~/components/alert'
 import { Input } from '~/components/forms/input'
 import { Checkbox } from '~/components/forms/checkbox'
 import { Textarea } from '~/components/forms/textarea'
 import { Button } from '~/components/forms/button'
+import { Handle } from '~/utils/handle.server'
 
-export const handle = {
+export const handle: Handle = {
   hydrate: true,
-  breadcrumb: ({ path, isLast }: BreadcrumbParams) => (
+  breadcrumb: ({ path, isLast }) => (
     <Breadcrumb to={path} displayAsLink={!isLast}>
       Edit
     </Breadcrumb>
