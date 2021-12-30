@@ -1,5 +1,5 @@
 import { useMatches } from 'remix'
-import { Link } from '../link'
+import { Link } from './link'
 
 export function AdminToolbar() {
   const matches = useMatches()
@@ -9,7 +9,7 @@ export function AdminToolbar() {
 
   return (
     <div className="bg-gray-200">
-      <div className="h-12 container mx-auto flex items-center justify-between">
+      <div className="h-12 px-4 md:px-0 container mx-auto flex items-center justify-between">
         <Link to="admin">admin dashboard</Link>
 
         <ul className="flex items-center space-x-4">

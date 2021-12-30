@@ -1,13 +1,11 @@
 import { Outlet } from 'remix'
-import { Footer } from './footer'
-import { Navbar } from '../navbar'
-import { AdminToolbar } from './admin-toolbar'
+import { AdminToolbar } from '~/components/admin-toolbar'
+import { Navbar } from '~/components/navbar'
+import { useIsLoggedIn } from '~/contexts/is-logged-in-context'
 
-type PublicLayoutProps = {
-  isLoggedIn: boolean
-}
+export default function Public() {
+  const isLoggedIn = useIsLoggedIn()
 
-export function PublicLayout({ isLoggedIn }: PublicLayoutProps) {
   return (
     <>
       {isLoggedIn ? <AdminToolbar /> : null}
@@ -30,10 +28,14 @@ export function PublicLayout({ isLoggedIn }: PublicLayoutProps) {
             },
           ]}
         />
+
         <main className="pt-8 md:pt-16 pb-4">
           <Outlet />
         </main>
-        <Footer className="py-4 md:py-8" />
+
+        <footer className="text-gray-500 py-4 md:py-8">
+          <p>&copy; {new Date().getFullYear()} Luke Rucker</p>
+        </footer>
       </div>
     </>
   )

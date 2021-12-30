@@ -11,10 +11,10 @@ import {
   useMatches,
 } from 'remix'
 import type { LinksFunction, MetaFunction } from 'remix'
-import { PublicLayout } from './components/public-layout'
+import { IsLoggedInContext } from '~/contexts/is-logged-in-context'
+import { checkIfIsLoggedIn } from '~/utils/session.server'
 
 import styles from '~/styles/app.css'
-import { checkIfIsLoggedIn } from './utils/session.server'
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }]
 
@@ -29,11 +29,6 @@ export const loader: LoaderFunction = ({ request }) =>
 export default function App() {
   const isLoggedIn = useLoaderData<boolean>()
   const matches = useMatches()
-
-  const isAdminRoute = matches.some(
-    match =>
-      match.pathname.includes('/admin') || match.pathname.includes('/login')
-  )
 
   const shouldIncludeScripts = matches.some(match => match.handle?.hydrate)
 
@@ -52,14 +47,11 @@ export default function App() {
         {shouldIncludeScripts ? <Scripts /> : null}
         {process.env.NODE_ENV === 'development' ? <LiveReload /> : null}
 
-        {/* If match is admin route, delegate layout to routes/admin.tsx */}
-        {isAdminRoute ? (
-          <SSRProvider>
+        <SSRProvider>
+          <IsLoggedInContext.Provider value={isLoggedIn}>
             <Outlet />
-          </SSRProvider>
-        ) : (
-          <PublicLayout isLoggedIn={isLoggedIn} />
-        )}
+          </IsLoggedInContext.Provider>
+        </SSRProvider>
       </body>
     </html>
   )
