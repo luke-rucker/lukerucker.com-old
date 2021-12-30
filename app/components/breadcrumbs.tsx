@@ -4,12 +4,6 @@ import * as React from 'react'
 import { useMatches } from 'remix'
 import { Link } from './link'
 
-export type BreadcrumbParams<LoaderData = never> = {
-  loaderData: LoaderData
-  path: string
-  isLast: boolean
-}
-
 type BreadcrumbsProps = {
   className?: string
 }
@@ -17,7 +11,7 @@ type BreadcrumbsProps = {
 export function Breadcrumbs({ className }: BreadcrumbsProps) {
   const matches = useMatches()
   const matchesWithBreadcrumbs = matches.filter(
-    match => match.handle && match.handle.breadcrumb
+    match => match.handle?.breadcrumb
   )
 
   return (

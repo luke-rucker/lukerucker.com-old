@@ -1,15 +1,12 @@
 import HomeIcon from '@heroicons/react/solid/HomeIcon'
 import { LoaderFunction, Outlet } from 'remix'
-import {
-  Breadcrumb,
-  BreadcrumbParams,
-  Breadcrumbs,
-} from '~/components/breadcrumbs'
+import { Breadcrumb, Breadcrumbs } from '~/components/breadcrumbs'
 import { Navbar } from '~/components/navbar'
+import { Handle } from '~/utils/handle.server'
 import { requireLoggedIn } from '~/utils/session.server'
 
-export const handle = {
-  breadcrumb: ({ path, isLast }: BreadcrumbParams) => (
+export const handle: Handle = {
+  breadcrumb: ({ path, isLast }) => (
     <Breadcrumb to={path} displayAsLink={!isLast} label="Dashboard">
       <HomeIcon className="h-5 w-5" />
     </Breadcrumb>
@@ -26,7 +23,7 @@ export default function Admin() {
     <>
       <header className="bg-gray-200">
         <Navbar
-          className="container mx-auto px-4 py-4 md:py-8 "
+          className="container mx-auto px-4 md:px-0 py-4 md:py-8 "
           primaryNavItem={{
             name: 'admin',
             to: '/admin',
@@ -48,12 +45,12 @@ export default function Admin() {
         />
       </header>
 
-      <main className="container mx-auto px-4 py-4 md:py-8">
+      <main className="container mx-auto px-4 md:px-0 py-4 md:py-8">
         <Breadcrumbs className="mb-4" />
         <Outlet />
       </main>
 
-      <footer className="container mx-auto px-4 py-4 md:py-8 text-gray-500">
+      <footer className="container mx-auto px-4 md:px-0 py-4 md:py-8 text-gray-500">
         <p>&copy; {new Date().getFullYear()} Luke Rucker</p>
       </footer>
     </>

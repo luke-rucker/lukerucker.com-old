@@ -1,9 +1,10 @@
 import { LoaderFunction, Outlet, useLoaderData } from 'remix'
 import { badRequest, notFound } from 'remix-utils'
-import { Breadcrumb, BreadcrumbParams } from '~/components/breadcrumbs'
+import { Breadcrumb } from '~/components/breadcrumbs'
 import { getPostBySlug, Post } from '~/db/posts.server'
+import { BreadcrumbParams, Handle } from '~/utils/handle.server'
 
-export const handle = {
+export const handle: Handle = {
   breadcrumb: ({ loaderData: post, path, isLast }: BreadcrumbParams<Post>) => (
     <Breadcrumb to={path} displayAsLink={!isLast}>
       {post.title}
