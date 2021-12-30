@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { MetaFunction } from 'remix'
 import { HeaderSection } from '~/components'
 

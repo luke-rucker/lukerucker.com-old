@@ -1,5 +1,4 @@
 import { SSRProvider } from '@react-aria/ssr'
-import * as React from 'react'
 import {
   Links,
   LiveReload,
@@ -18,6 +17,7 @@ export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }]
 
 export const meta: MetaFunction = () => ({
   title: 'Luke Rucker',
+  description: 'My slice of the internet.',
 })
 
 export default function App() {
@@ -39,9 +39,7 @@ export default function App() {
         <Links />
       </head>
       <body className="bg-gray-50 font-mono text-gray-800">
-        <noscript>
-          This site runs just fine without javascript. Rock on!
-        </noscript>
+        <noscript>This site runs just fine without javascript.</noscript>
 
         <ScrollRestoration />
         {shouldIncludeScripts ? <Scripts /> : null}

@@ -1,5 +1,4 @@
-import { formatDistance } from 'date-fns'
-import * as React from 'react'
+import { formatDistance, formatRelative } from 'date-fns'
 import { MetaFunction, useOutletContext } from 'remix'
 import { Article, Badge, HeaderSection, Input, Link } from '~/components'
 import { Post } from '~/db/posts.server'
@@ -20,7 +19,14 @@ export default function ViewPost() {
       <HeaderSection
         text={post.title}
         left={
-          <Badge className="ml-3">{post.draft ? 'Draft' : 'Published'}</Badge>
+          <Badge className="ml-3">
+            {post.draft
+              ? 'Draft'
+              : `Published ${formatRelative(
+                  new Date(post.publishedAt!),
+                  new Date()
+                )}`}
+          </Badge>
         }
         right={
           <div className="space-x-4">

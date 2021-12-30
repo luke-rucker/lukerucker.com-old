@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
 import { Alert, Link } from '~/components'
 import { getPosts, Post } from '~/db/posts.server'
@@ -21,13 +20,13 @@ export default function Posts() {
         <ol className="space-y-4">
           {posts.map(post => (
             <li key={post.slug}>
-              <p className="text-sm text-gray-500">
+              <p className="mb-1 text-sm text-gray-500">
                 {new Date(post.publishedAt!).toDateString()}
               </p>
 
               <Link
                 to={post.slug}
-                className="text-2xl font-semibold text-gray-800 hover:text-gray-600"
+                className="mb-2 text-2xl font-semibold text-gray-800 hover:text-gray-600"
               >
                 <h3>{post.title}</h3>
               </Link>

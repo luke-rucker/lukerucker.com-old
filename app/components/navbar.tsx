@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import * as React from 'react'
 import { Link, NavLink } from 'remix'
 
 type NavItem = {

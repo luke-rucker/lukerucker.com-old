@@ -13,14 +13,14 @@ export type PostSchema = z.infer<typeof postSchema>
 
 type AdditionalPostAttributes = {
   html: string
-  publishedAt?: Date
+  publishedAt: Date | null
   editedAt: Date
 }
 
 export type Post = PostSchema & AdditionalPostAttributes
 
 type PostMetadata = {
-  publishedAt?: Date
+  publishedAt: Date | null
 }
 
 const postPrefix = 'post:'
@@ -40,9 +40,10 @@ export async function getPostBySlug(
 ): Promise<Post | null> {
   const post = await getPostByKey(postKey(slug))
 
-  if (post === null) return null
+  if (!filters || !filters.status) return post
+
   if (filters?.status === 'published' && !post?.publishedAt) return null
-  if (filters?.status === 'draft' && !post.draft) return null
+  if (filters?.status === 'draft' && !post?.draft) return null
 
   return post
 }
@@ -55,8 +56,8 @@ export async function getPosts(filters?: PostFilters): Promise<Array<Post>> {
         const { publishedAt } = key.metadata as PostMetadata
 
         return filters.status === 'published'
-          ? publishedAt !== undefined
-          : publishedAt === undefined
+          ? publishedAt !== null
+          : publishedAt === null
       })
     : keys
 
@@ -75,7 +76,7 @@ export async function savePost(
     ...post,
     html: convertToHtml(post.markdown),
     editedAt: new Date(),
-    publishedAt: !post.draft ? new Date() : undefined,
+    publishedAt: post.draft ? null : new Date(),
     ...overrides,
   }
 

@@ -80,12 +80,13 @@ export const action: ActionFunction = async ({ request }) => {
   const previouslyPublishedAt = oldPost?.publishedAt
   const goingToBePublished = !newPost.draft
 
-  await savePost(newPost, {
-    publishedAt:
-      previouslyPublishedAt && goingToBePublished
-        ? previouslyPublishedAt
-        : undefined,
-  })
+  if (previouslyPublishedAt && goingToBePublished) {
+    await savePost(newPost, {
+      publishedAt: previouslyPublishedAt,
+    })
+  } else {
+    await savePost(newPost)
+  }
 
   return redirect(`/admin/posts/${newPost.slug}`)
 }

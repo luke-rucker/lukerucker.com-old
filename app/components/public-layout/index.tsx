@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { Outlet } from 'remix'
 import { Footer } from './footer'
 import { Navbar } from '../navbar'

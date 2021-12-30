@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { MetaFunction } from 'remix'
 
 export const meta: MetaFunction = () => ({

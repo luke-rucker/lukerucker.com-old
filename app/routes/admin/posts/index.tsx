@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
 import { formatRelative } from 'date-fns'
 import { Alert, Badge, HeaderSection, Link } from '~/components'

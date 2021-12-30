@@ -19,6 +19,7 @@ export const handle = {
 
 export const meta: MetaFunction = ({ data }) => ({
   title: `${data.title} | Luke Rucker`,
+  description: data.description,
 })
 
 export const loader: LoaderFunction = async ({ params }) => {

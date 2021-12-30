@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { LoaderFunction, Outlet, useLoaderData } from 'remix'
 import { badRequest, notFound } from 'remix-utils'
 import { Breadcrumb, BreadcrumbParams } from '~/components'
