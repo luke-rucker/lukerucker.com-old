@@ -1,6 +1,11 @@
 import HomeIcon from '@heroicons/react/solid/HomeIcon'
 import { LoaderFunction, Outlet } from 'remix'
-import { Breadcrumb, BreadcrumbParams, Breadcrumbs, Navbar } from '~/components'
+import {
+  Breadcrumb,
+  BreadcrumbParams,
+  Breadcrumbs,
+} from '~/components/breadcrumbs'
+import { Navbar } from '~/components/navbar'
 import { requireLoggedIn } from '~/utils/session.server'
 
 export const handle = {

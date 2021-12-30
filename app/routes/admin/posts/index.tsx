@@ -1,7 +1,10 @@
 import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
 import { formatRelative } from 'date-fns'
-import { Alert, Badge, HeaderSection, Link } from '~/components'
 import { getPosts, Post } from '~/db/posts.server'
+import { HeaderSection } from '~/components/header-section'
+import { Link } from '~/components/link'
+import { Badge } from '~/components/badge'
+import { Alert } from '~/components/alert'
 
 export const meta: MetaFunction = () => ({
   title: 'Posts | Luke Rucker',

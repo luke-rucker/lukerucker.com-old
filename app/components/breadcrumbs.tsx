@@ -2,6 +2,7 @@ import ChevronRightIcon from '@heroicons/react/solid/ChevronRightIcon'
 import clsx from 'clsx'
 import * as React from 'react'
 import { useMatches } from 'remix'
+import { Link } from './link'
 
 export type BreadcrumbParams<LoaderData = never> = {
   loaderData: LoaderData
@@ -43,5 +44,29 @@ export function Breadcrumbs({ className }: BreadcrumbsProps) {
         })}
       </ol>
     </nav>
+  )
+}
+
+type BreadcrumbProps = {
+  to: string
+  label?: string
+  displayAsLink: boolean
+  children?: React.ReactNode
+}
+
+export function Breadcrumb({
+  to,
+  displayAsLink,
+  children,
+  label,
+}: BreadcrumbProps) {
+  return displayAsLink ? (
+    <Link to={to} aria-label={label} className="truncate">
+      {children}
+    </Link>
+  ) : (
+    <span className="truncate font-medium text-gray-500" aria-label={label}>
+      {children}
+    </span>
   )
 }

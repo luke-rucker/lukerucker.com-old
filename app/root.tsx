@@ -9,7 +9,7 @@ import {
   useMatches,
 } from 'remix'
 import type { LinksFunction, MetaFunction } from 'remix'
-import { PublicLayout } from '~/components'
+import { PublicLayout } from './components/public-layout'
 
 import styles from '~/styles/app.css'
 

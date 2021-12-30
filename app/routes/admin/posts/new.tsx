@@ -8,16 +8,6 @@ import {
 } from 'remix'
 import { badRequest, bodyParser } from 'remix-utils'
 import kebabCase from 'just-kebab-case'
-import {
-  Alert,
-  Breadcrumb,
-  BreadcrumbParams,
-  Button,
-  Checkbox,
-  HeaderSection,
-  Input,
-  Textarea,
-} from '~/components'
 import { ActionData, mapSchemaErrorsToFields } from '~/utils/forms.server'
 import {
   getPostBySlug,
@@ -25,6 +15,13 @@ import {
   postSchema,
   savePost,
 } from '~/db/posts.server'
+import { Breadcrumb, BreadcrumbParams } from '~/components/breadcrumbs'
+import { HeaderSection } from '~/components/header-section'
+import { Alert } from '~/components/alert'
+import { Input } from '~/components/forms/input'
+import { Checkbox } from '~/components/forms/checkbox'
+import { Textarea } from '~/components/forms/textarea'
+import { Button } from '~/components/forms/button'
 
 export const handle = {
   hydrate: true,
