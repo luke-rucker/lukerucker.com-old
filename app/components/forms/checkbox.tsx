@@ -16,7 +16,7 @@ type CheckboxProps = {
 export function Checkbox({
   id,
   className,
-  error,
+  error = 'The error',
   label,
   readOnly,
   ...props
@@ -32,8 +32,9 @@ export function Checkbox({
           type="checkbox"
           id={inputId}
           className={clsx(
-            'ml-2',
-            error && 'ring-2 ring-offset-2 ring-red-600',
+            'ml-2 shadow-sm focus:ring-2 focus:ring-offset-2 focus:ring-opacity-50 border-2 border-gray-300 text-gray-600 focus:border-gray-600 focus:ring-gray-300',
+            error &&
+              'border-red-300 text-red-600 focus:border-red-600 focus:ring-red-400',
             readOnly && 'cursor-not-allowed',
             className
           )}

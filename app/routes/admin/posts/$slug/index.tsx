@@ -3,6 +3,7 @@ import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
 import { badRequest, notFound } from 'remix-utils'
 import {
   Article,
+  Badge,
   Breadcrumb,
   BreadcrumbParams,
   HeaderSection,
@@ -43,18 +44,41 @@ export default function ViewPost() {
     <>
       <HeaderSection
         text={post.title}
+        left={
+          <Badge className="ml-3">{post.draft ? 'Draft' : 'Published'}</Badge>
+        }
         right={
-          <Link to="edit" className="text-xl">
-            Edit
-          </Link>
+          <div className="space-x-4">
+            {!post.draft ? (
+              <Link to={`/posts/${post.slug}`} className="text-xl">
+                View on public site
+              </Link>
+            ) : null}
+
+            <Link to="edit" className="text-xl">
+              Edit
+            </Link>
+          </div>
         }
       />
-      <p>{post.editedAt}</p>
 
-      <p>{post.slug}</p>
-      <p>{post.description}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <section>
+          <h3 className="text-xl font-semibold mb-2">Info</h3>
+          <div className="bg-white p-4 shadow-xl">
+            <p>{post.editedAt}</p>
+            <p>{post.slug}</p>
+            <p>{post.description}</p>
+          </div>
+        </section>
 
-      <Article html={post.html} />
+        <section>
+          <h3 className="text-xl font-semibold mb-2">Preview</h3>
+          <div className="bg-white p-4 shadow-xl max-h-96 overflow-auto">
+            <Article html={post.html} />
+          </div>
+        </section>
+      </div>
     </>
   )
 }
