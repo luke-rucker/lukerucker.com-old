@@ -39,6 +39,10 @@ export default function App() {
         <Links />
       </head>
       <body className="bg-gray-50 font-mono text-gray-800">
+        <noscript>
+          This site runs just fine without javascript. Rock on!
+        </noscript>
+
         <ScrollRestoration />
         {shouldIncludeScripts ? <Scripts /> : null}
         {process.env.NODE_ENV === 'development' ? <LiveReload /> : null}

@@ -5,9 +5,10 @@ import {
   MetaFunction,
   redirect,
   useActionData,
+  useOutletContext,
 } from 'remix'
-import { badRequest, bodyParser } from 'remix-utils'
 import kebabCase from 'just-kebab-case'
+import { badRequest, bodyParser } from 'remix-utils'
 import {
   Alert,
   Breadcrumb,
@@ -18,26 +19,32 @@ import {
   Input,
   Textarea,
 } from '~/components'
-import { ActionData, mapSchemaErrorsToFields } from '~/utils/forms.server'
 import {
+  deletePostBySlug,
   getPostBySlug,
-  PostSchema,
+  Post,
   postSchema,
+  PostSchema,
   savePost,
 } from '~/db/posts.server'
+import { ActionData, mapSchemaErrorsToFields } from '~/utils/forms.server'
 
 export const handle = {
   hydrate: true,
   breadcrumb: ({ path, isLast }: BreadcrumbParams) => (
     <Breadcrumb to={path} displayAsLink={!isLast}>
-      New
+      Edit
     </Breadcrumb>
   ),
 }
 
-export const meta: MetaFunction = () => ({
-  title: 'New Post | Luke Rucker',
-})
+export const meta: MetaFunction = ({ parentsData }) => {
+  const parentData = Object.values(parentsData).at(-1)
+
+  return {
+    title: `Edit ${parentData.title} | Luke Rucker`,
+  }
+}
 
 export const action: ActionFunction = async ({ request }) => {
   const body = await bodyParser.toJSON(request)
@@ -51,24 +58,43 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   const newPost = validatedBody.data
-  const postWithSameSlug = await getPostBySlug(newPost.slug)
+  const oldSlug = new URL(request.url).pathname.split('/').at(-2)!
 
-  if (postWithSameSlug) {
-    return badRequest({
-      values: body,
-      error: `A post with the same slug already exists.`,
-    })
+  const changedSlug = newPost.slug !== oldSlug
+
+  if (changedSlug) {
+    const postWithNewSlug = await getPostBySlug(newPost.slug)
+
+    if (postWithNewSlug) {
+      return badRequest({
+        values: body,
+        error: `A post with the same slug already exists.`,
+      })
+    }
+
+    await deletePostBySlug(oldSlug)
   }
 
-  await savePost(newPost)
+  const oldPost = await getPostBySlug(oldSlug)
 
-  return redirect('/admin/posts')
+  const previouslyPublishedAt = oldPost?.publishedAt
+  const goingToBePublished = !newPost.draft
+
+  await savePost(newPost, {
+    publishedAt:
+      previouslyPublishedAt && goingToBePublished
+        ? previouslyPublishedAt
+        : undefined,
+  })
+
+  return redirect(`/admin/posts/${newPost.slug}`)
 }
 
-export default function NewPost() {
+export default function EditPost() {
+  const post = useOutletContext<Post>()
   const actionData = useActionData<ActionData<PostSchema>>()
 
-  const [title, setTitle] = React.useState(actionData?.values.title || '')
+  const [title, setTitle] = React.useState(post.title)
   const [slug, setSlug] = React.useState(kebabCase(title) || '')
 
   React.useEffect(() => {
@@ -77,9 +103,9 @@ export default function NewPost() {
 
   return (
     <>
-      <HeaderSection text="New Post" />
+      <HeaderSection text={`Edit ${post.title}`} />
 
-      <Form method="post" className="mt-4 space-y-4">
+      <Form method="put" className="mt-4 space-y-4">
         {actionData?.error ? (
           <Alert variant="error" className="mb-4">
             {actionData?.error}
@@ -111,14 +137,14 @@ export default function NewPost() {
           type="text"
           placeholder="Description"
           label="Description"
-          defaultValue={actionData?.values.description}
+          defaultValue={post.description}
           error={actionData?.errors?.description}
         />
 
         <Checkbox
           name="draft"
           label="Draft"
-          defaultChecked={actionData?.values.draft}
+          defaultChecked={post.draft}
           error={actionData?.errors?.draft}
         />
 
@@ -127,12 +153,12 @@ export default function NewPost() {
           label="Content"
           placeholder="Some profound thoughts..."
           rows={20}
-          defaultValue={actionData?.values.markdown}
+          defaultValue={post.markdown}
           error={actionData?.errors?.markdown}
         />
 
         <Button type="submit" className="mt-2 w-full">
-          Publish
+          Save
         </Button>
       </Form>
     </>

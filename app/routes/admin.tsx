@@ -33,6 +33,10 @@ export default function Admin() {
               to: '/admin/posts',
             },
             {
+              name: 'public site',
+              to: '/',
+            },
+            {
               name: 'logout',
               to: '/logout',
             },

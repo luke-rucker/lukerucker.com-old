@@ -18,8 +18,8 @@ export function PublicLayout() {
             to: '/about',
           },
           {
-            name: 'blog',
-            to: '/blog',
+            name: 'posts',
+            to: '/posts',
           },
         ]}
       />

@@ -4,15 +4,16 @@ import clsx from 'clsx'
 import * as React from 'react'
 
 type ArticleProps = {
+  header?: React.ReactNode
   html: string
   className?: string
 }
 
-export function Article({ html, className }: ArticleProps) {
+export function Article({ header, html, className }: ArticleProps) {
   return (
-    <article
-      dangerouslySetInnerHTML={{ __html: html }}
-      className={clsx('prose', className)}
-    />
+    <article className={clsx('prose-text', className)}>
+      {header ? <header className="not-prose">{header}</header> : null}
+      <section dangerouslySetInnerHTML={{ __html: html }} />
+    </article>
   )
 }

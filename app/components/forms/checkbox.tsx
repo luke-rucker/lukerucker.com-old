@@ -16,7 +16,7 @@ type CheckboxProps = {
 export function Checkbox({
   id,
   className,
-  error = 'The error',
+  error,
   label,
   readOnly,
   ...props
