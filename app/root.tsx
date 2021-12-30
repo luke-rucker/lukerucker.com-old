@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { SSRProvider } from '@react-aria/ssr'
 import {
   Links,
   LiveReload,
@@ -9,32 +9,26 @@ import {
   useMatches,
 } from 'remix'
 import type { LinksFunction, MetaFunction } from 'remix'
-import { Footer, Navbar } from '~/components'
+import { PublicLayout } from '~/components'
 
-import styles from './tailwind.css'
+import styles from '~/styles/app.css'
 
-export const links: LinksFunction = () => [
-  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-  {
-    rel: 'preconnect',
-    crossOrigin: 'anonymous',
-    href: 'https://fonts.gstatic.com',
-  },
-  {
-    rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&display=swap',
-  },
-  { rel: 'stylesheet', href: styles },
-]
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }]
 
 export const meta: MetaFunction = () => ({
   title: 'Luke Rucker',
+  description: 'My slice of the internet.',
 })
 
 export default function App() {
   const matches = useMatches()
 
-  const includeScripts = matches.some(match => match.handle?.hydrate)
+  const isAdminRoute = matches.some(
+    match =>
+      match.pathname.includes('/admin') || match.pathname.includes('/login')
+  )
+
+  const shouldIncludeScripts = matches.some(match => match.handle?.hydrate)
 
   return (
     <html lang="en">
@@ -44,16 +38,21 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="mx-auto max-w-prose px-5 md:px-0 bg-gray-50 font-mono">
-        <Navbar className="py-4 md:py-8" />
-        <main className="pt-8 md:pt-16 pb-4">
-          <Outlet />
-        </main>
-        <Footer className="py-4 md:py-8" />
+      <body className="bg-gray-50 font-mono text-gray-800">
+        <noscript>This site runs just fine without javascript.</noscript>
 
         <ScrollRestoration />
-        {includeScripts ? <Scripts /> : null}
+        {shouldIncludeScripts ? <Scripts /> : null}
         {process.env.NODE_ENV === 'development' ? <LiveReload /> : null}
+
+        {/* If match is admin route, delegate layout to routes/admin.tsx */}
+        {isAdminRoute ? (
+          <SSRProvider>
+            <Outlet />
+          </SSRProvider>
+        ) : (
+          <PublicLayout />
+        )}
       </body>
     </html>
   )

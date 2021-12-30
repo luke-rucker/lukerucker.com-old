@@ -1,6 +1,9 @@
 node_modules
 build
+dist
 .cache
 .eslintrc.js
 remix.config.js
 tailwind.config.js
+postcss.config.js
+worker/index.js
