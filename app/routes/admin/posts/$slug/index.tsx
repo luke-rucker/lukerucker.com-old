@@ -1,6 +1,10 @@
 import { formatDistance, formatRelative } from 'date-fns'
 import { MetaFunction, useOutletContext } from 'remix'
-import { Article, Badge, HeaderSection, Input, Link } from '~/components'
+import { Article } from '~/components/article'
+import { Badge } from '~/components/badge'
+import { Input } from '~/components/forms/input'
+import { HeaderSection } from '~/components/header-section'
+import { Link } from '~/components/link'
 import { Post } from '~/db/posts.server'
 
 export const meta: MetaFunction = ({ parentsData }) => {

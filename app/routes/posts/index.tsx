@@ -1,5 +1,7 @@
 import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
-import { Alert, Link } from '~/components'
+import { Alert } from '~/components/alert'
+import { DateDisplay } from '~/components/date-display'
+import { Link } from '~/components/link'
 import { getPosts, Post } from '~/db/posts.server'
 
 export const meta: MetaFunction = () => ({
@@ -13,22 +15,25 @@ export default function Posts() {
 
   return (
     <>
-      <h2 className="text-3xl font-bold mb-2">Posts</h2>
-      <p className="text-gray-500 font-semibold mb-8">Just some thoughts...</p>
+      <h2 className="text-3xl font-bold mb-4">Posts</h2>
+      <p className="text-gray-500 font-semibold mb-8 md:mb-12">
+        Just some thoughts...
+      </p>
 
       {posts.length > 0 ? (
-        <ol className="space-y-4">
+        <ol className="space-y-6">
           {posts.map(post => (
             <li key={post.slug}>
-              <p className="mb-1 text-sm text-gray-500">
-                {new Date(post.publishedAt!).toDateString()}
-              </p>
+              <DateDisplay
+                date={new Date(post.publishedAt!)}
+                className="text-gray-500"
+              />
 
               <Link
                 to={post.slug}
-                className="mb-2 text-2xl font-semibold text-gray-800 hover:text-gray-600"
+                className="text-2xl font-semibold text-gray-800 hover:text-gray-600"
               >
-                <h3>{post.title}</h3>
+                <h3 className="mt-2 mb-4">{post.title}</h3>
               </Link>
               <p className="text-gray-600">{post.description}</p>
             </li>

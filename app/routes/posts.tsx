@@ -1,5 +1,5 @@
 import { Outlet } from 'remix'
-import { Breadcrumb, BreadcrumbParams } from '~/components'
+import { Breadcrumb, BreadcrumbParams } from '~/components/breadcrumbs'
 
 export const handle = {
   breadcrumb: ({ path, isLast }: BreadcrumbParams) => (

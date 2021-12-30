@@ -6,7 +6,10 @@ import {
   useActionData,
 } from 'remix'
 import { badRequest, bodyParser, unauthorized } from 'remix-utils'
-import { Alert, Button, Input, Link } from '~/components'
+import { Alert } from '~/components/alert'
+import { Button } from '~/components/forms/button'
+import { Input } from '~/components/forms/input'
+import { Link } from '~/components/link'
 import { ActionData, mapSchemaErrorsToFields } from '~/utils/forms.server'
 import {
   createUserSession,

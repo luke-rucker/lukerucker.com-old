@@ -1,12 +1,13 @@
 import * as React from 'react'
 import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
 import { badRequest, notFound } from 'remix-utils'
+import { Article } from '~/components/article'
 import {
-  Article,
   Breadcrumb,
   BreadcrumbParams,
   Breadcrumbs,
-} from '~/components'
+} from '~/components/breadcrumbs'
+import { DateDisplay } from '~/components/date-display'
 import { getPostBySlug, Post } from '~/db/posts.server'
 
 export const handle = {
@@ -45,12 +46,8 @@ export default function ViewPost() {
       <Article
         header={
           <>
-            <h2 className="text-4xl text-gray-900 font-bold mb-5">
-              {post.title}
-            </h2>
-            <p className="text-sm text-gray-400 mb-5">
-              {new Date(post.publishedAt!).toDateString()}
-            </p>
+            <h2>{post.title}</h2>
+            <DateDisplay date={new Date(post.publishedAt!)} />
           </>
         }
         html={post.html}
