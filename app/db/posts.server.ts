@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { parseDateString } from '~/utils/dates'
 import { convertToHtml } from '~/utils/markdown'
+import { publicPostPathFor } from '~/utils/paths'
 import { deleteHitsFor } from './hits.server'
 
 export const postSchema = z.object({
@@ -83,6 +84,6 @@ export async function savePost(post: PostSchema) {
 export async function deletePostBySlug(slug: string) {
   await Promise.all([
     SITE.delete(postKeyFor(slug)),
-    deleteHitsFor(`/posts/${slug}`),
+    deleteHitsFor(publicPostPathFor(slug)),
   ])
 }

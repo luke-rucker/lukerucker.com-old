@@ -6,7 +6,8 @@ import { Input } from '~/components/forms/input'
 import { HeaderSection } from '~/components/header-section'
 import { Link } from '~/components/link'
 import { Post } from '~/db/posts.server'
-import { formatDistanceToToday } from '~/utils/dates'
+import { formatDate, formatDistanceToToday } from '~/utils/dates'
+import { publicPostPathFor } from '~/utils/paths'
 
 export const meta: MetaFunction = ({ parentsData }) => {
   const parentData = Object.values(parentsData).at(-1)
@@ -25,15 +26,22 @@ export default function ViewPost() {
         text={post.title}
         left={
           <Badge className="ml-3">
-            {post.publishedAt
-              ? `Published ${formatDistanceToToday(new Date(post.publishedAt))}`
-              : 'Draft'}
+            {post.publishedAt ? (
+              <span>
+                Published{' '}
+                <time dateTime={formatDate(new Date(post.publishedAt))}>
+                  {formatDistanceToToday(new Date(post.publishedAt))}
+                </time>
+              </span>
+            ) : (
+              'Draft'
+            )}
           </Badge>
         }
         right={
           <div className="space-x-4">
             {post.publishedAt ? (
-              <Link to={`/posts/${post.slug}`} className="text-xl">
+              <Link to={publicPostPathFor(post.slug)} className="text-xl">
                 View on public site
               </Link>
             ) : null}
@@ -66,7 +74,7 @@ export default function ViewPost() {
 
             <Input
               label="Public URL"
-              defaultValue={`/posts/${post.slug}`}
+              defaultValue={publicPostPathFor(post.slug)}
               readOnly
               disabled
             />
