@@ -33,7 +33,7 @@ export default function Posts() {
               <div className="flex items-center mb-2">
                 <h3 className="text-xl font-semibold">{post.title}</h3>
                 <Badge className="ml-3">
-                  {post.draft ? 'Draft' : 'Published'}
+                  {post.publishedAt ? 'Published' : 'Draft'}
                 </Badge>
               </div>
 

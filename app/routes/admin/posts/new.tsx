@@ -19,10 +19,10 @@ import { Breadcrumb } from '~/components/breadcrumbs'
 import { HeaderSection } from '~/components/header-section'
 import { Alert } from '~/components/alert'
 import { Input } from '~/components/forms/input'
-import { Checkbox } from '~/components/forms/checkbox'
 import { Textarea } from '~/components/forms/textarea'
 import { Button } from '~/components/forms/button'
 import { Handle } from '~/utils/handle.server'
+import { formatDate } from '~/utils/dates'
 
 export const handle: Handle = {
   hydrate: true,
@@ -113,11 +113,17 @@ export default function NewPost() {
           error={actionData?.errors?.description}
         />
 
-        <Checkbox
-          name="draft"
-          label="Draft"
-          defaultChecked={actionData?.values.draft}
-          error={actionData?.errors?.draft}
+        <Input
+          name="publishedAt"
+          type="date"
+          placeholder="Published at"
+          label="Published at"
+          defaultValue={formatDate(
+            actionData?.values.publishedAt
+              ? new Date(actionData?.values.publishedAt)
+              : new Date()
+          )}
+          error={actionData?.errors?.publishedAt}
         />
 
         <Textarea

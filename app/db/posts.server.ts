@@ -1,11 +1,12 @@
 import { z } from 'zod'
+import { parseDateString } from '~/utils/dates'
 import { convertToHtml } from '~/utils/markdown'
 
 export const postSchema = z.object({
   title: z.string().nonempty({ message: 'A title is required.' }),
   slug: z.string().nonempty({ message: 'A slug is required.' }),
   description: z.string().nonempty({ message: 'A description is required.' }),
-  draft: z.preprocess(val => val === 'on', z.boolean()),
+  publishedAt: z.preprocess(parseDateString, z.date().nullable()),
   markdown: z.string().nonempty({ message: 'Really? No thoughts to share?' }),
 })
 
@@ -13,22 +14,19 @@ export type PostSchema = z.infer<typeof postSchema>
 
 type AdditionalPostAttributes = {
   html: string
-  publishedAt: Date | null
   editedAt: Date
 }
 
 export type Post = PostSchema & AdditionalPostAttributes
 
-type PostMetadata = {
-  publishedAt: Date | null
-}
+type PostMetadata = Pick<Post, 'publishedAt'>
 
 const postPrefix = 'post:'
 const postKey = (slug: string) => `${postPrefix}${slug}`
 
-async function getPostByKey(key: string): Promise<Post | null> {
-  return SITE.get<Post>(key, 'json')
-}
+const getPostByKey = (key: string) => SITE.get<Post>(key, 'json')
+
+// TODO: if the need for filtering grows, come up with a better solution
 
 type PostFilters = {
   status?: 'published' | 'draft'
@@ -40,10 +38,10 @@ export async function getPostBySlug(
 ): Promise<Post | null> {
   const post = await getPostByKey(postKey(slug))
 
-  if (!filters || !filters.status) return post
+  if (!filters || Object.keys(filters).length === 0) return post
 
   if (filters?.status === 'published' && !post?.publishedAt) return null
-  if (filters?.status === 'draft' && !post?.draft) return null
+  if (filters?.status === 'draft' && post?.publishedAt) return null
 
   return post
 }
@@ -68,19 +66,14 @@ export async function getPosts(filters?: PostFilters): Promise<Array<Post>> {
   return posts as Array<Post>
 }
 
-export async function savePost(
-  post: PostSchema,
-  overrides?: Partial<AdditionalPostAttributes>
-) {
+export async function savePost(post: PostSchema) {
   const postToSave: Post = {
     ...post,
     html: convertToHtml(post.markdown),
     editedAt: new Date(),
-    publishedAt: post.draft ? null : new Date(),
-    ...overrides,
   }
 
-  await SITE.put(postKey(post.slug), JSON.stringify(postToSave), {
+  await SITE.put(postKey(postToSave.slug), JSON.stringify(postToSave), {
     metadata: { publishedAt: postToSave.publishedAt },
   })
 }

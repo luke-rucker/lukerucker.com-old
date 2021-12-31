@@ -47,7 +47,6 @@ export async function checkIfIsLoggedIn(request: Request): Promise<boolean> {
 
 export async function requireLoggedIn(request: Request) {
   const isLoggedIn = await checkIfIsLoggedIn(request)
-  console.log(isLoggedIn)
 
   if (!isLoggedIn) {
     throw redirect(config.loginPath)

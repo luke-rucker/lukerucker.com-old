@@ -8,7 +8,7 @@ import {
   useOutletContext,
 } from 'remix'
 import kebabCase from 'just-kebab-case'
-import { badRequest, bodyParser } from 'remix-utils'
+import { badRequest, bodyParser, serverError } from 'remix-utils'
 import {
   deletePostBySlug,
   getPostBySlug,
@@ -22,10 +22,10 @@ import { Breadcrumb } from '~/components/breadcrumbs'
 import { HeaderSection } from '~/components/header-section'
 import { Alert } from '~/components/alert'
 import { Input } from '~/components/forms/input'
-import { Checkbox } from '~/components/forms/checkbox'
 import { Textarea } from '~/components/forms/textarea'
 import { Button } from '~/components/forms/button'
 import { Handle } from '~/utils/handle.server'
+import { formatDate } from '~/utils/dates'
 
 export const handle: Handle = {
   hydrate: true,
@@ -55,13 +55,20 @@ export const action: ActionFunction = async ({ request }) => {
     })
   }
 
-  const newPost = validatedBody.data
-  const oldSlug = new URL(request.url).pathname.split('/').at(-2)!
+  const editedPost = validatedBody.data
+  const oldSlug = new URL(request.url).pathname.split('/').at(-2)
 
-  const changedSlug = newPost.slug !== oldSlug
+  if (!oldSlug) {
+    return serverError({
+      values: body,
+      error: 'Woah, something is wrong here...',
+    })
+  }
+
+  const changedSlug = editedPost.slug !== oldSlug
 
   if (changedSlug) {
-    const postWithNewSlug = await getPostBySlug(newPost.slug)
+    const postWithNewSlug = await getPostBySlug(editedPost.slug)
 
     if (postWithNewSlug) {
       return badRequest({
@@ -73,20 +80,9 @@ export const action: ActionFunction = async ({ request }) => {
     await deletePostBySlug(oldSlug)
   }
 
-  const oldPost = await getPostBySlug(oldSlug)
+  await savePost(editedPost)
 
-  const previouslyPublishedAt = oldPost?.publishedAt
-  const goingToBePublished = !newPost.draft
-
-  if (previouslyPublishedAt && goingToBePublished) {
-    await savePost(newPost, {
-      publishedAt: previouslyPublishedAt,
-    })
-  } else {
-    await savePost(newPost)
-  }
-
-  return redirect(`/admin/posts/${newPost.slug}`)
+  return redirect(`/admin/posts/${editedPost.slug}`)
 }
 
 export default function EditPost() {
@@ -94,11 +90,7 @@ export default function EditPost() {
   const actionData = useActionData<ActionData<PostSchema>>()
 
   const [title, setTitle] = React.useState(post.title)
-  const [slug, setSlug] = React.useState(kebabCase(title) || '')
-
-  React.useEffect(() => {
-    setSlug(kebabCase(title))
-  }, [title])
+  const [slug, setSlug] = React.useState(post.slug)
 
   return (
     <>
@@ -117,7 +109,10 @@ export default function EditPost() {
           placeholder="Title"
           label="Title"
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={e => {
+            setTitle(e.target.value)
+            setSlug(kebabCase(e.target.value))
+          }}
           error={actionData?.errors?.title}
         />
 
@@ -140,11 +135,17 @@ export default function EditPost() {
           error={actionData?.errors?.description}
         />
 
-        <Checkbox
-          name="draft"
-          label="Draft"
-          defaultChecked={post.draft}
-          error={actionData?.errors?.draft}
+        <Input
+          name="publishedAt"
+          type="date"
+          placeholder="Published at"
+          label="Published at"
+          defaultValue={
+            post.publishedAt
+              ? formatDate(new Date(post.publishedAt))
+              : undefined
+          }
+          error={actionData?.errors?.publishedAt}
         />
 
         <Textarea
