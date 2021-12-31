@@ -34,6 +34,7 @@ export default function Public() {
         </main>
 
         <footer className="text-gray-500 py-4 md:py-8">
+          <p className="mb-4">Rendered at {new Date().toLocaleString()}</p>
           <p>&copy; {new Date().getFullYear()} Luke Rucker</p>
         </footer>
       </div>

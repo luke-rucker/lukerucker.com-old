@@ -56,6 +56,15 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   const editedPost = validatedBody.data
+
+  /**
+   * Pathname should look like /admin/posts/the-old-slug/edit
+   *
+   * So, the second to last segment should be "the-old-slug".
+   *
+   * Short of having some hidden input in the form, I cannot think of
+   * a better way to get the old slug.
+   */
   const oldSlug = new URL(request.url).pathname.split('/').at(-2)
 
   if (!oldSlug) {

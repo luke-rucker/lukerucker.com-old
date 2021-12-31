@@ -3,12 +3,19 @@ import { Alert } from '~/components/alert'
 import { DateDisplay } from '~/components/date-display'
 import { Link } from '~/components/link'
 import { getPosts, Post } from '~/db/posts.server'
+import { recordHitFor } from '~/utils/hits.server'
 
 export const meta: MetaFunction = () => ({
   title: 'Blog | Luke Rucker',
 })
 
-export const loader: LoaderFunction = () => getPosts({ status: 'published' })
+export const loader: LoaderFunction = async ({ request }) => {
+  const [posts] = await Promise.all([
+    getPosts({ status: 'published' }),
+    recordHitFor(request),
+  ])
+  return posts
+}
 
 export default function Posts() {
   const posts = useLoaderData<Array<Post>>()

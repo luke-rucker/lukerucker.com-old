@@ -11,6 +11,7 @@ import {
   BreadcrumbParams,
   Handle,
 } from '~/utils/handle.server'
+import { recordHitFor } from '~/utils/hits.server'
 
 export const handle: Handle = {
   breadcrumb: ({ loaderData: post, path, isLast }: BreadcrumbParams<Post>) => (
@@ -28,7 +29,7 @@ export const meta: MetaFunction = ({ data }) => ({
   description: data.description,
 })
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
   if (!params.slug) {
     throw badRequest({ error: 'Expected a slug.' })
   }
@@ -38,6 +39,8 @@ export const loader: LoaderFunction = async ({ params }) => {
   if (!post) {
     throw notFound({ error: 'Post not found.' })
   }
+
+  await recordHitFor(request)
 
   return post
 }
