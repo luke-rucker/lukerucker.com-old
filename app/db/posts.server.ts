@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { parseDateString } from '~/utils/dates'
 import { convertToHtml } from '~/utils/markdown'
 import { publicPostPathFor } from '~/utils/paths'
-import { deleteHitsFor } from './hits.server'
+import { deletePageViewsFor } from './page-views.server'
 
 export const postSchema = z.object({
   title: z.string().nonempty({ message: 'A title is required.' }),
@@ -30,7 +30,6 @@ const postKeyFor = (slug: string) => `${postPrefix}${slug}`
 const getPostByKey = (key: string) => SITE.get<Post>(key, 'json')
 
 // TODO: if the need for filtering grows, come up with a better solution
-
 type PostFilters = {
   status?: 'published' | 'draft'
 }
@@ -84,6 +83,6 @@ export async function savePost(post: PostSchema) {
 export async function deletePostBySlug(slug: string) {
   await Promise.all([
     SITE.delete(postKeyFor(slug)),
-    deleteHitsFor(publicPostPathFor(slug)),
+    deletePageViewsFor(publicPostPathFor(slug)),
   ])
 }

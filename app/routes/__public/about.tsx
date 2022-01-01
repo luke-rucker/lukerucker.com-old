@@ -1,11 +1,12 @@
-import { LoaderFunction, MetaFunction } from 'remix'
-import { recordHitFor } from '~/utils/hits.server'
+import type { LoaderFunction, MetaFunction } from 'remix'
+import { recordPageViewFor } from '~/utils/page-views.server'
 
 export const meta: MetaFunction = () => ({
   title: 'About | Luke Rucker',
 })
 
-export const loader: LoaderFunction = ({ request }) => recordHitFor(request)
+export const loader: LoaderFunction = ({ request }) =>
+  recordPageViewFor(request)
 
 export default function About() {
   return (

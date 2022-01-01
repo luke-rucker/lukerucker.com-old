@@ -1,31 +1,25 @@
 import * as React from 'react'
-import {
-  ActionFunction,
-  Form,
-  MetaFunction,
-  redirect,
-  useActionData,
-  useOutletContext,
-} from 'remix'
+import type { ActionFunction, MetaFunction } from 'remix'
+import { Form, redirect, useActionData, useOutletContext } from 'remix'
 import kebabCase from 'just-kebab-case'
 import { badRequest, bodyParser, serverError } from 'remix-utils'
+import type { Post, PostSchema } from '~/db/posts.server'
 import {
   deletePostBySlug,
   getPostBySlug,
-  Post,
   postSchema,
-  PostSchema,
   savePost,
 } from '~/db/posts.server'
-import { ActionData, mapSchemaErrorsToFields } from '~/utils/forms.server'
+import type { ActionData } from '~/utils/forms.server'
+import { mapSchemaErrorsToFields } from '~/utils/forms.server'
 import { Breadcrumb } from '~/components/breadcrumbs'
 import { HeaderSection } from '~/components/header-section'
 import { Alert } from '~/components/alert'
 import { Input } from '~/components/forms/input'
 import { Textarea } from '~/components/forms/textarea'
 import { Button } from '~/components/forms/button'
-import { Handle } from '~/utils/handle.server'
 import { formatDate } from '~/utils/dates'
+import type { Handle } from '~/types'
 
 export const handle: Handle = {
   hydrate: true,

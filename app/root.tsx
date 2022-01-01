@@ -1,8 +1,8 @@
 import { SSRProvider } from '@react-aria/ssr'
+import type { LinksFunction, LoaderFunction, MetaFunction } from 'remix'
 import {
   Links,
   LiveReload,
-  LoaderFunction,
   Meta,
   Outlet,
   Scripts,
@@ -10,7 +10,6 @@ import {
   useLoaderData,
   useMatches,
 } from 'remix'
-import type { LinksFunction, MetaFunction } from 'remix'
 import { IsLoggedInContext } from '~/contexts/is-logged-in-context'
 import { checkIfIsLoggedIn } from '~/utils/session.server'
 

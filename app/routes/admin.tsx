@@ -1,8 +1,9 @@
 import HomeIcon from '@heroicons/react/solid/HomeIcon'
-import { LoaderFunction, Outlet } from 'remix'
+import type { LoaderFunction } from 'remix'
+import { Outlet } from 'remix'
 import { Breadcrumb, Breadcrumbs } from '~/components/breadcrumbs'
 import { Navbar } from '~/components/navbar'
-import { Handle } from '~/utils/handle.server'
+import type { Handle } from '~/types'
 import { requireLoggedIn } from '~/utils/session.server'
 
 export const handle: Handle = {
@@ -29,6 +30,10 @@ export default function Admin() {
             to: '/admin',
           }}
           navItems={[
+            {
+              name: 'page views',
+              to: '/admin/page-views',
+            },
             {
               name: 'posts',
               to: '/admin/posts',

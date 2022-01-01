@@ -1,6 +1,6 @@
 import { Outlet } from 'remix'
 import { Breadcrumb } from '~/components/breadcrumbs'
-import { Handle } from '~/utils/handle.server'
+import type { Handle } from '~/types'
 
 export const handle: Handle = {
   breadcrumb: ({ path, isLast }) => (

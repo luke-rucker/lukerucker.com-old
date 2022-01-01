@@ -1,7 +1,8 @@
-import { LoaderFunction } from 'remix'
-import { recordHitFor } from '~/utils/hits.server'
+import type { LoaderFunction } from 'remix'
+import { recordPageViewFor } from '~/utils/page-views.server'
 
-export const loader: LoaderFunction = ({ request }) => recordHitFor(request)
+export const loader: LoaderFunction = ({ request }) =>
+  recordPageViewFor(request)
 
 export default function Index() {
   return (

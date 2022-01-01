@@ -1,9 +1,11 @@
-import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
+import type { LoaderFunction, MetaFunction } from 'remix'
+import { useLoaderData } from 'remix'
 import { Alert } from '~/components/alert'
 import { DateDisplay } from '~/components/date-display'
 import { Link } from '~/components/link'
-import { getPosts, Post } from '~/db/posts.server'
-import { recordHitFor } from '~/utils/hits.server'
+import type { Post } from '~/db/posts.server'
+import { getPosts } from '~/db/posts.server'
+import { recordPageViewFor } from '~/utils/page-views.server'
 
 export const meta: MetaFunction = () => ({
   title: 'Blog | Luke Rucker',
@@ -12,7 +14,7 @@ export const meta: MetaFunction = () => ({
 export const loader: LoaderFunction = async ({ request }) => {
   const [posts] = await Promise.all([
     getPosts({ status: 'published' }),
-    recordHitFor(request),
+    recordPageViewFor(request),
   ])
   return posts
 }

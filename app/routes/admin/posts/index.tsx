@@ -1,6 +1,8 @@
-import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
+import type { LoaderFunction, MetaFunction } from 'remix'
+import { useLoaderData } from 'remix'
 import { formatRelative } from 'date-fns'
-import { getPosts, Post } from '~/db/posts.server'
+import type { Post } from '~/db/posts.server'
+import { getPosts } from '~/db/posts.server'
 import { HeaderSection } from '~/components/header-section'
 import { Link } from '~/components/link'
 import { Badge } from '~/components/badge'
@@ -37,7 +39,7 @@ export default function Posts() {
                 </Badge>
               </div>
 
-              <p className="text-gray-500 mb-1">{post.description}</p>
+              <p className="text-gray-500 mb-4">{post.description}</p>
 
               <div className="flex justify-between">
                 <p className="text-sm">

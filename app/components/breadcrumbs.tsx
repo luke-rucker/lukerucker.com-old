@@ -59,7 +59,7 @@ export function Breadcrumb({
       {children}
     </Link>
   ) : (
-    <span className="truncate font-medium text-gray-500" aria-label={label}>
+    <span className="truncate text-gray-500" aria-label={label}>
       {children}
     </span>
   )
