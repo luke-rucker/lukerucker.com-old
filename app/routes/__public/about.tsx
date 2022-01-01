@@ -1,8 +1,12 @@
-import { MetaFunction } from 'remix'
+import type { LoaderFunction, MetaFunction } from 'remix'
+import { recordPageViewFor } from '~/utils/page-views.server'
 
 export const meta: MetaFunction = () => ({
   title: 'About | Luke Rucker',
 })
+
+export const loader: LoaderFunction = ({ request }) =>
+  recordPageViewFor(request)
 
 export default function About() {
   return (
@@ -15,7 +19,7 @@ export default function About() {
       <h2>Howdy, I&apos;m Luke :)</h2>
       <p>
         I&apos;m a 19 year old software engineer currently based in Houston,
-        Texas.
+        Texas. I enjoy Typescript and mountains.
       </p>
 
       <h2>About Me</h2>

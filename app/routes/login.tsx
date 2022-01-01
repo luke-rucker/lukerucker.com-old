@@ -1,21 +1,18 @@
-import {
-  ActionFunction,
-  Form,
-  LoaderFunction,
-  MetaFunction,
-  useActionData,
-} from 'remix'
+import type { ActionFunction, LoaderFunction, MetaFunction } from 'remix'
+import { Form, useActionData } from 'remix'
 import { badRequest, bodyParser, unauthorized } from 'remix-utils'
 import { Alert } from '~/components/alert'
+import { Card } from '~/components/card'
 import { Button } from '~/components/forms/button'
 import { Input } from '~/components/forms/input'
 import { Link } from '~/components/link'
-import { ActionData, mapSchemaErrorsToFields } from '~/utils/forms.server'
+import type { ActionData } from '~/utils/forms.server'
+import { mapSchemaErrorsToFields } from '~/utils/forms.server'
+import type { LoginSchema } from '~/utils/session.server'
 import {
   createUserSession,
   login,
   loginSchema,
-  LoginSchema,
   redirectIfLoggedIn,
 } from '~/utils/session.server'
 
@@ -58,7 +55,7 @@ export default function Login() {
     <div className="h-screen flex flex-col items-center justify-center">
       <h1 className="text-3xl mb-5 font-semibold">Login</h1>
 
-      <div className="w-full max-w-sm bg-white shadow-2xl p-4">
+      <Card className="w-full max-w-sm">
         <Form method="post">
           {actionData?.error ? (
             <Alert variant="error" className="mb-2">
@@ -79,7 +76,7 @@ export default function Login() {
             Login
           </Button>
         </Form>
-      </div>
+      </Card>
 
       <Link to="/" className="mt-4 text-sm">
         To Public Site

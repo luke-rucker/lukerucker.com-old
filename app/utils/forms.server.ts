@@ -1,4 +1,4 @@
-import { ZodError } from 'zod'
+import type { ZodError } from 'zod'
 
 export type FieldErrors<Schema> = {
   [key in keyof Partial<Schema>]: string

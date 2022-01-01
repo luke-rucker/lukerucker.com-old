@@ -14,7 +14,9 @@ type NavbarProps = {
 
 export function Navbar({ className, primaryNavItem, navItems }: NavbarProps) {
   return (
-    <nav className={clsx('flex items-center justify-between', className)}>
+    <nav
+      className={clsx('flex flex-wrap items-center justify-between', className)}
+    >
       <Link
         to={primaryNavItem.to}
         prefetch="intent"
@@ -23,7 +25,7 @@ export function Navbar({ className, primaryNavItem, navItems }: NavbarProps) {
         <h1>{primaryNavItem.name}</h1>
       </Link>
 
-      <ul className="flex justify-between space-x-4">
+      <ul className="flex flex-wrap justify-between gap-x-4 md:gap-x-5">
         {navItems.map(navItem => (
           <li key={navItem.to}>
             <NavLink

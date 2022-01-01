@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { format } from 'date-fns'
+import { formatDate } from '~/utils/dates'
 
 type DateProps = { date: Date } & Omit<
   React.DetailedHTMLProps<
@@ -13,7 +13,7 @@ export function DateDisplay({ date, className, ...props }: DateProps) {
   return (
     <time
       className={clsx('text-sm text-gray-400', className)}
-      dateTime={format(date, 'yyyy-MM-dd')}
+      dateTime={formatDate(date)}
       {...props}
     >
       {date.toDateString()}

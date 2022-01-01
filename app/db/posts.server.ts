@@ -1,6 +1,8 @@
 import { z } from 'zod'
 import { parseDateString } from '~/utils/dates'
 import { convertToHtml } from '~/utils/markdown'
+import { publicPostPathFor } from '~/utils/paths'
+import { deletePageViewsFor } from './page-views.server'
 
 export const postSchema = z.object({
   title: z.string().nonempty({ message: 'A title is required.' }),
@@ -12,6 +14,7 @@ export const postSchema = z.object({
 
 export type PostSchema = z.infer<typeof postSchema>
 
+// Attributes which are not filled automatically by the server (and not editable by the user)
 type AdditionalPostAttributes = {
   html: string
   editedAt: Date
@@ -22,12 +25,11 @@ export type Post = PostSchema & AdditionalPostAttributes
 type PostMetadata = Pick<Post, 'publishedAt'>
 
 const postPrefix = 'post:'
-const postKey = (slug: string) => `${postPrefix}${slug}`
+const postKeyFor = (slug: string) => `${postPrefix}${slug}`
 
 const getPostByKey = (key: string) => SITE.get<Post>(key, 'json')
 
 // TODO: if the need for filtering grows, come up with a better solution
-
 type PostFilters = {
   status?: 'published' | 'draft'
 }
@@ -36,7 +38,7 @@ export async function getPostBySlug(
   slug: string,
   filters?: PostFilters
 ): Promise<Post | null> {
-  const post = await getPostByKey(postKey(slug))
+  const post = await getPostByKey(postKeyFor(slug))
 
   if (!filters || Object.keys(filters).length === 0) return post
 
@@ -73,9 +75,14 @@ export async function savePost(post: PostSchema) {
     editedAt: new Date(),
   }
 
-  await SITE.put(postKey(postToSave.slug), JSON.stringify(postToSave), {
+  await SITE.put(postKeyFor(postToSave.slug), JSON.stringify(postToSave), {
     metadata: { publishedAt: postToSave.publishedAt },
   })
 }
 
-export const deletePostBySlug = (slug: string) => SITE.delete(postKey(slug))
+export async function deletePostBySlug(slug: string) {
+  await Promise.all([
+    SITE.delete(postKeyFor(slug)),
+    deletePageViewsFor(publicPostPathFor(slug)),
+  ])
+}
