@@ -40,7 +40,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-gray-50 font-mono text-gray-800">
+      <body className="font-mono text-gray-800">
         <noscript>This site runs just fine without javascript.</noscript>
 
         <ScrollRestoration />

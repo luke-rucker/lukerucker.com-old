@@ -2,6 +2,7 @@ import { formatDistance } from 'date-fns'
 import { MetaFunction, useOutletContext } from 'remix'
 import { Article } from '~/components/article'
 import { Badge } from '~/components/badge'
+import { CardSection } from '~/components/card-section'
 import { Input } from '~/components/forms/input'
 import { HeaderSection } from '~/components/header-section'
 import { Link } from '~/components/link'
@@ -61,32 +62,25 @@ export default function ViewPost() {
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <section>
-          <h3 className="text-xl font-semibold mb-2">Info</h3>
-          <div className="bg-white p-4 shadow-xl">
-            <Input
-              label="Description"
-              defaultValue={post.description}
-              disabled
-              readOnly
-              className="mb-4"
-            />
+        <CardSection header="Info">
+          <Input
+            label="Description"
+            defaultValue={post.description}
+            disabled
+            readOnly
+            className="mb-4"
+          />
+          <Input
+            label="Public URL"
+            defaultValue={publicPostPathFor(post.slug)}
+            readOnly
+            disabled
+          />
+        </CardSection>
 
-            <Input
-              label="Public URL"
-              defaultValue={publicPostPathFor(post.slug)}
-              readOnly
-              disabled
-            />
-          </div>
-        </section>
-
-        <section>
-          <h3 className="text-xl font-semibold mb-2">Preview</h3>
-          <div className="bg-white p-4 shadow-xl max-h-96 overflow-auto">
-            <Article html={post.html} />
-          </div>
-        </section>
+        <CardSection header="Preview" contentClassName="max-h-96 overflow-auto">
+          <Article html={post.html} />
+        </CardSection>
       </div>
     </>
   )

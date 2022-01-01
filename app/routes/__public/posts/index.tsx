@@ -24,11 +24,13 @@ export default function Posts() {
     <>
       <h2 className="text-3xl font-bold mb-4">Posts</h2>
       <p className="text-gray-500 font-semibold mb-8 md:mb-12">
-        Just some thoughts...
+        Just some thoughts... Lorem ipsum dolor sit amet, consectetur adipiscing
+        elit. Nullam ut magna nec quam dictum dapibus vel consequat metus.
+        Praesent laoreet dui eu elit semper tincidunt.
       </p>
 
       {posts.length > 0 ? (
-        <ol className="space-y-6">
+        <ol className="space-y-8">
           {posts.map(post => (
             <li key={post.slug}>
               <DateDisplay
