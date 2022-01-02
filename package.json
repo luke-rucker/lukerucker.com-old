@@ -13,7 +13,7 @@
     "dev": "run-p dev:*",
     "dev:css": "postcss styles --base styles --dir app/styles -w",
     "dev:remix": "remix watch",
-    "dev:worker": "miniflare --build-command \"npm run build:dev:worker\" --watch --kv SITE",
+    "dev:worker": "miniflare --build-command \"npm run build:dev:worker\" --watch --kv SITE --kv-persist",
     "format": "prettier --write \"**/*.{js,jsx,json,md,ts,tsx}\"",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "postinstall": "remix setup cloudflare-workers",
