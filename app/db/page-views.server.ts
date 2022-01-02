@@ -1,3 +1,5 @@
+import { cache } from '~/utils/cache.server'
+
 const pageViewsPrefix = 'pageViews:'
 const pageViewsKeyFor = (page: string) => `${pageViewsPrefix}${page}`
 
@@ -27,46 +29,48 @@ export async function deletePageViewsFor(page: string) {
   await SITE.delete(pageViewsKeyFor(page))
 }
 
-export async function getAllPageViews(): Promise<Array<PageViews>> {
-  const { keys } = await SITE.list({ prefix: pageViewsPrefix })
-
-  const allPageViews: Array<PageViews> = await Promise.all(
-    keys.map(key => getPageViewsByKey(key.name))
-  )
-
-  return allPageViews
-}
-
-export type TopPageViews = {
+export type CachedPageViews = {
   updatedAt: Date
   pageViews: Array<PageViews>
 }
 
-const topPageViewsKeyFor = (limit: number) => `topPageViews:${limit}`
+export async function getAllPageViews(): Promise<CachedPageViews> {
+  const cacheKey = pageViewsKeyFor('all')
 
-export async function getTopPagehits({
+  const cachedTopPageHits = await cache.get<CachedPageViews>(cacheKey)
+  if (cachedTopPageHits) return cachedTopPageHits
+
+  const { keys } = await SITE.list({ prefix: pageViewsPrefix })
+
+  const allPageViews: CachedPageViews = {
+    updatedAt: new Date(),
+    pageViews: await Promise.all(keys.map(key => getPageViewsByKey(key.name))),
+  }
+
+  cache.put(cacheKey, allPageViews, { expirationTtl: 60 * 5 })
+
+  return allPageViews
+}
+
+export async function getTopPageViews({
   limit,
 }: {
   limit: number
-}): Promise<TopPageViews> {
-  const cacheKey = topPageViewsKeyFor(limit)
+}): Promise<CachedPageViews> {
+  const cacheKey = `topPageViews:${limit}`
 
-  const cachedTopPageHits = await SITE.get<TopPageViews>(cacheKey, 'json')
-
-  if (cachedTopPageHits) return cachedTopPageHits
+  const cachedTopPageViews = await cache.get<CachedPageViews>(cacheKey)
+  if (cachedTopPageViews) return cachedTopPageViews
 
   const allPageViews = await getAllPageViews()
-
-  const topPageViews: TopPageViews = {
+  const topPageViews: CachedPageViews = {
     updatedAt: new Date(),
-    pageViews: allPageViews
+    pageViews: allPageViews.pageViews
       .sort((a: PageViews, b: PageViews) => b.views - a.views)
       .slice(0, limit),
   }
 
-  await SITE.put(cacheKey, JSON.stringify(topPageViews), {
-    expirationTtl: 60 * 5,
-  })
+  cache.put(cacheKey, topPageViews, { expirationTtl: 60 * 5 })
 
   return topPageViews
 }

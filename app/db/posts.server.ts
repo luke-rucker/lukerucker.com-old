@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { cache } from '~/utils/cache.server'
 import { parseDateString } from '~/utils/dates'
 import { convertToHtml } from '~/utils/markdown'
 import { publicPostPathFor } from '~/utils/paths'
@@ -49,6 +50,11 @@ export async function getPostBySlug(
 }
 
 export async function getPosts(filters?: PostFilters): Promise<Array<Post>> {
+  const cacheKey = filters?.status ? `posts:${filters.status}` : 'posts'
+
+  const cachedPosts = await cache.get<Array<Post>>(cacheKey)
+  if (cachedPosts) return cachedPosts
+
   const { keys } = await SITE.list({ prefix: postPrefix })
 
   const keysToFetch = filters?.status
@@ -65,6 +71,8 @@ export async function getPosts(filters?: PostFilters): Promise<Array<Post>> {
     keysToFetch.map(key => getPostByKey(key.name))
   )
 
+  cache.put(cacheKey, posts)
+
   return posts as Array<Post>
 }
 
@@ -78,11 +86,14 @@ export async function savePost(post: PostSchema) {
   await SITE.put(postKeyFor(postToSave.slug), JSON.stringify(postToSave), {
     metadata: { publishedAt: postToSave.publishedAt },
   })
+
+  await cache.removeAll('posts')
 }
 
 export async function deletePostBySlug(slug: string) {
   await Promise.all([
     SITE.delete(postKeyFor(slug)),
     deletePageViewsFor(publicPostPathFor(slug)),
+    cache.removeAll('posts'),
   ])
 }

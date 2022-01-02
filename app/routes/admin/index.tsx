@@ -5,17 +5,17 @@ import { CardSection } from '~/components/card-section'
 import { HeaderSection } from '~/components/header-section'
 import { Link } from '~/components/link'
 import { PageViewsTable } from '~/components/page-views-table'
-import type { TopPageViews } from '~/db/page-views.server'
-import { getTopPagehits } from '~/db/page-views.server'
+import type { CachedPageViews } from '~/db/page-views.server'
+import { getTopPageViews } from '~/db/page-views.server'
 
 export const meta: MetaFunction = () => ({
   title: 'Admin | Luke Rucker',
 })
 
-export const loader: LoaderFunction = () => getTopPagehits({ limit: 5 })
+export const loader: LoaderFunction = () => getTopPageViews({ limit: 5 })
 
 export default function Admin() {
-  const topPageViews = useLoaderData<TopPageViews>()
+  const topPageViews = useLoaderData<CachedPageViews>()
 
   return (
     <>

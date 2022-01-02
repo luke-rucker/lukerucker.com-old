@@ -10,7 +10,7 @@ export const loader: LoaderFunction = ({ request }) =>
 
 export default function About() {
   return (
-    <article className="prose">
+    <article className="prose-section">
       <img
         src="/me.jpg"
         alt="Me in front of a pretty lake and some mountains"

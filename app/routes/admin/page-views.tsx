@@ -1,10 +1,11 @@
+import { formatDistance } from 'date-fns'
 import type { LoaderFunction } from 'remix'
 import { useLoaderData } from 'remix'
 import { Breadcrumb } from '~/components/breadcrumbs'
 import { Card } from '~/components/card'
 import { HeaderSection } from '~/components/header-section'
 import { PageViewsTable } from '~/components/page-views-table'
-import type { PageViews } from '~/db/page-views.server'
+import type { CachedPageViews } from '~/db/page-views.server'
 import { getAllPageViews } from '~/db/page-views.server'
 import type { Handle } from '~/types'
 
@@ -19,11 +20,18 @@ export const handle: Handle = {
 export const loader: LoaderFunction = () => getAllPageViews()
 
 export default function ViewPageViews() {
-  const pageViews = useLoaderData<Array<PageViews>>()
+  const { updatedAt, pageViews } = useLoaderData<CachedPageViews>()
 
   return (
     <>
       <HeaderSection text="Page Views" />
+
+      <p className="mb-4">
+        Updated{' '}
+        {formatDistance(new Date(updatedAt), new Date(), {
+          addSuffix: true,
+        })}
+      </p>
 
       <Card>
         <PageViewsTable
