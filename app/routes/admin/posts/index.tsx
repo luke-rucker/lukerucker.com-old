@@ -1,6 +1,6 @@
 import type { LoaderFunction, MetaFunction } from 'remix'
 import { useLoaderData } from 'remix'
-import { compareDesc, formatRelative } from 'date-fns'
+import { formatRelative } from 'date-fns'
 import type { Post } from '~/db/posts.server'
 import { getPosts } from '~/db/posts.server'
 import { HeaderSection } from '~/components/header-section'
