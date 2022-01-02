@@ -31,9 +31,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     throw badRequest({ error: 'Expected a slug.' })
   }
 
-  const post = await getPostBySlug(params.slug, { status: 'published' })
+  const post = await getPostBySlug(params.slug)
 
-  if (!post) {
+  if (!post || !post.publishedAt) {
     throw notFound({ error: 'Post not found.' })
   }
 

@@ -30,23 +30,14 @@ const postKeyFor = (slug: string) => `${postPrefix}${slug}`
 
 const getPostByKey = (key: string) => SITE.get<Post>(key, 'json')
 
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  const post = await getPostByKey(postKeyFor(slug))
+  return post
+}
+
 // TODO: if the need for filtering grows, come up with a better solution
 type PostFilters = {
   status?: 'published' | 'draft'
-}
-
-export async function getPostBySlug(
-  slug: string,
-  filters?: PostFilters
-): Promise<Post | null> {
-  const post = await getPostByKey(postKeyFor(slug))
-
-  if (!filters || Object.keys(filters).length === 0) return post
-
-  if (filters?.status === 'published' && !post?.publishedAt) return null
-  if (filters?.status === 'draft' && post?.publishedAt) return null
-
-  return post
 }
 
 export const getPosts = (filters?: PostFilters) =>
@@ -68,6 +59,7 @@ export const getPosts = (filters?: PostFilters) =>
       const posts = await Promise.all(
         keysToFetch.map(key => getPostByKey(key.name))
       )
+
       return posts as Array<Post>
     }
   )

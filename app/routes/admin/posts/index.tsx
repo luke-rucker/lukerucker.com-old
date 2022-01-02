@@ -1,6 +1,6 @@
 import type { LoaderFunction, MetaFunction } from 'remix'
 import { useLoaderData } from 'remix'
-import { formatRelative } from 'date-fns'
+import { compareDesc, formatRelative } from 'date-fns'
 import type { Post } from '~/db/posts.server'
 import { getPosts } from '~/db/posts.server'
 import { HeaderSection } from '~/components/header-section'
@@ -12,7 +12,13 @@ export const meta: MetaFunction = () => ({
   title: 'Posts | Luke Rucker',
 })
 
-export const loader: LoaderFunction = () => getPosts()
+export const loader: LoaderFunction = async () => {
+  const posts = await getPosts()
+
+  posts.sort((a: Post, b: Post) => a.title.localeCompare(b.title))
+
+  return posts
+}
 
 export default function Posts() {
   const posts = useLoaderData<Array<Post>>()

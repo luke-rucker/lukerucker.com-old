@@ -27,7 +27,7 @@ export default function ViewPost() {
       <HeaderSection
         text={post.title}
         left={
-          <Badge className="ml-3">
+          <Badge>
             {post.publishedAt ? (
               <span>
                 Published{' '}

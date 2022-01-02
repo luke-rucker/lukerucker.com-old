@@ -1,14 +1,13 @@
+import { compareDesc } from 'date-fns'
 import type { LoaderFunction, MetaFunction } from 'remix'
 import { useLoaderData } from 'remix'
-import { Alert } from '~/components/alert'
-import { DateDisplay } from '~/components/date-display'
-import { Link } from '~/components/link'
+import { PostList } from '~/components/post-list'
 import type { Post } from '~/db/posts.server'
 import { getPosts } from '~/db/posts.server'
 import { recordPageViewFor } from '~/utils/page-views.server'
 
 export const meta: MetaFunction = () => ({
-  title: 'Blog | Luke Rucker',
+  title: 'Posts | Luke Rucker',
 })
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -16,6 +15,11 @@ export const loader: LoaderFunction = async ({ request }) => {
     getPosts({ status: 'published' }),
     recordPageViewFor(request),
   ])
+
+  posts.sort((a: Post, b: Post) =>
+    compareDesc(new Date(a.publishedAt!), new Date(b.publishedAt!))
+  )
+
   return posts
 }
 
@@ -31,28 +35,7 @@ export default function Posts() {
         Praesent laoreet dui eu elit semper tincidunt.
       </p>
 
-      {posts.length > 0 ? (
-        <ol className="space-y-8">
-          {posts.map(post => (
-            <li key={post.slug}>
-              <DateDisplay
-                date={new Date(post.publishedAt!)}
-                className="text-gray-500"
-              />
-
-              <Link
-                to={post.slug}
-                className="text-2xl font-semibold text-gray-800 hover:text-gray-600"
-              >
-                <h3 className="mt-2 mb-4">{post.title}</h3>
-              </Link>
-              <p className="text-gray-600">{post.description}</p>
-            </li>
-          ))}
-        </ol>
-      ) : (
-        <Alert>No posts yet!</Alert>
-      )}
+      <PostList posts={posts} />
     </>
   )
 }
