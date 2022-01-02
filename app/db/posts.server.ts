@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { cache } from '~/utils/cache.server'
+import { cache, getCachedValue } from '~/utils/cache.server'
 import { parseDateString } from '~/utils/dates'
 import { convertToHtml } from '~/utils/markdown'
 import { publicPostPathFor } from '~/utils/paths'
@@ -49,32 +49,28 @@ export async function getPostBySlug(
   return post
 }
 
-export async function getPosts(filters?: PostFilters): Promise<Array<Post>> {
-  const cacheKey = filters?.status ? `posts:${filters.status}` : 'posts'
+export const getPosts = (filters?: PostFilters) =>
+  getCachedValue<Array<Post>>(
+    filters?.status ? `posts:${filters.status}` : 'posts',
+    async () => {
+      const { keys } = await SITE.list({ prefix: postPrefix })
 
-  const cachedPosts = await cache.get<Array<Post>>(cacheKey)
-  if (cachedPosts) return cachedPosts
+      const keysToFetch = filters?.status
+        ? keys.filter(key => {
+            const { publishedAt } = key.metadata as PostMetadata
 
-  const { keys } = await SITE.list({ prefix: postPrefix })
+            return filters.status === 'published'
+              ? publishedAt !== null
+              : publishedAt === null
+          })
+        : keys
 
-  const keysToFetch = filters?.status
-    ? keys.filter(key => {
-        const { publishedAt } = key.metadata as PostMetadata
-
-        return filters.status === 'published'
-          ? publishedAt !== null
-          : publishedAt === null
-      })
-    : keys
-
-  const posts = await Promise.all(
-    keysToFetch.map(key => getPostByKey(key.name))
+      const posts = await Promise.all(
+        keysToFetch.map(key => getPostByKey(key.name))
+      )
+      return posts as Array<Post>
+    }
   )
-
-  cache.put(cacheKey, posts)
-
-  return posts as Array<Post>
-}
 
 export async function savePost(post: PostSchema) {
   const postToSave: Post = {

@@ -1,4 +1,4 @@
-import { cache } from '~/utils/cache.server'
+import { getCachedValue } from '~/utils/cache.server'
 
 const pageViewsPrefix = 'pageViews:'
 const pageViewsKeyFor = (page: string) => `${pageViewsPrefix}${page}`
@@ -34,43 +34,33 @@ export type CachedPageViews = {
   pageViews: Array<PageViews>
 }
 
-export async function getAllPageViews(): Promise<CachedPageViews> {
-  const cacheKey = pageViewsKeyFor('all')
+export const getAllPageViews = () =>
+  getCachedValue<CachedPageViews>(
+    pageViewsKeyFor('all'),
+    async () => {
+      const { keys } = await SITE.list({ prefix: pageViewsPrefix })
 
-  const cachedTopPageHits = await cache.get<CachedPageViews>(cacheKey)
-  if (cachedTopPageHits) return cachedTopPageHits
+      return {
+        updatedAt: new Date(),
+        pageViews: await Promise.all(
+          keys.map(key => getPageViewsByKey(key.name))
+        ),
+      }
+    },
+    { expirationTtl: 60 * 5 }
+  )
 
-  const { keys } = await SITE.list({ prefix: pageViewsPrefix })
-
-  const allPageViews: CachedPageViews = {
-    updatedAt: new Date(),
-    pageViews: await Promise.all(keys.map(key => getPageViewsByKey(key.name))),
-  }
-
-  cache.put(cacheKey, allPageViews, { expirationTtl: 60 * 5 })
-
-  return allPageViews
-}
-
-export async function getTopPageViews({
-  limit,
-}: {
-  limit: number
-}): Promise<CachedPageViews> {
-  const cacheKey = `topPageViews:${limit}`
-
-  const cachedTopPageViews = await cache.get<CachedPageViews>(cacheKey)
-  if (cachedTopPageViews) return cachedTopPageViews
-
-  const allPageViews = await getAllPageViews()
-  const topPageViews: CachedPageViews = {
-    updatedAt: new Date(),
-    pageViews: allPageViews.pageViews
-      .sort((a: PageViews, b: PageViews) => b.views - a.views)
-      .slice(0, limit),
-  }
-
-  cache.put(cacheKey, topPageViews, { expirationTtl: 60 * 5 })
-
-  return topPageViews
-}
+export const getTopPageViews = ({ limit }: { limit: number }) =>
+  getCachedValue<CachedPageViews>(
+    `topPageViews:${limit}`,
+    async () => {
+      const { pageViews } = await getAllPageViews()
+      return {
+        updatedAt: new Date(),
+        pageViews: pageViews
+          .sort((a: PageViews, b: PageViews) => b.views - a.views)
+          .slice(0, limit),
+      }
+    },
+    { expirationTtl: 60 * 5 }
+  )

@@ -11,11 +11,9 @@ async function get<Value>(key: string): Promise<Value | null> {
   }
 }
 
-async function put<Value>(
-  key: string,
-  value: Value,
-  options?: { expirationTtl?: number }
-) {
+type CacheOptions = { expirationTtl?: number }
+
+async function put<Value>(key: string, value: Value, options?: CacheOptions) {
   try {
     console.log(`caching ${key}`)
 
@@ -65,4 +63,19 @@ export const cache = {
   put,
   remove,
   removeAll,
+}
+
+export async function getCachedValue<Value>(
+  key: string,
+  getValue: () => Promise<Value>,
+  options?: CacheOptions
+): Promise<Value> {
+  const cachedValue = await cache.get<Value>(key)
+  if (cachedValue) return cachedValue
+
+  const value = await getValue()
+
+  cache.put(key, value, options)
+
+  return value
 }
