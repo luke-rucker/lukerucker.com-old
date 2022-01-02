@@ -72,9 +72,5 @@
   "engines": {
     "node": ">=14"
   },
-  "sideEffects": false,
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
-    "*.{js,jsx,json,md,ts,tsx}": "prettier --write"
-  }
+  "sideEffects": false
 }
