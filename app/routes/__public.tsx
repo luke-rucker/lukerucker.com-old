@@ -32,6 +32,10 @@ export default function Public() {
               to: '/about',
             },
             {
+              name: 'bookmarks',
+              to: '/bookmarks',
+            },
+            {
               name: 'posts',
               to: '/posts',
             },

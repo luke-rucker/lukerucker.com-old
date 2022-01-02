@@ -1,6 +1,7 @@
 import { compareDesc } from 'date-fns'
 import type { LoaderFunction, MetaFunction } from 'remix'
 import { useLoaderData } from 'remix'
+import { PageHeading } from '~/components/page-heading'
 import { PostList } from '~/components/post-list'
 import type { Post } from '~/db/posts.server'
 import { getPosts } from '~/db/posts.server'
@@ -11,10 +12,9 @@ export const meta: MetaFunction = () => ({
 })
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const [posts] = await Promise.all([
-    getPosts({ status: 'published' }),
-    recordPageViewFor(request),
-  ])
+  recordPageViewFor(request)
+
+  const posts = await getPosts({ status: 'published' })
 
   posts.sort((a: Post, b: Post) =>
     compareDesc(new Date(a.publishedAt!), new Date(b.publishedAt!))
@@ -28,12 +28,11 @@ export default function Posts() {
 
   return (
     <>
-      <h2 className="text-3xl font-bold mb-4">Posts</h2>
-      <p className="text-gray-500 font-semibold mb-8 md:mb-12">
+      <PageHeading header="Posts">
         Just some thoughts... Lorem ipsum dolor sit amet, consectetur adipiscing
         elit. Nullam ut magna nec quam dictum dapibus vel consequat metus.
         Praesent laoreet dui eu elit semper tincidunt.
-      </p>
+      </PageHeading>
 
       <PostList posts={posts} />
     </>

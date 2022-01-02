@@ -5,8 +5,10 @@ export const meta: MetaFunction = () => ({
   title: 'About | Luke Rucker',
 })
 
-export const loader: LoaderFunction = ({ request }) =>
+export const loader: LoaderFunction = ({ request }) => {
   recordPageViewFor(request)
+  return null
+}
 
 export default function About() {
   return (

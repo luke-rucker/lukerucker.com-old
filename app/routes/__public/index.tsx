@@ -8,10 +8,9 @@ import { getPosts } from '~/db/posts.server'
 import { recordPageViewFor } from '~/utils/page-views.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const [posts] = await Promise.all([
-    getPosts({ status: 'published' }),
-    recordPageViewFor(request),
-  ])
+  recordPageViewFor(request)
+
+  const posts = await getPosts({ status: 'published' })
 
   posts.sort((a: Post, b: Post) =>
     compareDesc(new Date(a.publishedAt!), new Date(b.publishedAt!))
