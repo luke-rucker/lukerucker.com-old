@@ -11,12 +11,13 @@ export const loader: LoaderFunction = ({ request }) =>
 export default function About() {
   return (
     <article className="prose-section">
+      <h2>Howdy, I&apos;m Luke :)</h2>
+
       <img
         src="/me.jpg"
         alt="Me in front of a pretty lake and some mountains"
       />
 
-      <h2>Howdy, I&apos;m Luke :)</h2>
       <p>
         I&apos;m a 19 year old software engineer currently based in Houston,
         Texas. I enjoy Typescript and mountains.

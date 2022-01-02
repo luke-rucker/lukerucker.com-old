@@ -38,11 +38,13 @@ export default function LandingPage() {
 
         <PostList posts={recentPosts} />
 
-        <p className="mt-4">
-          <Link to="posts" aria-label="View All Posts">
-            View All
-          </Link>
-        </p>
+        {recentPosts.length > 0 ? (
+          <p className="mt-4">
+            <Link to="posts" aria-label="View All Posts">
+              View All
+            </Link>
+          </p>
+        ) : null}
       </div>
     </div>
   )
