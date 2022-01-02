@@ -15,6 +15,7 @@ import { Textarea } from '~/components/forms/textarea'
 import { Button } from '~/components/forms/button'
 import { formatDate } from '~/utils/dates'
 import type { Handle } from '~/types'
+import { Card } from '~/components/card'
 
 export const handle: Handle = {
   hydrate: true,
@@ -69,68 +70,70 @@ export default function NewPost() {
     <>
       <HeaderSection text="New Post" />
 
-      <Form method="post" className="mt-4 space-y-4">
-        {actionData?.error ? (
-          <Alert variant="error" className="mb-4">
-            {actionData?.error}
-          </Alert>
-        ) : null}
+      <Card>
+        <Form method="post" className="space-y-4">
+          {actionData?.error ? (
+            <Alert variant="error" className="mb-4">
+              {actionData?.error}
+            </Alert>
+          ) : null}
 
-        <Input
-          name="title"
-          type="text"
-          placeholder="Title"
-          label="Title"
-          value={title}
-          onChange={e => setTitle(e.target.value)}
-          error={actionData?.errors?.title}
-        />
+          <Input
+            name="title"
+            type="text"
+            placeholder="Title"
+            label="Title"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            error={actionData?.errors?.title}
+          />
 
-        <Input
-          name="slug"
-          type="text"
-          placeholder="Slug"
-          label="Slug"
-          onChange={e => setSlug(e.target.value)}
-          value={slug}
-          error={actionData?.errors?.slug}
-        />
+          <Input
+            name="slug"
+            type="text"
+            placeholder="Slug"
+            label="Slug"
+            onChange={e => setSlug(e.target.value)}
+            value={slug}
+            error={actionData?.errors?.slug}
+          />
 
-        <Input
-          name="description"
-          type="text"
-          placeholder="Description"
-          label="Description"
-          defaultValue={actionData?.values.description}
-          error={actionData?.errors?.description}
-        />
+          <Input
+            name="description"
+            type="text"
+            placeholder="Description"
+            label="Description"
+            defaultValue={actionData?.values.description}
+            error={actionData?.errors?.description}
+          />
 
-        <Input
-          name="publishedAt"
-          type="date"
-          placeholder="Published at"
-          label="Published at"
-          defaultValue={formatDate(
-            actionData?.values.publishedAt
-              ? new Date(actionData?.values.publishedAt)
-              : new Date()
-          )}
-          error={actionData?.errors?.publishedAt}
-        />
+          <Input
+            name="publishedAt"
+            type="date"
+            placeholder="Published at"
+            label="Published at"
+            defaultValue={formatDate(
+              actionData?.values.publishedAt
+                ? new Date(actionData?.values.publishedAt)
+                : new Date()
+            )}
+            error={actionData?.errors?.publishedAt}
+          />
 
-        <Textarea
-          name="markdown"
-          label="Content"
-          placeholder="Some profound thoughts..."
-          rows={20}
-          defaultValue={actionData?.values.markdown}
-          error={actionData?.errors?.markdown}
-        />
+          <Textarea
+            name="markdown"
+            label="Content"
+            placeholder="Some profound thoughts..."
+            rows={20}
+            defaultValue={actionData?.values.markdown}
+            error={actionData?.errors?.markdown}
+          />
 
-        <Button type="submit" className="mt-2 w-full">
-          Publish
-        </Button>
-      </Form>
+          <Button type="submit" className="mt-2 w-full">
+            Publish
+          </Button>
+        </Form>
+      </Card>
     </>
   )
 }
