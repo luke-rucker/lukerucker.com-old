@@ -1,20 +1,10 @@
-import type { LoaderFunction } from 'remix'
-import { Outlet, useLoaderData } from 'remix'
+import { Outlet } from 'remix'
 import { AdminToolbar } from '~/components/admin-toolbar'
 import { Navbar } from '~/components/navbar'
 import { SocialLinks } from '~/components/social-links'
 import { useIsLoggedIn } from '~/contexts/is-logged-in-context'
-import type { PageViews } from '~/db/page-views.server'
-import { getPageViewsFor } from '~/db/page-views.server'
-
-export const loader: LoaderFunction = async ({ request }) => {
-  const { pathname } = new URL(request.url)
-  const pageViews = await getPageViewsFor(pathname)
-  return pageViews
-}
 
 export default function Public() {
-  const pageViews = useLoaderData<PageViews>()
   const isLoggedIn = useIsLoggedIn()
 
   return (
@@ -49,10 +39,6 @@ export default function Public() {
         </main>
 
         <footer className="py-4 md:py-8">
-          <p className="text-gray-600 text-lg mb-4">
-            {pageViews.views} Page Views
-          </p>
-
           <div className="flex flex-wrap-reverse gap-y-2 justify-between items-center">
             <p className="text-gray-500">
               &copy; {new Date().getFullYear()} Luke Rucker
