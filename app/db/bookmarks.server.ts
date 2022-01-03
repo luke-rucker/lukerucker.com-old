@@ -60,3 +60,8 @@ export async function saveBookmark(bookmark: BookmarkSchema) {
 
   await refreshBookmarkCache()
 }
+
+export async function deleteBookmarkById(id: string) {
+  await SITE.delete(bookmarksKeyFor(id))
+  await refreshBookmarkCache()
+}

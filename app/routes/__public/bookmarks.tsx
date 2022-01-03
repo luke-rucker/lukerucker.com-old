@@ -29,8 +29,8 @@ export default function Bookmarks() {
   return (
     <>
       <PageHeading header="Bookmarks">
-        Some articles, tweets, links, etc. I&apos;ve found useful. Maybe you
-        will too! Inspired by Sergio Xalambrí&apos;s{' '}
+        Some articles, tweets, links, etc. I&apos;ve found useful, intriguing,
+        or otherwise noteworthy. Inspired by Sergio Xalambrí&apos;s{' '}
         <Anchor
           href="https://sergiodxa.com/bookmarks"
           className="text-gray-800"

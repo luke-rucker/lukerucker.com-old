@@ -71,7 +71,7 @@ export default function NewPost() {
       <HeaderSection text="New Post" />
 
       <Card>
-        <Form method="post" className="space-y-4">
+        <Form method="post" className="space-y-4" reloadDocument>
           {actionData?.error ? (
             <Alert variant="error">{actionData?.error}</Alert>
           ) : null}

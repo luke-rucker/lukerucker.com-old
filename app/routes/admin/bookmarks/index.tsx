@@ -1,5 +1,5 @@
 import type { LoaderFunction, MetaFunction } from 'remix'
-import { useLoaderData } from 'remix'
+import { Form, useLoaderData } from 'remix'
 import { Alert } from '~/components/alert'
 import { Anchor } from '~/components/anchor'
 import { Card } from '~/components/card'
@@ -31,17 +31,29 @@ export default function Bookmarks() {
       {bookmarks.length > 0 ? (
         <ul className="space-y-4">
           {bookmarks.map(bookmark => (
-            <Card>
-              <li key={bookmark.id}>
+            <li key={bookmark.id}>
+              <Card>
                 <Anchor
                   href={bookmark.url}
                   className="text-xl font-semibold text-gray-800"
                 >
                   <h3 className="mb-2">{bookmark.title}</h3>
                 </Anchor>
-                <p>{bookmark.url}</p>
-              </li>
-            </Card>
+                <div className="flex justify-between items-center">
+                  <p>{bookmark.url}</p>
+
+                  <Form
+                    method="delete"
+                    action={`/admin/bookmarks/${bookmark.id}`}
+                    reloadDocument
+                  >
+                    <button type="submit" className="link">
+                      Delete
+                    </button>
+                  </Form>
+                </div>
+              </Card>
+            </li>
           ))}
         </ul>
       ) : (

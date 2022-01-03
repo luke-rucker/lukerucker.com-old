@@ -49,7 +49,7 @@ export default function NewBookmark() {
       <HeaderSection text="New Bookmark" />
 
       <Card>
-        <Form method="post" className="space-y-4">
+        <Form method="post" className="space-y-4" reloadDocument>
           {actionData?.error ? (
             <Alert variant="error" className="mb-4">
               {actionData?.error}
