@@ -1,6 +1,8 @@
-import { LoaderFunction, Outlet, useLoaderData } from 'remix'
+import type { LoaderFunction } from 'remix'
+import { Outlet, useLoaderData } from 'remix'
 import { AdminToolbar } from '~/components/admin-toolbar'
 import { Navbar } from '~/components/navbar'
+import { SocialLinks } from '~/components/social-links'
 import { useIsLoggedIn } from '~/contexts/is-logged-in-context'
 import type { PageViews } from '~/db/page-views.server'
 import { getPageViewsFor } from '~/db/page-views.server'
@@ -51,9 +53,13 @@ export default function Public() {
             {pageViews.views} Page Views
           </p>
 
-          <p className="text-gray-500">
-            &copy; {new Date().getFullYear()} Luke Rucker
-          </p>
+          <div className="flex justify-between items-center">
+            <p className="text-gray-500">
+              &copy; {new Date().getFullYear()} Luke Rucker
+            </p>
+
+            <SocialLinks />
+          </div>
         </footer>
       </div>
     </>
