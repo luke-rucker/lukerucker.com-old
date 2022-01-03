@@ -2,7 +2,7 @@ import * as React from 'react'
 import type { ActionFunction, MetaFunction } from 'remix'
 import { Form, redirect, useActionData, useOutletContext } from 'remix'
 import kebabCase from 'just-kebab-case'
-import { badRequest, bodyParser, serverError } from 'remix-utils'
+import { badRequest, bodyParser } from 'remix-utils'
 import type { Post, PostSchema } from '~/db/posts.server'
 import {
   deletePostBySlug,
@@ -23,7 +23,6 @@ import type { Handle } from '~/types'
 import { Card } from '~/components/card'
 
 export const handle: Handle = {
-  hydrate: true,
   breadcrumb: ({ path, isLast }) => (
     <Breadcrumb to={path} displayAsLink={!isLast}>
       Edit
@@ -39,7 +38,7 @@ export const meta: MetaFunction = ({ parentsData }) => {
   }
 }
 
-export const action: ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request, params }) => {
   const body = await bodyParser.toJSON(request)
   const validatedBody = await postSchema.safeParseAsync(body)
 
@@ -52,23 +51,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   const editedPost = validatedBody.data
 
-  /**
-   * Pathname should look like /admin/posts/the-old-slug/edit
-   *
-   * So, the second to last segment should be "the-old-slug".
-   *
-   * Short of having some hidden input in the form, I cannot think of
-   * a better way to get the old slug.
-   */
-  const oldSlug = new URL(request.url).pathname.split('/').at(-2)
-
-  if (!oldSlug) {
-    return serverError({
-      values: body,
-      error: 'Woah, something is wrong here...',
-    })
-  }
-
+  const oldSlug = params.slug!
   const changedSlug = editedPost.slug !== oldSlug
 
   if (changedSlug) {
@@ -101,7 +84,7 @@ export default function EditPost() {
       <HeaderSection text={`Edit ${post.title}`} />
 
       <Card>
-        <Form method="put" className="space-y-4">
+        <Form method="put" className="space-y-4" reloadDocument>
           {actionData?.error ? (
             <Alert variant="error" className="mb-4">
               {actionData?.error}

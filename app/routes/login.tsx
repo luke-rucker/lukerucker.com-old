@@ -56,7 +56,7 @@ export default function Login() {
       <h1 className="text-3xl mb-5 font-semibold">Login</h1>
 
       <Card className="w-full max-w-sm">
-        <Form method="post">
+        <Form method="post" reloadDocument>
           {actionData?.error ? (
             <Alert variant="error" className="mb-2">
               {actionData?.error}

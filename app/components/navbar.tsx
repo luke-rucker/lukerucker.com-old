@@ -20,7 +20,7 @@ export function Navbar({ className, primaryNavItem, navItems }: NavbarProps) {
       <Link
         to={primaryNavItem.to}
         prefetch="intent"
-        className="text-lg font-medium"
+        className="text-lg font-semibold"
       >
         <h1>{primaryNavItem.name}</h1>
       </Link>

@@ -1,4 +1,7 @@
-const cacheKeyFor = (key: string) => `cache:${key}`
+const cachePrefix = 'cache:'
+const cacheKeyFor = (key: string) => `${cachePrefix}${key}`
+const stripCachePrefix = (key: string) =>
+  key.substring(key.indexOf(cachePrefix))
 
 async function get<Value>(key: string): Promise<Value | null> {
   try {
@@ -6,7 +9,7 @@ async function get<Value>(key: string): Promise<Value | null> {
     console.log(`cache ${value !== null ? 'hit' : 'miss'} for ${key}`)
     return value
   } catch (err) {
-    console.log('could not get cache value', err)
+    console.log(`could not get cache value for key ${key}`, err)
     return null
   }
 }
@@ -23,36 +26,26 @@ async function put<Value>(key: string, value: Value, options?: CacheOptions) {
 
     await SITE.put(cacheKeyFor(key), JSON.stringify(value), cacheOptions)
   } catch (err) {
-    console.log('could not store cache value', err)
+    console.log(`could not store cache value for key ${key}`, err)
   }
 }
 
 async function remove(key: string) {
   try {
     console.log(`removing ${key} from cache`)
-    await SITE.delete(cacheKeyFor(key))
+    await SITE.delete(key)
   } catch (err) {
     console.log(`could not remove ${key} from cache`, err)
   }
 }
 
-async function removeAll(prefix: string) {
+async function removeAll({ matchingPrefix }: { matchingPrefix: string }) {
   try {
-    const { keys } = await SITE.list({ prefix: cacheKeyFor(prefix) })
-    await Promise.all(
-      keys.map(
-        key =>
-          new Promise(resolve => {
-            console.log(
-              `removing ${key.name.split(':').slice(1).join(':')} from cache`
-            )
-            SITE.delete(key.name).then(resolve)
-          })
-      )
-    )
+    const { keys } = await SITE.list({ prefix: cacheKeyFor(matchingPrefix) })
+    await Promise.all(keys.map(key => remove(stripCachePrefix(key.name))))
   } catch (err) {
     console.log(
-      `could not remove all keys from cache matching the prefix ${prefix}`,
+      `could not remove all keys from cache matching the prefix ${matchingPrefix}`,
       err
     )
   }

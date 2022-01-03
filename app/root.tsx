@@ -8,8 +8,8 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-  useMatches,
 } from 'remix'
+import { useShouldHydrate } from 'remix-utils'
 import { IsLoggedInContext } from '~/contexts/is-logged-in-context'
 import { checkIfIsLoggedIn } from '~/utils/session.server'
 
@@ -27,9 +27,7 @@ export const loader: LoaderFunction = ({ request }) =>
 
 export default function App() {
   const isLoggedIn = useLoaderData<boolean>()
-  const matches = useMatches()
-
-  const shouldIncludeScripts = matches.some(match => match.handle?.hydrate)
+  const shouldHydrate = useShouldHydrate()
 
   return (
     <html lang="en">
@@ -39,11 +37,11 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="font-mono text-gray-800">
+      <body className="bg-gray-50 font-mono text-gray-800">
         <noscript>This site runs just fine without javascript.</noscript>
 
         <ScrollRestoration />
-        {shouldIncludeScripts ? <Scripts /> : null}
+        {shouldHydrate ? <Scripts /> : null}
         {process.env.NODE_ENV === 'development' ? <LiveReload /> : null}
 
         <SSRProvider>

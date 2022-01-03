@@ -61,7 +61,7 @@ export default function Posts() {
       ) : (
         <Alert>
           You have no posts yet!
-          <Link to="new" className="ml-1">
+          <Link to="new" className="ml-2">
             Create one
           </Link>
         </Alert>

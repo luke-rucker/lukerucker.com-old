@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { cache, getCachedValue } from '~/utils/cache.server'
 import { parseDateString } from '~/utils/dates'
-import { convertToHtml } from '~/utils/markdown'
+import { convertToHtml } from '~/utils/markdown.server'
 import { publicPostPathFor } from '~/utils/paths'
 import { deletePageViewsFor } from './page-views.server'
 
@@ -25,13 +25,13 @@ export type Post = PostSchema & AdditionalPostAttributes
 
 type PostMetadata = Pick<Post, 'publishedAt'>
 
-const postPrefix = 'post:'
-const postKeyFor = (slug: string) => `${postPrefix}${slug}`
+const postsPrefix = 'posts:'
+const postsKeyFor = (slug: string) => `${postsPrefix}${slug}`
 
 const getPostByKey = (key: string) => SITE.get<Post>(key, 'json')
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  const post = await getPostByKey(postKeyFor(slug))
+  const post = await getPostByKey(postsKeyFor(slug))
   return post
 }
 
@@ -42,9 +42,9 @@ type PostFilters = {
 
 export const getPosts = (filters?: PostFilters) =>
   getCachedValue<Array<Post>>(
-    filters?.status ? `posts:${filters.status}` : 'posts',
+    postsKeyFor(filters?.status || 'all'),
     async () => {
-      const { keys } = await SITE.list({ prefix: postPrefix })
+      const { keys } = await SITE.list({ prefix: postsPrefix })
 
       const keysToFetch = filters?.status
         ? keys.filter(key => {
@@ -56,13 +56,21 @@ export const getPosts = (filters?: PostFilters) =>
           })
         : keys
 
-      const posts = await Promise.all(
+      const potentiallyNullPosts = await Promise.all(
         keysToFetch.map(key => getPostByKey(key.name))
       )
 
-      return posts as Array<Post>
+      const posts = potentiallyNullPosts.filter(Boolean) as Array<Post>
+
+      return posts
     }
   )
+
+async function refreshPostCache() {
+  console.log('refreshing posts cache')
+  await cache.removeAll({ matchingPrefix: postsPrefix })
+  await getPosts()
+}
 
 export async function savePost(post: PostSchema) {
   const postToSave: Post = {
@@ -71,17 +79,17 @@ export async function savePost(post: PostSchema) {
     editedAt: new Date(),
   }
 
-  await SITE.put(postKeyFor(postToSave.slug), JSON.stringify(postToSave), {
+  await SITE.put(postsKeyFor(postToSave.slug), JSON.stringify(postToSave), {
     metadata: { publishedAt: postToSave.publishedAt },
   })
 
-  await cache.removeAll('posts')
+  await refreshPostCache()
 }
 
 export async function deletePostBySlug(slug: string) {
   await Promise.all([
-    SITE.delete(postKeyFor(slug)),
+    SITE.delete(postsKeyFor(slug)),
     deletePageViewsFor(publicPostPathFor(slug)),
-    cache.removeAll('posts'),
   ])
+  await refreshPostCache()
 }

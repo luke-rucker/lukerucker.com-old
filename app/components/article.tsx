@@ -12,7 +12,7 @@ type ArticleProps = {
 export function Article({ header, html, className }: ArticleProps) {
   return (
     <article className={clsx('prose-section', className)}>
-      {header ? <header className="">{header}</header> : null}
+      {header ? <header>{header}</header> : null}
       <div dangerouslySetInnerHTML={{ __html: html }} />
     </article>
   )

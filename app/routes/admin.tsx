@@ -7,6 +7,7 @@ import type { Handle } from '~/types'
 import { requireLoggedIn } from '~/utils/session.server'
 
 export const handle: Handle = {
+  hydrate: true,
   breadcrumb: ({ path, isLast }) => (
     <Breadcrumb to={path} displayAsLink={!isLast} label="Dashboard">
       <HomeIcon className="h-5 w-5" />
@@ -24,12 +25,16 @@ export default function Admin() {
     <>
       <header className="bg-gray-200">
         <Navbar
-          className="container mx-auto px-4 md:px-0 py-4 md:py-8 "
+          className="container mx-auto px-4 md:px-0 py-4 md:py-8"
           primaryNavItem={{
             name: 'admin',
             to: '/admin',
           }}
           navItems={[
+            {
+              name: 'bookmarks',
+              to: '/admin/bookmarks',
+            },
             {
               name: 'page views',
               to: '/admin/page-views',
