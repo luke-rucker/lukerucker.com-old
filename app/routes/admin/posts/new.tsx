@@ -73,9 +73,7 @@ export default function NewPost() {
       <Card>
         <Form method="post" className="space-y-4">
           {actionData?.error ? (
-            <Alert variant="error" className="mb-4">
-              {actionData?.error}
-            </Alert>
+            <Alert variant="error">{actionData?.error}</Alert>
           ) : null}
 
           <Input
@@ -129,7 +127,7 @@ export default function NewPost() {
             error={actionData?.errors?.markdown}
           />
 
-          <Button type="submit" className="mt-2 w-full">
+          <Button type="submit" className="w-full">
             Publish
           </Button>
         </Form>

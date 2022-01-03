@@ -24,12 +24,16 @@ export default function Admin() {
     <>
       <header className="bg-gray-200">
         <Navbar
-          className="container mx-auto px-4 md:px-0 py-4 md:py-8 "
+          className="container mx-auto px-4 md:px-0 py-4 md:py-8"
           primaryNavItem={{
             name: 'admin',
             to: '/admin',
           }}
           navItems={[
+            {
+              name: 'bookmarks',
+              to: '/admin/bookmarks',
+            },
             {
               name: 'page views',
               to: '/admin/page-views',

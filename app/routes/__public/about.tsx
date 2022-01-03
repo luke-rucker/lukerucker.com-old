@@ -21,11 +21,9 @@ export default function About() {
       />
 
       <p>
-        I&apos;m a 19 year old software engineer currently based in Houston,
+        I&apos;m a 19 year old software developer currently based in Houston,
         Texas. I enjoy Typescript and mountains.
       </p>
-
-      <h2>About Me</h2>
 
       <h3>Beginnings</h3>
       <p>

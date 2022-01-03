@@ -24,8 +24,8 @@ export default function LandingPage() {
 
   return (
     <div className="space-y-8 md:space-y-16">
-      <div className="text-2xl font-bold">
-        <h2>Hello world, I&apos;m Luke Rucker.</h2>
+      <div className="text-2xl font-bold pb-4 md:pb-8">
+        <h2>Hey there, I&apos;m Luke Rucker.</h2>
 
         <p className="text-gray-500">
           I&apos;m a 19 year old software developer.
@@ -38,7 +38,7 @@ export default function LandingPage() {
         <PostList posts={recentPosts} />
 
         {recentPosts.length > 0 ? (
-          <p className="mt-4">
+          <p className="mt-4 md:mt-8">
             <Link to="posts" aria-label="View All Posts">
               View All
             </Link>

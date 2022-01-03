@@ -1,7 +1,7 @@
 import { getCachedValue } from '~/utils/cache.server'
 
-const pageViewsPrefix = 'pageViews:'
-const pageViewsKeyFor = (page: string) => `${pageViewsPrefix}${page}`
+const pageViewsPrefix = 'page-views:'
+const pageViewsKeyFor = (pathname: string) => `${pageViewsPrefix}${pathname}`
 
 export type PageViews = {
   path: string
@@ -16,17 +16,17 @@ async function getPageViewsByKey(key: string): Promise<PageViews> {
   }
 }
 
-export async function getPageViewsFor(page: string): Promise<PageViews> {
-  const pageViews = await getPageViewsByKey(pageViewsKeyFor(page))
+export async function getPageViewsFor(pathname: string): Promise<PageViews> {
+  const pageViews = await getPageViewsByKey(pageViewsKeyFor(pathname))
   return pageViews
 }
 
-export async function savePageViewsFor(page: string, views: number) {
-  await SITE.put(pageViewsKeyFor(page), views.toString())
+export async function savePageViewsFor(pathname: string, views: number) {
+  await SITE.put(pageViewsKeyFor(pathname), views.toString())
 }
 
-export async function deletePageViewsFor(page: string) {
-  await SITE.delete(pageViewsKeyFor(page))
+export async function deletePageViewsFor(pathname: string) {
+  await SITE.delete(pageViewsKeyFor(pathname))
 }
 
 export type CachedPageViews = {
@@ -52,7 +52,7 @@ export const getAllPageViews = () =>
 
 export const getTopPageViews = ({ limit }: { limit: number }) =>
   getCachedValue<CachedPageViews>(
-    `topPageViews:${limit}`,
+    `top-page-views:${limit}`,
     async () => {
       const { pageViews } = await getAllPageViews()
       return {
