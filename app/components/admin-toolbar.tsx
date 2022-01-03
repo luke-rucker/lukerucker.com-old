@@ -10,10 +10,12 @@ export function AdminToolbar() {
 
   return (
     <div className="bg-gray-200">
-      <div className="h-12 px-4 md:px-0 container mx-auto flex items-center justify-between">
-        <Link to="admin">admin dashboard</Link>
+      <div className="py-4 px-4 md:px-0 container mx-auto flex flex-wrap items-center justify-between">
+        <Link to="admin" className="font-semibold">
+          admin dashboard
+        </Link>
 
-        <ul className="flex items-center space-x-4">
+        <ul className="flex flex-wrap items-center gap-x-4 md:gap-x-5">
           {matchesWithToolbars.map(match => (
             <li key={match.pathname}>
               {match.handle.adminToolbar({ loaderData: match.data })}
