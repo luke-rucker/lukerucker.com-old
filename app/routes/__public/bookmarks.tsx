@@ -51,7 +51,7 @@ export default function Bookmarks() {
               >
                 <h3 className="mb-4">{bookmark.title}</h3>
               </Anchor>
-              <p className="text-gray-600">{bookmark.url}</p>
+              <p className="text-gray-600 break-all">{bookmark.url}</p>
             </li>
           ))}
         </ol>
