@@ -11,7 +11,6 @@ export type AdminToolbarParams<LoaderData = never> = {
 }
 
 export type Handle = {
-  hydrate?: boolean
   breadcrumb?: (params: BreadcrumbParams) => React.ReactNode
   adminToolbar?: (params: AdminToolbarParams) => React.ReactNode
 }

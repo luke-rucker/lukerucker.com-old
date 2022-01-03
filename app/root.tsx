@@ -1,6 +1,7 @@
 import { SSRProvider } from '@react-aria/ssr'
 import type { LinksFunction, LoaderFunction, MetaFunction } from 'remix'
 import {
+  json,
   Links,
   LiveReload,
   Meta,
@@ -9,7 +10,6 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from 'remix'
-import { useShouldHydrate } from 'remix-utils'
 import { IsLoggedInContext } from '~/contexts/is-logged-in-context'
 import { checkIfIsLoggedIn } from '~/utils/session.server'
 
@@ -22,12 +22,26 @@ export const meta: MetaFunction = () => ({
   description: 'My slice of the internet.',
 })
 
-export const loader: LoaderFunction = ({ request }) =>
-  checkIfIsLoggedIn(request)
+type LoaderData = {
+  isLoggedIn: boolean
+  ENV: {
+    ENVIRONMENT: typeof ENVIRONMENT
+  }
+}
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const isLoggedIn = await checkIfIsLoggedIn(request)
+
+  return json<LoaderData>({
+    isLoggedIn,
+    ENV: {
+      ENVIRONMENT,
+    },
+  })
+}
 
 export default function App() {
-  const isLoggedIn = useLoaderData<boolean>()
-  const shouldHydrate = useShouldHydrate()
+  const { isLoggedIn, ENV } = useLoaderData<LoaderData>()
 
   return (
     <html lang="en">
@@ -41,8 +55,8 @@ export default function App() {
         <noscript>This site runs just fine without javascript.</noscript>
 
         <ScrollRestoration />
-        {shouldHydrate ? <Scripts /> : null}
-        {process.env.NODE_ENV === 'development' ? <LiveReload /> : null}
+        <Scripts />
+        {ENV.ENVIRONMENT === 'development' ? <LiveReload /> : null}
 
         <SSRProvider>
           <IsLoggedInContext.Provider value={isLoggedIn}>

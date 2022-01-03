@@ -25,10 +25,10 @@ export default function LandingPage() {
   return (
     <div className="space-y-8 md:space-y-16">
       <div className="text-2xl font-bold pb-4 md:pb-8">
-        <h2>Hey there, I&apos;m Luke Rucker.</h2>
+        <h2>Hi, I&apos;m Luke Rucker.</h2>
 
         <p className="text-gray-500">
-          I&apos;m a 19 year old software developer.
+          I name variables for a living. Oh, and sometimes I build software.
         </p>
       </div>
 

@@ -26,8 +26,7 @@ export async function login({ password }: LoginSchema) {
 const storage = createCookieSessionStorage({
   cookie: {
     name: 'keysToTheKingdom',
-    // TODO: make this secure in prod
-    secure: false,
+    secure: ENVIRONMENT !== 'development',
     secrets: [config.session.secret],
     sameSite: 'strict',
     path: '/',
