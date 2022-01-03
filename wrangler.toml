@@ -1,10 +1,6 @@
-name = "remix-cloudflare-workers"
 type = "javascript"
-
-zone_id = ""
-account_id = ""
-route = ""
-workers_dev = true
+account_id = "e031694a25cf872cb6bdf7858e1cadc2"
+zone_id = "21084ba2ea425d4ab9487b219f640603"
 
 # [secrets]
 # SESSION_SECRET
@@ -20,3 +16,19 @@ watch_dir = "build/index.js"
 
 [build.upload]
 format="service-worker"
+
+[env.staging]
+name="luke-rucker-staging"
+route = "staging.lukerucker.com/*"
+vars = { ENVIRONMENT = "staging" }
+kv_namespaces = [ 
+  { binding = "SITE", id = "98b2f8a2a1114487b96fd5c1962b85cf" }
+]
+
+[env.production]
+name="luke-rucker"
+route = "lukerucker.com/*"
+vars = { ENVIRONMENT = "production" }
+kv_namespaces = [ 
+  { binding = "SITE", id = "c4f07b577b594f4fa066629d2d4db18b" }
+]

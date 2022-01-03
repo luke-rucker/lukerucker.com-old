@@ -7,7 +7,6 @@ import type { Handle } from '~/types'
 import { requireLoggedIn } from '~/utils/session.server'
 
 export const handle: Handle = {
-  hydrate: true,
   breadcrumb: ({ path, isLast }) => (
     <Breadcrumb to={path} displayAsLink={!isLast} label="Dashboard">
       <HomeIcon className="h-5 w-5" />

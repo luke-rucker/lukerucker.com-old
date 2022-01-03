@@ -5,11 +5,12 @@
   "license": "MIT",
   "main": "dist/worker.js",
   "scripts": {
-    "build": "npm run build:css && npm run build:worker && remix build",
+    "build": "npm run build:css && remix build && npm run build:worker",
     "build:css": "postcss styles --base styles --dir app/styles --env production",
     "build:worker": "esbuild --define:process.env.NODE_ENV='\"production\"' --minify --bundle --sourcemap --outdir=dist ./worker",
     "build:dev:worker": "esbuild --define:process.env.NODE_ENV='\"development\"' --bundle --sourcemap --outdir=dist ./worker",
-    "deploy": "npm run build && wrangler publish",
+    "deploy:staging": "wrangler publish --env staging",
+    "deploy:production": "wrangler publish --env production",
     "dev": "run-p dev:*",
     "dev:css": "postcss styles --base styles --dir app/styles -w",
     "dev:remix": "remix watch",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^2.2.2",
+    "@cloudflare/wrangler": "^1.19.6",
     "@remix-run/dev": "^1.1.1",
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/typography": "^0.5.0",
