@@ -53,7 +53,7 @@ export default function Public() {
             {pageViews.views} Page Views
           </p>
 
-          <div className="flex justify-between items-center">
+          <div className="flex flex-wrap-reverse gap-y-2 justify-between items-center">
             <p className="text-gray-500">
               &copy; {new Date().getFullYear()} Luke Rucker
             </p>
