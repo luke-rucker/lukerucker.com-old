@@ -1,4 +1,7 @@
-import type { LoaderFunction } from 'remix'
+import type { ActionFunction, LoaderFunction } from 'remix'
+import { redirect } from 'remix'
 import { logout } from '~/utils/session.server'
 
-export const loader: LoaderFunction = ({ request }) => logout(request)
+export const action: ActionFunction = ({ request }) => logout(request)
+
+export const loader: LoaderFunction = () => redirect('/')

@@ -26,6 +26,7 @@ export default function Admin() {
       <header className="bg-gray-200">
         <Navbar
           className="container mx-auto px-4 md:px-0 py-4 md:py-8"
+          showLogoutButton
           primaryNavItem={{
             name: 'admin',
             to: '/admin',
@@ -46,10 +47,6 @@ export default function Admin() {
             {
               name: 'public site',
               to: '/',
-            },
-            {
-              name: 'logout',
-              to: '/logout',
             },
           ]}
         />

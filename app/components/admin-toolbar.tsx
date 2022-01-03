@@ -1,5 +1,6 @@
 import { useMatches } from 'remix'
 import { Link } from './link'
+import { LogoutButton } from './logout-button'
 
 export function AdminToolbar() {
   const matches = useMatches()
@@ -23,7 +24,7 @@ export function AdminToolbar() {
             <Link to="admin/posts/new">new post</Link>
           </li>
           <li>
-            <Link to="logout">logout</Link>
+            <LogoutButton />
           </li>
         </ul>
       </div>
