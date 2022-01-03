@@ -18,7 +18,6 @@ import type { Handle } from '~/types'
 import { Card } from '~/components/card'
 
 export const handle: Handle = {
-  hydrate: true,
   breadcrumb: ({ path, isLast }) => (
     <Breadcrumb to={path} displayAsLink={!isLast}>
       New
