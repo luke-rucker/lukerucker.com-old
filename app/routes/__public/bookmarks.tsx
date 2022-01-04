@@ -27,7 +27,7 @@ export default function Bookmarks() {
   const bookmarks = useLoaderData<Array<Bookmark>>()
 
   return (
-    <>
+    <section>
       <PageHeading header="Bookmarks">
         Some articles, tweets, links, etc. I&apos;ve found useful, intriguing,
         or otherwise noteworthy. Inspired by Sergio Xalambrí&apos;s{' '}
@@ -57,6 +57,6 @@ export default function Bookmarks() {
       ) : (
         <Alert>No bookmarks yet!</Alert>
       )}
-    </>
+    </section>
   )
 }

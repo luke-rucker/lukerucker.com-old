@@ -27,7 +27,7 @@ export default function Posts() {
   const posts = useLoaderData<Array<Post>>()
 
   return (
-    <>
+    <section>
       <PageHeading header="Posts">
         Just some thoughts... Lorem ipsum dolor sit amet, consectetur adipiscing
         elit. Nullam ut magna nec quam dictum dapibus vel consequat metus.
@@ -35,6 +35,6 @@ export default function Posts() {
       </PageHeading>
 
       <PostList posts={posts} />
-    </>
+    </section>
   )
 }
