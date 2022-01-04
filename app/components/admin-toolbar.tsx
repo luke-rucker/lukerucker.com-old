@@ -14,7 +14,7 @@ export function AdminToolbar() {
         className="py-4 px-4 md:px-0 container mx-auto flex flex-wrap items-center justify-between"
         aria-label="Admin"
       >
-        <Link to="admin" className="font-semibold">
+        <Link to="admin" className="font-semibold text-gray-600">
           admin dashboard
         </Link>
 
@@ -26,10 +26,12 @@ export function AdminToolbar() {
           ))}
 
           <li>
-            <Link to="admin/posts/new">new post</Link>
+            <Link to="admin/posts/new" className="text-gray-600">
+              new post
+            </Link>
           </li>
           <li>
-            <LogoutButton />
+            <LogoutButton className="text-gray-600" />
           </li>
         </ul>
       </nav>

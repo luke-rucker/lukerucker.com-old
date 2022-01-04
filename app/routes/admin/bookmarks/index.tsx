@@ -35,7 +35,7 @@ export default function Bookmarks() {
               <Card>
                 <Anchor
                   href={bookmark.url}
-                  className="text-xl font-semibold text-gray-800"
+                  className="text-xl font-semibold text-gray-900"
                 >
                   <h3 className="mb-2">{bookmark.title}</h3>
                 </Anchor>

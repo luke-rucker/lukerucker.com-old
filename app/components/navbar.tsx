@@ -42,7 +42,7 @@ export function Navbar({
               to={navItem.to}
               prefetch="intent"
               className={({ isActive }) =>
-                clsx('link', isActive && 'underline text-gray-800')
+                clsx('link', isActive && 'underline text-gray-900')
               }
             >
               {navItem.name}
