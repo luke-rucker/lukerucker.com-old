@@ -2,7 +2,7 @@ import { Form } from 'remix'
 import type { ButtonProps } from './forms/button'
 import { Button } from './forms/button'
 
-type LogoutButtonProps = Omit<ButtonProps, 'type' | 'variant'>
+type LogoutButtonProps = Omit<ButtonProps, 'type' | 'variant' | 'children'>
 
 export function LogoutButton(props: LogoutButtonProps) {
   return (

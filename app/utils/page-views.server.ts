@@ -1,11 +1,16 @@
 import { getPageViewsFor, savePageViewsFor } from '~/db/page-views.server'
 
-export async function recordPageViewFor(request: Request) {
-  try {
+export function recordPageViewFor(request: Request): Promise<void> {
+  return new Promise<void>(resolve => {
     const { pathname } = new URL(request.url)
-    const { views: previousViews } = await getPageViewsFor(pathname)
-    await savePageViewsFor(pathname, previousViews + 1)
-  } catch (err) {
-    console.log('could not record page view', err)
-  }
+
+    getPageViewsFor(pathname)
+      .then(previousViews =>
+        savePageViewsFor(pathname, previousViews.views + 1).then(resolve)
+      )
+      .catch(err => {
+        console.log('could not record page view', err)
+        resolve()
+      })
+  })
 }
