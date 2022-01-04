@@ -33,7 +33,7 @@ export default function LandingPage() {
         </h2>
       </div>
 
-      <div>
+      <section>
         <h3 className="text-xl md:text-2xl font-bold pb-4">Recent Posts</h3>
 
         <PostList posts={recentPosts} />
@@ -45,7 +45,7 @@ export default function LandingPage() {
             </Link>
           </p>
         ) : null}
-      </div>
+      </section>
     </>
   )
 }
