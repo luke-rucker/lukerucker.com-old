@@ -12,7 +12,7 @@ type DateProps = { date: Date } & Omit<
 export function DateDisplay({ date, className, ...props }: DateProps) {
   return (
     <time
-      className={clsx('text-sm text-gray-400', className)}
+      className={clsx('text-sm text-gray-500', className)}
       dateTime={formatDate(date)}
       {...props}
     >

@@ -17,7 +17,9 @@ export const handle: Handle = {
     </Breadcrumb>
   ),
   adminToolbar: ({ loaderData: post }: AdminToolbarParams<Post>) => (
-    <Link to={`/admin/posts/${post.slug}/edit`}>edit post</Link>
+    <Link to={`/admin/posts/${post.slug}/edit`} className="text-gray-600">
+      edit post
+    </Link>
   ),
 }
 

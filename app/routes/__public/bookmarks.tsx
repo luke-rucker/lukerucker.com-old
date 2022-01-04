@@ -10,7 +10,11 @@ import type { Handle } from '~/types'
 import { recordPageViewFor } from '~/utils/page-views.server'
 
 export const handle: Handle = {
-  adminToolbar: () => <Link to="/admin/bookmarks">edit bookmarks</Link>,
+  adminToolbar: () => (
+    <Link to="/admin/bookmarks" className="text-gray-600">
+      edit bookmarks
+    </Link>
+  ),
 }
 
 export const meta: MetaFunction = () => ({
@@ -33,7 +37,7 @@ export default function Bookmarks() {
         or otherwise noteworthy. Inspired by Sergio Xalambrí&apos;s{' '}
         <Anchor
           href="https://sergiodxa.com/bookmarks"
-          className="text-gray-800"
+          className="text-gray-900"
           aria-label="Sergio Xalambrí's Bookmarks Page"
         >
           bookmarks
@@ -47,7 +51,7 @@ export default function Bookmarks() {
             <li key={bookmark.id}>
               <Anchor
                 href={bookmark.url}
-                className="text-lg md:text-xl font-semibold text-gray-800"
+                className="text-lg md:text-xl font-semibold text-gray-900"
               >
                 <h3>{bookmark.title}</h3>
               </Anchor>
