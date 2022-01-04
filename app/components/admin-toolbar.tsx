@@ -10,7 +10,10 @@ export function AdminToolbar() {
 
   return (
     <div className="bg-gray-200">
-      <div className="py-4 px-4 md:px-0 container mx-auto flex flex-wrap items-center justify-between">
+      <nav
+        className="py-4 px-4 md:px-0 container mx-auto flex flex-wrap items-center justify-between"
+        aria-label="Admin"
+      >
         <Link to="admin" className="font-semibold">
           admin dashboard
         </Link>
@@ -29,7 +32,7 @@ export function AdminToolbar() {
             <LogoutButton />
           </li>
         </ul>
-      </div>
+      </nav>
     </div>
   )
 }
