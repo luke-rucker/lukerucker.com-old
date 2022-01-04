@@ -29,5 +29,3 @@ Open up [http://localhost:8787](http://localhost:8787) and you should be ready t
 
 - [lukerucker.com (production)](lukerucker.com)
 - [staging.lukerucker.com](staging.lukerucker.com)
-
-If you'd rather run everything in a single tab, you can look at [concurrently](https://npm.im/concurrently) or similar tools to run both processes in one tab.
