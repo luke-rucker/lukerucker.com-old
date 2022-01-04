@@ -47,7 +47,8 @@ export default function ViewPost() {
 
   return (
     <>
-      <Breadcrumbs className="mb-4" />
+      <Breadcrumbs />
+
       <Article
         header={
           <>

@@ -1,8 +1,19 @@
+import HomeIcon from '@heroicons/react/solid/HomeIcon'
 import { Outlet } from 'remix'
 import { AdminToolbar } from '~/components/admin-toolbar'
+import { Breadcrumb } from '~/components/breadcrumbs'
 import { Navbar } from '~/components/navbar'
 import { SocialLinks } from '~/components/social-links'
 import { useIsLoggedIn } from '~/contexts/is-logged-in-context'
+import type { Handle } from '~/types'
+
+export const handle: Handle = {
+  breadcrumb: ({ path, isLast }) => (
+    <Breadcrumb to={path} displayAsLink={!isLast} label="Home">
+      <HomeIcon className="h-5 w-5" />
+    </Breadcrumb>
+  ),
+}
 
 export default function Public() {
   const isLoggedIn = useIsLoggedIn()
