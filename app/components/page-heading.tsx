@@ -7,9 +7,11 @@ type PageHeadingProps = {
 
 export function PageHeading({ header, children }: PageHeadingProps) {
   return (
-    <>
-      <h2 className="text-3xl font-bold mb-4">{header}</h2>
-      <p className="text-gray-500 font-semibold mb-8 md:mb-16">{children}</p>
-    </>
+    <section className="pb-12 md:pb-24">
+      <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">{header}</h2>
+      <p className="text-gray-500 text-sm md:text-base font-semibold">
+        {children}
+      </p>
+    </section>
   )
 }

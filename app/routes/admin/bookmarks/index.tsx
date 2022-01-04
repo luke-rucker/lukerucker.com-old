@@ -39,8 +39,9 @@ export default function Bookmarks() {
                 >
                   <h3 className="mb-2">{bookmark.title}</h3>
                 </Anchor>
-                <div className="flex justify-between items-center">
-                  <p>{bookmark.url}</p>
+
+                <div className="flex flex-wrap justify-between items-center gap-y-2">
+                  <p className="break-all">{bookmark.url}</p>
 
                   <Form
                     method="delete"

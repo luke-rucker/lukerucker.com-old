@@ -22,7 +22,10 @@ export function Navbar({
 }: NavbarProps) {
   return (
     <nav
-      className={clsx('flex flex-wrap items-center justify-between', className)}
+      className={clsx(
+        'flex flex-wrap gap-y-2 items-center justify-between',
+        className
+      )}
     >
       <Link
         to={primaryNavItem.to}
@@ -32,7 +35,7 @@ export function Navbar({
         <h1>{primaryNavItem.name}</h1>
       </Link>
 
-      <ul className="flex flex-wrap justify-between gap-x-4 md:gap-x-5 text-lg font-medium">
+      <ul className="flex flex-wrap gap-x-4 md:gap-x-5 text-lg font-medium">
         {navItems.map(navItem => (
           <li key={navItem.to}>
             <NavLink

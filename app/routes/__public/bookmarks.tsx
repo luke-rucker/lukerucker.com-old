@@ -42,16 +42,15 @@ export default function Bookmarks() {
       </PageHeading>
 
       {bookmarks.length > 0 ? (
-        <ol className="space-y-8">
+        <ol className="space-y-3 md:space-y-4 list-disc max-w-full">
           {bookmarks.map(bookmark => (
             <li key={bookmark.id}>
               <Anchor
                 href={bookmark.url}
-                className="text-2xl font-semibold text-gray-800"
+                className="text-lg md:text-xl font-semibold text-gray-800"
               >
-                <h3 className="mb-4">{bookmark.title}</h3>
+                <h3>{bookmark.title}</h3>
               </Anchor>
-              <p className="text-gray-600 break-all">{bookmark.url}</p>
             </li>
           ))}
         </ol>

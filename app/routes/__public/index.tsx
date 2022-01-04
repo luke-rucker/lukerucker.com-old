@@ -23,28 +23,29 @@ export default function LandingPage() {
   const recentPosts = useLoaderData<Array<Post>>()
 
   return (
-    <div className="space-y-8 md:space-y-16">
-      <div className="text-2xl font-bold pb-4 md:pb-8">
-        <h2>Hi, I&apos;m Luke Rucker.</h2>
-
-        <p className="text-gray-500">
-          I name variables for a living. Oh, and sometimes I build software.
-        </p>
+    <>
+      <div className="text-2xl md:text-3xl font-bold pb-12 md:pb-24">
+        <h2>
+          Hi, I&apos;m Luke Rucker.{' '}
+          <span className="text-gray-500">
+            I name variables for a living. Oh, and sometimes I build software.
+          </span>
+        </h2>
       </div>
 
       <div>
-        <h3 className="text-xl font-bold mb-4">Recent Posts</h3>
+        <h3 className="text-xl md:text-2xl font-bold pb-4">Recent Posts</h3>
 
         <PostList posts={recentPosts} />
 
         {recentPosts.length > 0 ? (
-          <p className="mt-4 md:mt-8">
+          <p className="pt-8 md:pt-8">
             <Link to="posts" aria-label="View All Posts">
               View All
             </Link>
           </p>
         ) : null}
       </div>
-    </div>
+    </>
   )
 }

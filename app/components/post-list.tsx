@@ -23,7 +23,7 @@ export function PostList({ posts }: PostListProps) {
 
           <Link
             to={`/posts/${post.slug}`}
-            className="text-2xl font-semibold text-gray-800 hover:text-gray-600"
+            className="text-2xl md:text-3xl font-semibold text-gray-800 hover:text-gray-600"
           >
             <h3 className="mt-2 mb-4">{post.title}</h3>
           </Link>
