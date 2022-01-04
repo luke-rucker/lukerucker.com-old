@@ -30,7 +30,7 @@ export function Navbar({
       <Link
         to={primaryNavItem.to}
         prefetch="intent"
-        className="text-lg font-semibold"
+        className="text-lg text-gray-900 font-semibold"
       >
         <h1>{primaryNavItem.name}</h1>
       </Link>
