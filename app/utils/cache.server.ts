@@ -3,52 +3,79 @@ const cacheKeyFor = (key: string) => `${cachePrefix}${key}`
 const stripCachePrefix = (key: string) =>
   key.substring(key.indexOf(cachePrefix))
 
-async function get<Value>(key: string): Promise<Value | null> {
-  try {
-    const value = await SITE.get<Value>(cacheKeyFor(key), 'json')
-    console.log(`cache ${value !== null ? 'hit' : 'miss'} for ${key}`)
-    return value
-  } catch (err) {
-    console.log(`could not get cache value for key ${key}`, err)
-    return null
-  }
+function get<Value>(key: string): Promise<Value | null> {
+  return new Promise<Value | null>(resolve => {
+    SITE.get<Value>(cacheKeyFor(key), 'json')
+      .then(value => {
+        console.log(`cache ${value !== null ? 'hit' : 'miss'} for ${key}`)
+        resolve(value)
+      })
+      .catch(err => {
+        console.log(`could not get cache value for key ${key}`, err)
+        resolve(null)
+      })
+  })
 }
 
 type CacheOptions = { expirationTtl?: number }
 
-async function put<Value>(key: string, value: Value, options?: CacheOptions) {
-  try {
+function put<Value>(
+  key: string,
+  value: Value,
+  options?: CacheOptions
+): Promise<void> {
+  return new Promise<void>(resolve => {
     console.log(`caching ${key}`)
 
     const cacheOptions = options?.expirationTtl
       ? { expirationTtl: options.expirationTtl }
       : undefined
 
-    await SITE.put(cacheKeyFor(key), JSON.stringify(value), cacheOptions)
-  } catch (err) {
-    console.log(`could not store cache value for key ${key}`, err)
-  }
+    SITE.put(cacheKeyFor(key), JSON.stringify(value), cacheOptions)
+      .then(resolve)
+      .catch(err => {
+        console.log(`could not store cache value for key ${key}`, err)
+        resolve()
+      })
+  })
 }
 
-async function remove(key: string) {
-  try {
+function remove(key: string): Promise<void> {
+  return new Promise<void>(resolve => {
     console.log(`removing ${key} from cache`)
-    await SITE.delete(key)
-  } catch (err) {
-    console.log(`could not remove ${key} from cache`, err)
-  }
+
+    SITE.delete(key)
+      .then(resolve)
+      .catch(err => {
+        console.log(`could not remove ${key} from cache`, err)
+        resolve()
+      })
+  })
 }
 
-async function removeAll({ matchingPrefix }: { matchingPrefix: string }) {
-  try {
-    const { keys } = await SITE.list({ prefix: cacheKeyFor(matchingPrefix) })
-    await Promise.all(keys.map(key => remove(stripCachePrefix(key.name))))
-  } catch (err) {
-    console.log(
-      `could not remove all keys from cache matching the prefix ${matchingPrefix}`,
-      err
-    )
-  }
+function removeAll({
+  matchingPrefix,
+}: {
+  matchingPrefix: string
+}): Promise<void> {
+  return new Promise<void>(resolve => {
+    SITE.list({ prefix: cacheKeyFor(matchingPrefix) })
+      .then(({ keys }) =>
+        Promise.all(
+          keys.map(key => {
+            const keyToRemove = stripCachePrefix(key.name)
+            return remove(keyToRemove)
+          })
+        ).then(() => resolve())
+      )
+      .catch(err => {
+        console.log(
+          `could not remove all keys from cache matching the prefix ${matchingPrefix}`,
+          err
+        )
+        resolve()
+      })
+  })
 }
 
 export const cache = {

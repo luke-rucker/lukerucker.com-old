@@ -1,16 +1,15 @@
-import clsx from 'clsx'
 import { Form } from 'remix'
+import type { ButtonProps } from './forms/button'
+import { Button } from './forms/button'
 
-type LogoutButtonProps = {
-  className?: string
-}
+type LogoutButtonProps = Omit<ButtonProps, 'type' | 'variant' | 'children'>
 
-export function LogoutButton({ className }: LogoutButtonProps) {
+export function LogoutButton(props: LogoutButtonProps) {
   return (
     <Form method="delete" action="/logout">
-      <button type="submit" className={clsx('link', className)}>
+      <Button type="submit" variant="link" {...props}>
         logout
-      </button>
+      </Button>
     </Form>
   )
 }

@@ -14,8 +14,8 @@ export const meta: MetaFunction = () => ({
   title: 'About | Luke Rucker',
 })
 
-export const loader: LoaderFunction = ({ request }) => {
-  recordPageViewFor(request)
+export const loader: LoaderFunction = async ({ request }) => {
+  await recordPageViewFor(request)
   return null
 }
 

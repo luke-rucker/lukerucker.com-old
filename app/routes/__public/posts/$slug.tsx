@@ -39,7 +39,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     throw notFound({ error: 'Post not found.' })
   }
 
-  recordPageViewFor(request)
+  await recordPageViewFor(request)
 
   return post
 }

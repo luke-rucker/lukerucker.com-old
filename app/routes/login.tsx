@@ -56,11 +56,9 @@ export default function Login() {
       <h1 className="text-3xl mb-5 font-semibold">Login</h1>
 
       <Card className="w-full max-w-sm">
-        <Form method="post" reloadDocument>
+        <Form method="post" reloadDocument className="space-y-2">
           {actionData?.error ? (
-            <Alert variant="error" className="mb-2">
-              {actionData?.error}
-            </Alert>
+            <Alert variant="error">{actionData?.error}</Alert>
           ) : null}
 
           <Input
@@ -72,7 +70,7 @@ export default function Login() {
             error={actionData?.errors?.password}
           />
 
-          <Button type="submit" className="mt-2 w-full">
+          <Button type="submit" className="w-full">
             Login
           </Button>
         </Form>

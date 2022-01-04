@@ -22,8 +22,10 @@ export const meta: MetaFunction = () => ({
 })
 
 export const loader: LoaderFunction = async ({ request }) => {
-  recordPageViewFor(request)
-  const bookmarks = await getBookmarks()
+  const [bookmarks] = await Promise.all([
+    getBookmarks(),
+    recordPageViewFor(request),
+  ])
   return bookmarks
 }
 
