@@ -1,6 +1,7 @@
 mode: chatops
 branchName: '${issue.number}-${issue.title,}'
 gitSafeReplacementChar: '-'
+defaultBranch: develop
 branches:
   - label: enhancement
     prefix: feature/
