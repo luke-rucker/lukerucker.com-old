@@ -27,5 +27,5 @@ Open up [http://localhost:8787](http://localhost:8787) and you should be ready t
 
 ## Environments
 
-- [lukerucker.com (production)](lukerucker.com)
-- [staging.lukerucker.com](staging.lukerucker.com)
+- [lukerucker.com (production)](https://lukerucker.com)
+- [staging.lukerucker.com](https://staging.lukerucker.com)
