@@ -15,7 +15,7 @@ export function Breadcrumbs({ className }: BreadcrumbsProps) {
   )
 
   return (
-    <nav className={clsx(className)}>
+    <nav className={clsx(className)} aria-label="Secondary">
       <ol className="h-10 flex flex-wrap items-center space-x-1">
         {matchesWithBreadcrumbs.map((match, index) => {
           const isLast = index === matchesWithBreadcrumbs.length - 1
