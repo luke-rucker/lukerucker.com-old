@@ -6,7 +6,7 @@ const config = {
   adminPassword: ensureExistenceOfEnvVar('ADMIN_PASSWORD', ADMIN_PASSWORD),
   session: {
     secret: ensureExistenceOfEnvVar('SESSION_SECRET', SESSION_SECRET),
-    key: 'isLoggedIn',
+    key: 'isLuke',
   },
   loginPath: '/login',
   adminPath: '/admin',
@@ -39,23 +39,23 @@ export async function getSession(request: Request) {
   return storage.getSession(request.headers.get('Cookie'))
 }
 
-export async function checkIfIsLoggedIn(request: Request): Promise<boolean> {
+export async function checkIfIsLuke(request: Request): Promise<boolean> {
   const session = await getSession(request)
   return Boolean(session.get(config.session.key))
 }
 
-export async function requireLoggedIn(request: Request) {
-  const isLoggedIn = await checkIfIsLoggedIn(request)
+export async function requireLuke(request: Request) {
+  const isLuke = await checkIfIsLuke(request)
 
-  if (!isLoggedIn) {
+  if (!isLuke) {
     throw redirect(config.loginPath)
   }
 }
 
-export async function redirectIfLoggedIn(request: Request) {
-  const isLoggedIn = await checkIfIsLoggedIn(request)
+export async function redirectIfLuke(request: Request) {
+  const isLuke = await checkIfIsLuke(request)
 
-  if (isLoggedIn) {
+  if (isLuke) {
     throw redirect(config.adminPath)
   }
 }

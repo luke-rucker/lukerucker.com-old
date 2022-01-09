@@ -4,7 +4,7 @@ import { Outlet } from 'remix'
 import { Breadcrumb, Breadcrumbs } from '~/components/breadcrumbs'
 import { Navbar } from '~/components/navbar'
 import type { Handle } from '~/types'
-import { requireLoggedIn } from '~/utils/session.server'
+import { requireLuke } from '~/utils/session.server'
 
 export const handle: Handle = {
   breadcrumb: ({ path, isLast }) => (
@@ -15,7 +15,7 @@ export const handle: Handle = {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  await requireLoggedIn(request)
+  await requireLuke(request)
   return null
 }
 

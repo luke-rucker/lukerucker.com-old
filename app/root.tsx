@@ -10,8 +10,8 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from 'remix'
-import { IsLoggedInContext } from '~/contexts/is-logged-in-context'
-import { checkIfIsLoggedIn } from '~/utils/session.server'
+import { IsLukeContext } from '~/contexts/is-luke-context'
+import { checkIfIsLuke } from '~/utils/session.server'
 
 import styles from '~/styles/app.css'
 
@@ -23,17 +23,17 @@ export const meta: MetaFunction = () => ({
 })
 
 type LoaderData = {
-  isLoggedIn: boolean
+  isLuke: boolean
   ENV: {
     ENVIRONMENT: typeof ENVIRONMENT
   }
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const isLoggedIn = await checkIfIsLoggedIn(request)
+  const isLuke = await checkIfIsLuke(request)
 
   return json<LoaderData>({
-    isLoggedIn,
+    isLuke,
     ENV: {
       ENVIRONMENT,
     },
@@ -41,7 +41,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 }
 
 export default function App() {
-  const { isLoggedIn, ENV } = useLoaderData<LoaderData>()
+  const { isLuke, ENV } = useLoaderData<LoaderData>()
 
   return (
     <html lang="en">
@@ -59,9 +59,9 @@ export default function App() {
         {ENV.ENVIRONMENT === 'development' ? <LiveReload /> : null}
 
         <SSRProvider>
-          <IsLoggedInContext.Provider value={isLoggedIn}>
+          <IsLukeContext.Provider value={isLuke}>
             <Outlet />
-          </IsLoggedInContext.Provider>
+          </IsLukeContext.Provider>
         </SSRProvider>
       </body>
     </html>

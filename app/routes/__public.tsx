@@ -4,7 +4,7 @@ import { AdminToolbar } from '~/components/admin-toolbar'
 import { Breadcrumb } from '~/components/breadcrumbs'
 import { Navbar } from '~/components/navbar'
 import { SocialLinks } from '~/components/social-links'
-import { useIsLoggedIn } from '~/contexts/is-logged-in-context'
+import { useIsLuke } from '~/contexts/is-luke-context'
 import type { Handle } from '~/types'
 
 export const handle: Handle = {
@@ -16,11 +16,11 @@ export const handle: Handle = {
 }
 
 export default function Public() {
-  const isLoggedIn = useIsLoggedIn()
+  const isLuke = useIsLuke()
 
   return (
     <>
-      {isLoggedIn ? <AdminToolbar /> : null}
+      {isLuke ? <AdminToolbar /> : null}
 
       <div className="mx-auto max-w-prose px-5 md:px-0">
         <Navbar
