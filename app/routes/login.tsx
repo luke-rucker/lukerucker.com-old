@@ -13,7 +13,7 @@ import {
   createUserSession,
   login,
   loginSchema,
-  redirectIfLoggedIn,
+  redirectIfLuke,
 } from '~/utils/session.server'
 
 export const meta: MetaFunction = () => ({
@@ -21,7 +21,7 @@ export const meta: MetaFunction = () => ({
 })
 
 export const loader: LoaderFunction = async ({ request }) => {
-  await redirectIfLoggedIn(request)
+  await redirectIfLuke(request)
   return null
 }
 
