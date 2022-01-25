@@ -1,10 +1,11 @@
 import HomeIcon from '@heroicons/react/solid/HomeIcon'
 import { Outlet } from 'remix'
+import { useRouteData } from 'remix-utils'
 import { AdminToolbar } from '~/components/admin-toolbar'
 import { Breadcrumb } from '~/components/breadcrumbs'
 import { Navbar } from '~/components/navbar'
 import { SocialLinks } from '~/components/social-links'
-import { useIsLuke } from '~/contexts/is-luke-context'
+import type { RootLoaderData } from '~/root'
 import type { Handle } from '~/types'
 
 export const handle: Handle = {
@@ -16,7 +17,8 @@ export const handle: Handle = {
 }
 
 export default function Public() {
-  const isLuke = useIsLuke()
+  const rootData = useRouteData<RootLoaderData>('/')
+  const isLuke = rootData?.isLuke
 
   return (
     <>

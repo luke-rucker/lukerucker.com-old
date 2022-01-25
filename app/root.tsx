@@ -10,7 +10,6 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from 'remix'
-import { IsLukeContext } from '~/contexts/is-luke-context'
 import { checkIfIsLuke } from '~/utils/session.server'
 
 import styles from '~/styles/app.css'
@@ -22,7 +21,7 @@ export const meta: MetaFunction = () => ({
   description: 'My slice of the internet.',
 })
 
-type LoaderData = {
+export type RootLoaderData = {
   isLuke: boolean
   ENV: {
     ENVIRONMENT: typeof ENVIRONMENT
@@ -32,7 +31,7 @@ type LoaderData = {
 export const loader: LoaderFunction = async ({ request }) => {
   const isLuke = await checkIfIsLuke(request)
 
-  return json<LoaderData>({
+  return json<RootLoaderData>({
     isLuke,
     ENV: {
       ENVIRONMENT,
@@ -41,7 +40,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 }
 
 export default function App() {
-  const { isLuke, ENV } = useLoaderData<LoaderData>()
+  const { ENV } = useLoaderData<RootLoaderData>()
 
   return (
     <html lang="en">
@@ -59,9 +58,7 @@ export default function App() {
         {ENV.ENVIRONMENT === 'development' ? <LiveReload /> : null}
 
         <SSRProvider>
-          <IsLukeContext.Provider value={isLuke}>
-            <Outlet />
-          </IsLukeContext.Provider>
+          <Outlet />
         </SSRProvider>
       </body>
     </html>
