@@ -8,6 +8,7 @@ import { PageViewsTable } from '~/components/page-views-table'
 import type { CachedPageViews } from '~/db/page-views.server'
 import { getAllPageViews } from '~/db/page-views.server'
 import type { Handle } from '~/types'
+import { requireLuke } from '~/utils/session.server'
 
 export const handle: Handle = {
   breadcrumb: ({ path, isLast }) => (
@@ -17,7 +18,10 @@ export const handle: Handle = {
   ),
 }
 
-export const loader: LoaderFunction = () => getAllPageViews()
+export const loader: LoaderFunction = async ({ request }) => {
+  await requireLuke(request)
+  return getAllPageViews()
+}
 
 export default function ViewPageViews() {
   const { updatedAt, pageViews } = useLoaderData<CachedPageViews>()

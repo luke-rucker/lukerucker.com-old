@@ -24,9 +24,9 @@ export default function Public() {
     <>
       {isLuke ? <AdminToolbar /> : null}
 
-      <div className="mx-auto max-w-prose px-5 md:px-0">
+      <div className="bg-neutral">
         <Navbar
-          className="py-4 md:py-8"
+          className="mx-auto max-w-prose px-5 md:px-0 py-2 md:py-4"
           primaryNavItem={{
             name: 'luke rucker',
             to: '/',
@@ -46,7 +46,9 @@ export default function Public() {
             },
           ]}
         />
+      </div>
 
+      <div className="mx-auto max-w-prose px-5 md:px-0">
         <main className="py-8 md:py-16">
           <Outlet />
         </main>

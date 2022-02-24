@@ -25,13 +25,13 @@ export default function LandingPage() {
 
   return (
     <>
-      <div className="text-2xl md:text-3xl font-bold pb-12 md:pb-24">
-        <h2>
-          Hi, I&apos;m Luke Rucker.{' '}
-          <span className="text-gray-500">
-            I name variables for a living. Oh, and sometimes I build software.
-          </span>
+      <div className="pb-12 md:pb-24">
+        <h2 className="text-2xl md:text-3xl font-bold mb-2">
+          Hi, I&apos;m Luke Rucker.
         </h2>
+        <p>
+          I name variables for a living. Oh, and sometimes I build software.
+        </p>
       </div>
 
       <section>

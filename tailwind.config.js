@@ -1,14 +1,9 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
-
 module.exports = {
   content: ['./app/**/*.{ts,tsx}'],
-  theme: {
-    extend: {
-      fontFamily: {
-        mono: ['Source Code Pro', ...defaultTheme.fontFamily.mono],
-      },
-    },
-  },
+  theme: {},
   variants: {},
-  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/typography'), require('daisyui')],
+  daisyui: {
+    themes: ['garden'],
+  },
 }

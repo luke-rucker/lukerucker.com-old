@@ -5,6 +5,7 @@ import { Breadcrumb } from '~/components/breadcrumbs'
 import type { Post } from '~/db/posts.server'
 import { getPostBySlug } from '~/db/posts.server'
 import type { BreadcrumbParams, Handle } from '~/types'
+import { requireLuke } from '~/utils/session.server'
 
 export const handle: Handle = {
   breadcrumb: ({ loaderData: post, path, isLast }: BreadcrumbParams<Post>) => (
@@ -14,11 +15,12 @@ export const handle: Handle = {
   ),
 }
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ request, params }) => {
   if (!params.slug) {
     throw badRequest({ error: 'Expected a slug.' })
   }
 
+  await requireLuke(request)
   const post = await getPostBySlug(params.slug)
 
   if (!post) {

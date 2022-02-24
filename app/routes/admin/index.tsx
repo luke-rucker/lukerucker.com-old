@@ -10,6 +10,7 @@ import type { CachedPageViews } from '~/db/page-views.server'
 import { getTopPageViews } from '~/db/page-views.server'
 import type { Post } from '~/db/posts.server'
 import { getPosts } from '~/db/posts.server'
+import { requireLuke } from '~/utils/session.server'
 
 export const meta: MetaFunction = () => ({
   title: 'Admin | Luke Rucker',
@@ -20,7 +21,9 @@ type LoaderData = {
   topPageViews: CachedPageViews
 }
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  await requireLuke(request)
+
   const [posts, topPageViews] = await Promise.all([
     getPosts(),
     getTopPageViews({ limit: 5 }),
